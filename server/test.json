@@ -1,0 +1,26 @@
+{
+  "implementation": "dfsp-ledger",
+  "repl": false,
+  "console": false,
+  "log": false,
+  "debug": true,
+  "workDir": "./tmp",
+  "masterBus": {
+    "logLevel": "error",
+    "socket": "dfsp-ledger"
+  },
+  "workerBus": {
+    "logLevel": "error"
+  },
+  "performance": {
+    "id": "dfsp-ledger",
+    "influx": {
+      "host": "influxdb",
+      "port": 4444
+    }
+  },
+  "script": {
+    "mock": true
+  },
+  "db": false
+}

@@ -1,0 +1,7 @@
+machine:
+  node:
+    version: 4.3.0
+
+test:
+  override:
+    - set -o pipefail && npm run test | tap-xunit > ${CIRCLE_TEST_REPORTS}/tape.xml && npm run cover -- --dir ${CIRCLE_ARTIFACTS}

@@ -1,0 +1,29 @@
+{
+    "implementation": "ledger",
+    "repl": false,
+    "console": false,
+    "log": false,
+    "debug": true,
+    "masterBus": {
+        "logLevel": "error",
+        "socket": false
+    },
+    "workerBus": {
+        "logLevel": "error"
+    },
+    "jsonrpc": {
+        "logLevel": "error",
+        "uri": "/rpc",
+        "url": "http://127.0.0.1:8014",
+        "namespace": ["ledger"],
+        "method": "post"
+    },
+    "performance": {
+        "id": "dfsp-ledger",
+        "influx": {
+            "host": "influxdb",
+            "port": 4444
+        },
+    "test": true
+    }
+}

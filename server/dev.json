@@ -1,0 +1,43 @@
+{
+  "implementation": "dfsp-ledger",
+  "console": {
+    "server": {
+      "host": "0.0.0.0",
+      "port": 30014
+    }
+  },
+  "stdOut": {
+    "mode": "dev"
+  },
+  "log": {
+    "streams": [{
+      "level": "trace",
+      "stream": "../logRotateStream",
+      "streamConfig": {
+        "path": "ut5_%Y-%m-%d.log",
+        "symlink": "ut5.log",
+        "compress": true
+      }
+    }]
+  },
+  "masterBus": {
+    "logLevel": "debug",
+    "socket": "dfsp-ledger"
+  },
+  "workerBus": {
+    "logLevel": "debug"
+  },
+  "db": {
+    "logLevel": "trace",
+    "db": {
+      "host": "cisco"
+    },
+    "permission": {
+      "requireSession": true
+    }
+  },
+  "script": {
+    "#mock": true
+  },
+  "debug": true
+}
