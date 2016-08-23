@@ -1,5 +1,3 @@
-var cloneDeep = require('lodash.clonedeep')
-
 var path = require('path')
 module.exports = {
   id: 'httpserver',
@@ -22,7 +20,15 @@ module.exports = {
     var port = this
 
     function rest (request, reply, method) {
-      request.payload = cloneDeep(request.params)
+      // Used in case header is "Content-Type: text/plain"
+      if (typeof request.payload === 'string') {
+        request.payload = {
+          params: {
+            plainText: request.payload
+          }
+        }
+      }
+      Object.assign(request.payload.params, request.params)
       request.params.method = method
       return port.handler(request, reply)
     }
@@ -35,7 +41,7 @@ module.exports = {
       { rpc: 'ledger.transfer.get', path: '/ledger/transfers/{id}', method: 'get' },
       { rpc: 'ledger.transfer.getFulfillment', path: '/ledger/transfers/{id}/fulfillment', method: 'get' },
       { rpc: 'ledger.transfer.getState', path: '/ledger/transfers/{id}/state', method: 'get' },
-      { rpc: 'ledger.transfer.execute', path: '/ledger/transfers/{transferId}/fulfillment/{fulfillmentId}', method: 'put' }
+      { rpc: 'ledger.transfer.execute', path: '/ledger/transfers/{transferId}/fulfillment', method: 'put' }
     ].map((route) => {
       return {
         method: route.method,
