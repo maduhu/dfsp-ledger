@@ -1,5 +1,6 @@
 var path = require('path')
 var cc = require('five-bells-condition')
+var error = require('./error')
 module.exports = {
   schema: [{
     path: path.join(__dirname, 'schema'),
@@ -7,7 +8,7 @@ module.exports = {
   }],
   start: function () {
     if (!this.registerRequestHandler) {
-      return
+      throw error.notImportedByHttpPort()
     }
     var port = this
 
