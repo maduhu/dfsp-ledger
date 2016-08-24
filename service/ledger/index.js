@@ -8,7 +8,7 @@ module.exports = {
   }],
   start: function () {
     if (!this.registerRequestHandler) {
-      throw error.notImportedByHttpPort()
+      return
     }
     var port = this
 
@@ -44,22 +44,26 @@ module.exports = {
     this.registerRequestHandler(routes)
   },
   'transfer.hold.request.send': function (msg, $meta) {
-    if (!Array.isArray(msg.debits) || !Array.isArray(msg.credits) || msg.debits.length !== 1 || msg.credits.length !== 1) {
+    var debit = msg.debits && msg.debits[0]
+    var credit = msg.credits && msg.credits[0]
+    if (!credit || !debit) {
       // TODO: throw invalid params exception
     }
-    if (msg.debits[0].amount !== msg.credits[0].amount) {
+    if (debit.amount !== credit.amount) {
       // TODO: throw invalid params exception
     }
-    msg.debitAccount = msg.debits[0].account.split('/').pop()
-    msg.creditAccount = msg.credits[0].account.split('/').pop()
-    msg.amount = msg.debits[0].amount
-    msg.authorized = msg.debits[0].authorized ? 1 : 0
 
-    delete msg.debits
-    delete msg.credits
-    delete msg.ledger
-
-    return msg
+    return {
+      uuid: msg.id,
+      debitAccount: debit.account.split('/').pop(),
+      creditAccount: credit.account.split('/').pop(),
+      amount: debit.amount,
+      executionCondition: msg.execution_condition,
+      cancellationCondition: msg.cancellation_condition,
+      state: (debit.authorized) ? 'prepared' : 'proposed',
+      expiresAt: msg.expires_at,
+      transferTypeId: 1 /* P2P */
+    }
   },
   'transfer.execute.request.send': function (msg, $meta) {
     msg.fulfillment = msg.plainText
