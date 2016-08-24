@@ -11,9 +11,9 @@ CREATE TABLE ledger.account
   "parentId" integer,
   "creationDate" timestamp without time zone NOT NULL,
   "currencyId" character(3) NOT NULL,
-  CONSTRAINT "pkAccount" PRIMARY KEY ("accountId"),
-  CONSTRAINT "fkAccount_accountType" FOREIGN KEY ("accountTypeId") REFERENCES ledger."accountType" ("accountTypeId") MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION,
-  CONSTRAINT "fkAccount_currency" FOREIGN KEY ("currencyId") REFERENCES ledger.currency ("currencyId") MATCH SIMPLE  ON UPDATE NO ACTION ON DELETE NO ACTION,
-  CONSTRAINT "fkAccount_account" FOREIGN KEY ("parentId") REFERENCES ledger.account ("accountId") MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION,
-  CONSTRAINT "ukAccountAccountNumber" UNIQUE ("accountNumber")
+  CONSTRAINT "pkLedgerAccount" PRIMARY KEY ("accountId"),
+  CONSTRAINT "fkLedgerAccount_accountType" FOREIGN KEY ("accountTypeId") REFERENCES ledger."accountType" ("accountTypeId") MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT "fkLedgerAccount_currency" FOREIGN KEY ("currencyId") REFERENCES ledger.currency ("currencyId") MATCH SIMPLE  ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT "fkLedgerAccount_account" FOREIGN KEY ("parentId") REFERENCES ledger.account ("accountId") MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT "ukLedgerAccountAccountNumber" UNIQUE ("accountNumber")
 )
