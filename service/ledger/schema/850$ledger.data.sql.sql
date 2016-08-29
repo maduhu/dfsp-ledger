@@ -1,21 +1,21 @@
-﻿INSERT INTO ledger."transferState" ("transferStateId", name)
+﻿INSERT INTO ledger."transferState" ("transferStateId", name,"transferStateCode")
        SELECT  2, 'prepared','pre'
        WHERE NOT EXISTS (SELECT 1 FROM ledger."transferState" WHERE name='prepared');
 
 
 
-INSERT INTO ledger."transferState" ("transferStateId", name)
+INSERT INTO ledger."transferState" ("transferStateId", name,"transferStateCode")
        SELECT  1, 'proposed','pro'
        WHERE NOT EXISTS (SELECT 1 FROM ledger."transferState" WHERE name='proposed');
 
 
 
-INSERT INTO ledger."transferState" ("transferStateId", name)
+INSERT INTO ledger."transferState" ("transferStateId", name,"transferStateCode")
        SELECT  3, 'cancelled','can'
        WHERE NOT EXISTS (SELECT 1 FROM ledger."transferState" WHERE name='cancelled');
 
 
-INSERT INTO ledger."transferState" ("transferStateId", name)
+INSERT INTO ledger."transferState" ("transferStateId", name,"transferStateCode")
        SELECT  3, 'executed','exe'
        WHERE NOT EXISTS (SELECT 1 FROM ledger."transferState" WHERE name='executed');
 
