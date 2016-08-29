@@ -17,12 +17,14 @@ AS
            t."cancellationCondition" ,
            t."debitAccountId" ,
            t."creditAccountId" ,
-           t."transferStateId"
+           t."transferStateId",
+           t.amount
     INTO   "@executionCondition" ,
            "@cancellationCondition" ,
            "@debitAccountId" ,
            "@creditAccountId" ,
-           "@transferStateId"
+           "@transferStateId",
+           "@amount"
     FROM   ledger.transfer t
     WHERE  t."uuid" = "@transferId";
 
