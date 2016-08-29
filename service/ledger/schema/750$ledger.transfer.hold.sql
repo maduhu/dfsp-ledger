@@ -38,10 +38,10 @@ BEGIN
    		RAISE EXCEPTION 'ledger.insufficientFunds';
   	END IF;
     IF "@debitAccountId" IS NULL THEN
-   		RAISE EXCEPTION 'ledger.debitAccountDoes''tExists';
+   		RAISE EXCEPTION 'ledger.debitAccountNotFound';
   	END IF;
     IF "@creditAccountId" IS NULL THEN
-   		RAISE EXCEPTION 'ledger.creditAccountDoes''tExists';
+   		RAISE EXCEPTION 'ledger.creditAccountNotFound';
   	END IF;
 
 
