@@ -1,5 +1,5 @@
 ﻿INSERT INTO ledger."transferState" ("transferStateId", name,"transferStateCode")
-       VALUES(  2, 'prepared','pre')
+       select  2, 'prepared','pre'
        WHERE NOT EXISTS (SELECT 1 FROM ledger."transferState" WHERE name='prepared');
 
 
