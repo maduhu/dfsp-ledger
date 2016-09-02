@@ -74,6 +74,18 @@ module.exports = {
     delete msg.plainText
     return msg
   },
+  'transfer.getFulfillment.request.send': function (msg, $meta) {
+    msg.uuid = msg.id
+    return msg
+  },
+  'transfer.getFulfillment.response.receive': function (msg, $meta) {
+    if (msg[0]['transfer.getFulfillment'] === null) {
+      throw error.transferNotFound()
+    }
+    return {
+      fulfillment: msg[0]['transfer.getFulfillment']
+    }
+  },
   'transfer.get.response.receive': function (msg, $meta) {
     msg.debits = [{
       'account': ledgetAccountToUri(msg.debitAccount),
