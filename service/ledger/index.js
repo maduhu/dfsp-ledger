@@ -16,6 +16,8 @@ module.exports = {
       // Used in case header is "Content-Type: text/plain"
       if (typeof request.payload === 'string') {
         request.payload = Object.assign({plainText: request.payload}, request.params)
+      } else if (request.payload === null) {
+        request.payload = Object.assign({}, request.params)
       } else {
         Object.assign(request.payload.params, request.params)
       }
