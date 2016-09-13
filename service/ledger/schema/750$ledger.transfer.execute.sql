@@ -49,7 +49,8 @@ AS
                     SELECT "transferStateId"
                     FROM   ledger."transferState" ts
                     WHERE  ts.name = 'rejected' ) ,
-             fulfillment = "@fulfillment"
+             fulfillment = "@fulfillment",
+			 "rejectedAt"=NOW()
       WHERE  "uuid" = "@transferId";
 
     END IF ;
@@ -73,7 +74,8 @@ AS
                     SELECT "transferStateId"
                     FROM   ledger."transferState" ts
                     WHERE  ts.name = 'executed' ) ,
-             fulfillment = "@fulfillment"
+             fulfillment = "@fulfillment",
+			 "executedAt"=NOW()
       WHERE  "uuid" = "@transferId";
 
     END IF ;

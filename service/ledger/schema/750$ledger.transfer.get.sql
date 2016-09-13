@@ -1,0 +1,31 @@
+﻿CREATE OR REPLACE FUNCTION ledger."transfer.get"("@uuid" character varying(100)
+)
+RETURNS
+    TABLE("uuid" character varying(100),"debitAccount" character varying(20), "creditAccount" character varying(20), amount money,"executionCondition" character varying(100),"cancellationCondition" character varying(100),state character varying(25),"expiresAt" timestamp ,"creationDate" timestamp, 
+	"proposedAt" timestamp,"preparedAt" timestamp, "executedAt"timestamp,"rejectedAt" timestamp)
+AS
+$BODY$
+    SELECT   t.uuid,
+	debit."accountNumber" "debitAccount" ,
+	credit."accountNumber" "creditAccount" ,  
+	t.amount,
+	t."executionCondition",
+	t."cancellationCondition",
+	ts.name state,
+	t."expiresAt", 
+	t."creationDate", 
+	t."proposedAt", 
+	t."preparedAt", 
+	t."executedAt", 
+	t."rejectedAt"
+
+ 
+  FROM ledger.transfer t
+	join ledger.account debit on t."debitAccountId"=debit."accountId"
+	join ledger.account credit on t."creditAccountId"=credit."accountId"
+	join ledger."transferState" ts on t."transferStateId"=ts."transferStateId"
+	where t.uuid="@uuid"
+	;
+
+$BODY$
+LANGUAGE SQL
