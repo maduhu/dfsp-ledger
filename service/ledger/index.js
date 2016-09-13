@@ -1,6 +1,7 @@
 var path = require('path')
 var cc = require('five-bells-condition')
 var error = require('./error')
+var ledgerAddress = 'localhost:8014/ledger'
 module.exports = {
   schema: [{
     path: path.join(__dirname, 'schema'),
@@ -67,6 +68,24 @@ module.exports = {
       transferTypeId: 1 /* P2P */
     }
   },
+  'transfer.hold.response.receive': function (msg, $meta) {
+    var transfer = msg[0]
+    return {
+      'uuid': ledgerAddress + '/transfers/' + transfer.id,
+      'ledger': ledgerAddress,
+      'debits': [{
+        'account': ledgerAddress + '/accounts/' + transfer.debitAccount,
+        'amount': transfer.amount
+      }],
+      'credits': [{
+        'account': ledgerAddress + '/accounts/' + transfer.creditAccount,
+        'amount': transfer.amount
+      }],
+      'execution_condition': transfer.executionCondition,
+      'cancellation_condition': transfer.cancellationCondition,
+      'expires_at': transfer.expiresAt
+    }
+  },
   'transfer.execute.request.send': function (msg, $meta) {
     msg.fulfillment = msg.plainText
     msg.condition = cc.fulfillmentToCondition(msg.plainText)
@@ -105,5 +124,5 @@ module.exports = {
 }
 
 function ledgetAccountToUri (accountNumber) {
-  return 'localhost:8014/ledger/accounts/' + accountNumber
+  return ledgerAddress + '/accounts/' + accountNumber
 }
