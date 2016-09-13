@@ -61,7 +61,9 @@ BEGIN
               "cancellationCondition",
               "transferStateId",
               "expiresAt",
-              "creationDate"
+              "creationDate",
+			  "proposedAt",
+			  "preparedAt"
               )
      VALUES("@transferId"
      		,"@uuid"
@@ -76,6 +78,8 @@ BEGIN
             , "@transferStateId"
             ,"@expiresAt"
             ,now()
+			,now()
+			,now()
             );
 
 
