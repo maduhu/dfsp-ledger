@@ -16,7 +16,7 @@ INSERT INTO ledger."transferState" ("transferStateId", name,"transferStateCode")
 
 
 INSERT INTO ledger."transferState" ("transferStateId", name,"transferStateCode")
-       SELECT  3, 'executed','exe'
+       SELECT  4, 'executed','exe'
        WHERE NOT EXISTS (SELECT 1 FROM ledger."transferState" WHERE name='executed');
 
 
