@@ -71,14 +71,14 @@ module.exports = {
   'transfer.hold.response.receive': function (msg, $meta) {
     var transfer = msg[0]
     return {
-      'uuid': ledgerAddress + '/transfers/' + transfer.id,
+      'id': ledgerAddress + '/transfers/' + transfer.id,
       'ledger': ledgerAddress,
       'debits': [{
-        'account': ledgerAddress + '/accounts/' + transfer.debitAccount,
+        'account': ledgetAccountToUri(transfer.debitAccount),
         'amount': transfer.amount
       }],
       'credits': [{
-        'account': ledgerAddress + '/accounts/' + transfer.creditAccount,
+        'account': ledgetAccountToUri(transfer.creditAccount),
         'amount': transfer.amount
       }],
       'execution_condition': transfer.executionCondition,
@@ -110,21 +110,34 @@ module.exports = {
       fulfillment: msg[0]['transfer.getFulfillment']
     }
   },
-  'transfer.get.response.receive': function (msg, $meta) {
-    msg.debits = [{
-      'account': ledgetAccountToUri(msg.debitAccount),
-      'amount': msg.amount
-    }]
-    msg.credits = [{
-      'account': ledgetAccountToUri(msg.creditAccount),
-      'amount': msg.amount
-    }]
-    msg.timeline = {
-      'proposed_at': msg.proposedAt,
-      'prepared_at': msg.preparedAt,
-      'executed_at': msg.executedAt
-    }
+  'transfer.get.request.send': function (msg, $meta) {
+    msg.uuid = msg.id
     return msg
+  },
+  'transfer.get.response.receive': function (msg, $meta) {
+    var transfer = msg[0]
+
+    return {
+      'id': ledgerAddress + '/transfers/' + transfer.uuid,
+      'ledger': ledgerAddress,
+      'debits': [{
+        'account': ledgetAccountToUri(transfer.debitAccount),
+        'amount': transfer.amount
+      }],
+      'credits': [{
+        'account': ledgetAccountToUri(transfer.creditAccount),
+        'amount': transfer.amount
+      }],
+      'execution_condition': transfer.executionCondition,
+      'cancellation_condition': transfer.cancellationCondition,
+      'expires_at': transfer.expiresAt,
+      'state': transfer.state,
+      'timeline': {
+        'proposed_at': transfer.proposedAt,
+        'prepared_at': transfer.preparedAt,
+        'executed_at': transfer.executedAt
+      }
+    }
   }
 }
 
