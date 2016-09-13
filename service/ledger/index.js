@@ -93,6 +93,11 @@ module.exports = {
     delete msg.plainText
     return msg
   },
+  'transfer.execute.response.receive': function (msg, $meta) {
+    return {
+      'fulfillment': msg[0]['fulfillment']
+    }
+  },
   'transfer.getFulfillment.request.send': function (msg, $meta) {
     msg.uuid = msg.id
     return msg
