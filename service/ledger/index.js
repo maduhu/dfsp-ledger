@@ -27,19 +27,54 @@ module.exports = {
     }
 
     var routes = [
-      { rpc: 'ledger.account.get', path: '/ledger/accounts/{accountNumber}', method: 'get' },
-      { rpc: 'ledger.account.edit', path: '/ledger/accounts/{accountNumber}', method: 'put' },
-      { rpc: 'ledger.connectors.get', path: '/ledger/connectors', method: 'get' },
-      { rpc: 'ledger.transfer.hold', path: '/ledger/transfers/{id}', method: 'put' },
-      { rpc: 'ledger.transfer.get', path: '/ledger/transfers/{id}', method: 'get' },
-      { rpc: 'ledger.transfer.getFulfillment', path: '/ledger/transfers/{id}/fulfillment', method: 'get' },
-      { rpc: 'ledger.transfer.getState', path: '/ledger/transfers/{id}/state', method: 'get' },
-      { rpc: 'ledger.transfer.execute', path: '/ledger/transfers/{transferId}/fulfillment', method: 'put' }
+      {
+        rpc: 'ledger.account.get',
+        path: '/ledger/accounts/{accountNumber}',
+        method: 'get'
+      },
+      {
+        rpc: 'ledger.account.edit',
+        path: '/ledger/accounts/{accountNumber}',
+        method: 'put'
+      },
+      {
+        rpc: 'ledger.connectors.get',
+        path: '/ledger/connectors',
+        method: 'get'
+      },
+      {
+        rpc: 'ledger.transfer.hold',
+        path: '/ledger/transfers/{id}',
+        reply: (reply, response, $meta) => {
+          reply(response, {'content-type': 'application/json'}, 200)
+        },
+        method: 'put'
+      },
+      {
+        rpc: 'ledger.transfer.get',
+        path: '/ledger/transfers/{id}',
+        method: 'get'
+      },
+      {
+        rpc: 'ledger.transfer.getFulfillment',
+        path: '/ledger/transfers/{id}/fulfillment',
+        method: 'get'
+      },
+      {
+        rpc: 'ledger.transfer.getState',
+        path: '/ledger/transfers/{id}/state',
+        method: 'get'
+      },
+      {
+        rpc: 'ledger.transfer.execute',
+        path: '/ledger/transfers/{transferId}/fulfillment',
+        method: 'put'
+      }
     ].map((route) => {
       return {
         method: route.method,
         path: route.path,
-        handler: (request, reply) => rest(request, reply, route.rpc),
+        handler: (request, reply) => rest(request, reply, route.rpc, route.reply),
         config: { auth: false }
       }
     })
