@@ -13,7 +13,7 @@ module.exports = {
     }
     var port = this
 
-    function rest (request, reply, method) {
+    function rest (request, reply, method, customReply) {
       // Used in case header is "Content-Type: text/plain"
       if (typeof request.payload === 'string') {
         request.payload = Object.assign({plainText: request.payload}, request.params)
@@ -23,7 +23,7 @@ module.exports = {
         Object.assign(request.payload.params, request.params)
       }
       request.params.method = method
-      return port.handler(request, reply)
+      return port.handler(request, reply, customReply)
     }
 
     var routes = [
