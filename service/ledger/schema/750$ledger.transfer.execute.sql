@@ -9,8 +9,8 @@ AS
     "@cancellationCondition" CHARACTER varying(100);
     "@debitAccountId"  INT;
     "@creditAccountId" INT;
-    "@creditBalance"   money;
-    "@amount"          money;
+    "@creditBalance"   numeric(19,2);
+    "@amount"          numeric(19,2);
     "@transferStateId" INT;
   BEGIN
     SELECT t."executionCondition" ,

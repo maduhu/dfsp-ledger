@@ -1,7 +1,7 @@
 ﻿CREATE OR REPLACE FUNCTION ledger."transfer.hold"("@uuid" character varying(100)
 ,"@debitAccount" character varying(20)
 ,"@creditAccount"  character varying(20)
-,"@amount"  money
+,"@amount"  numeric(19,2)
 ,"@executionCondition"  character varying(100)
 ,"@cancellationCondition"  character varying(100)
 ,"@state"  character varying(20)
@@ -13,7 +13,7 @@ RETURNS
     TABLE(id character varying(100)
     , "debitAccount" character varying(20)
     , "creditAccount" character varying(20)
-    , amount money
+    , amount numeric(19,2)
     ,"executionCondition" character varying(100)
     ,"cancellationCondition"  character varying(100)
     ,"state"  character varying(20)
@@ -24,7 +24,7 @@ $BODY$
 
   declare   "@debitAccountId" int;
              "@creditAccountId" int;
-             "@creditBalance" money;
+             "@creditBalance" numeric(19,2);
              "@currencyId" char(3);
              "@transferStateId" int:=( SELECT  ts."transferStateId"  from ledger."transferState" ts where ts.name="@state");
              "@transferId" BIGINT:=(SELECT nextval('ledger."transfer_transferId_seq"'));

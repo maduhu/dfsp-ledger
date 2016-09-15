@@ -1,7 +1,7 @@
 ﻿CREATE OR REPLACE FUNCTION ledger."transfer.get"("@uuid" character varying(100)
 )
 RETURNS
-    TABLE("uuid" character varying(100),"debitAccount" character varying(20), "creditAccount" character varying(20), amount money,"executionCondition" character varying(100),"cancellationCondition" character varying(100),state character varying(25),"expiresAt" timestamp ,"creationDate" timestamp, 
+    TABLE("uuid" character varying(100),"debitAccount" character varying(20), "creditAccount" character varying(20), amount numeric(19,2),"executionCondition" character varying(100),"cancellationCondition" character varying(100),state character varying(25),"expiresAt" timestamp ,"creationDate" timestamp, 
 	"proposedAt" timestamp,"preparedAt" timestamp, "executedAt"timestamp,"rejectedAt" timestamp)
 AS
 $BODY$

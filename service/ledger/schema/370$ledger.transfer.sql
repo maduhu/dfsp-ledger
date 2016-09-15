@@ -8,7 +8,7 @@
   "creditAccountId" integer NOT NULL,
   "currencyId" character(3) NOT NULL,
   "fulfillment" character varying(100),
-  "amount" money NOT NULL,
+  "amount" numeric(19,2) NOT NULL,
   "description" text,
   "executionCondition"  character varying(100),
   "cancellationCondition"  character varying(100),
