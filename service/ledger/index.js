@@ -20,7 +20,7 @@ module.exports = {
       } else if (request.payload === null) {
         request.payload = Object.assign({}, request.params)
       } else {
-        Object.assign(request.payload.params, request.params)
+        request.payload = Object.assign({}, request.payload, request.params)
       }
       request.params.method = method
       return port.handler(request, reply, customReply)
@@ -46,18 +46,24 @@ module.exports = {
         rpc: 'ledger.transfer.hold',
         path: '/ledger/transfers/{id}',
         reply: (reply, response, $meta) => {
-          reply(response, {'content-type': 'application/json'}, 200)
+          reply(response, {'content-type': 'application/json'}, 201)
         },
         method: 'put'
       },
       {
         rpc: 'ledger.transfer.get',
         path: '/ledger/transfers/{id}',
+        reply: (reply, response, $meta) => {
+          reply(response, {'content-type': 'application/json'}, 200)
+        },
         method: 'get'
       },
       {
         rpc: 'ledger.transfer.getFulfillment',
         path: '/ledger/transfers/{id}/fulfillment',
+        reply: (reply, response, $meta) => {
+          reply(response, {'content-type': 'text/plain'}, 200)
+        },
         method: 'get'
       },
       {
@@ -68,6 +74,9 @@ module.exports = {
       {
         rpc: 'ledger.transfer.execute',
         path: '/ledger/transfers/{transferId}/fulfillment',
+        reply: (reply, response, $meta) => {
+          reply(response, {'content-type': 'text/plain'}, 200)
+        },
         method: 'put'
       }
     ].map((route) => {
@@ -129,9 +138,7 @@ module.exports = {
     return msg
   },
   'transfer.execute.response.receive': function (msg, $meta) {
-    return {
-      'fulfillment': msg[0]['fulfillment']
-    }
+    return msg[0]['fulfillment']
   },
   'transfer.getFulfillment.request.send': function (msg, $meta) {
     msg.uuid = msg.id
@@ -141,9 +148,7 @@ module.exports = {
     if (msg[0]['transfer.getFulfillment'] === null) {
       throw error.transferNotFound()
     }
-    return {
-      fulfillment: msg[0]['transfer.getFulfillment']
-    }
+    return msg[0]['transfer.getFulfillment']
   },
   'transfer.get.request.send': function (msg, $meta) {
     msg.uuid = msg.id
