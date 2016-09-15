@@ -53,6 +53,9 @@
     "node": ">=4.4.7",
     "npm": ">=3.10.6"
   },
+  "publishConfig": {
+    "registry": "https://modusbox.jfrog.io/modusbox/api/npm/level1-npm-release"
+  },
   "author": "Kalin Krustev <kalin.krustev@softwaregroup-bg.com>",
   "license": "UNLICENSED"
 }
