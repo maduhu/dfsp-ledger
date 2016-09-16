@@ -22,7 +22,7 @@ test({
         id: 'nonexisting'
       },
       name: 'Get non existing account',
-      error: (result, assert) => {
+      result: (result, assert) => { // todo error handling
         assert.ok(result, 'return error')
       }
     }])

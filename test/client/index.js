@@ -1,6 +1,7 @@
 module.exports = {
-  ports: [
-    require('ut-port-jsonrpc')
-  ],
+  ports: [{
+    id: 'jsonrpc',
+    createPort: require('ut-port-jsonrpc')
+  }],
   modules: {}
 }
