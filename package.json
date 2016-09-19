@@ -37,7 +37,9 @@
     "ut-port-console": "~6.1.4",
     "ut-port-performance": "~5.4.5",
     "pm2": "2.0.12",
-    "five-bells-condition": "3.2.0"
+    "five-bells-condition": "3.2.0",
+    "supertest-as-promised": "4.0.0",
+    "supertest": "2.0.0"
   },
   "devDependencies": {
     "blue-tape": "1.0.0",
