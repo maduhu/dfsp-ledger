@@ -35,6 +35,7 @@
     "ut-port-script": "~5.4.3",
     "ut-run": "~6.1.2",
     "ut-port-console": "~6.1.4",
+    "ut-port-performance": "~5.4.5",
     "pm2": "2.0.12",
     "five-bells-condition": "3.2.0"
   },
@@ -42,7 +43,6 @@
     "blue-tape": "1.0.0",
     "tap-xunit": "1.4.0",
     "ut-port-jsonrpc": "~5.5.1",
-    "ut-port-performance": "~5.4.5",
     "ut-tools": "^5.8.1"
   },
   "repository": {
