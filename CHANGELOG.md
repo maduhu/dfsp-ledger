@@ -1,3 +1,14 @@
+<a name="0.1.3"></a>
+## [0.1.3](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.1.2...v0.1.3) (2016-09-19)
+
+
+### Bug Fixes
+
+* move ut-port-performace as dependency ([ed66536](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/ed66536))
+* update configuration ([e0cf29c](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/e0cf29c))
+
+
+
 <a name="0.1.2"></a>
 ## [0.1.2](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.1.1...v0.1.2) (2016-09-19)
 
