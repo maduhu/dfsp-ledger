@@ -209,6 +209,7 @@ module.exports = {
           },
           plugins: {
             'hapi-swagger': {
+              consumes: ['text/plain'],
               responses: {
                 '200': {
                   description: 'Transfer was executed successfully.'
