@@ -1,3 +1,44 @@
+<a name="0.2.0"></a>
+# [0.2.0](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.1.3...v0.2.0) (2016-09-19)
+
+
+### Features
+
+* add swagger validation for transfer methods ([6c18546](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/6c18546))
+
+
+
+<a name="0.1.3"></a>
+## [0.1.3](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.1.2...v0.1.3) (2016-09-19)
+
+
+### Bug Fixes
+
+* move ut-port-performace as dependency ([ed66536](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/ed66536))
+* update configuration ([e0cf29c](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/e0cf29c))
+
+
+
+<a name="0.1.2"></a>
+## [0.1.2](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.1.1...v0.1.2) (2016-09-19)
+
+
+### Bug Fixes
+
+* move ut-port-console as dependency ([b899e7b](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/b899e7b))
+
+
+
+<a name="0.1.1"></a>
+## [0.1.1](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.1.0...v0.1.1) (2016-09-19)
+
+
+### Bug Fixes
+
+* update dependencies ([060181d](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/060181d))
+
+
+
 <a name="0.1.0"></a>
 # 0.1.0 (2016-09-16)
 
