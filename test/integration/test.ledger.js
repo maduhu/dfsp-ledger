@@ -28,7 +28,7 @@ require('ut-run').run({}, {
     .expect(201)
     .end((err, res) => {
       console.log('err', err)
-      console.log('res', res.text)
+      console.log('res', res.body)
     })
   })
 })
