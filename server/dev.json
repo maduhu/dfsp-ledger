@@ -30,7 +30,7 @@
   "db": {
     "logLevel": "trace",
     "db": {
-      "host": "cisco"
+      "host": "postgres"
     },
     "permission": {
       "requireSession": true
