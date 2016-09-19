@@ -31,9 +31,9 @@
     "ut-bus": "~5.4.8",
     "ut-error": "~5.3.14",
     "ut-port-httpserver": "~6.3.0",
-    "ut-port-postgres": "~5.6.0",
+    "ut-port-postgres": "~5.6.2",
     "ut-port-script": "~5.4.3",
-    "ut-run": "~6.1.1",
+    "ut-run": "~6.1.2",
     "pm2": "2.0.12",
     "five-bells-condition": "3.2.0"
   },
