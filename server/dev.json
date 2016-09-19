@@ -1,6 +1,7 @@
 {
   "implementation": "dfsp-ledger",
   "console": {
+    "port": 30014,
     "server": {
       "host": "0.0.0.0",
       "port": 30014
