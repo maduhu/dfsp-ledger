@@ -1,3 +1,13 @@
+<a name="0.2.0"></a>
+# [0.2.0](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.1.3...v0.2.0) (2016-09-19)
+
+
+### Features
+
+* add swagger validation for transfer methods ([6c18546](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/6c18546))
+
+
+
 <a name="0.1.3"></a>
 ## [0.1.3](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.1.2...v0.1.3) (2016-09-19)
 
