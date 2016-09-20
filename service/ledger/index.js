@@ -55,25 +55,26 @@ module.exports = {
           tags: ['api'],
           validate: {
             params: joi.object({
-              id: joi.string().example('3a2a1d9e-8640-4d2d-b06c-84f2cd613204')
+              id: joi.string().example('3a2a1d9e-8640-4d2d-b06c-84f2cd613300').description('The UUID for the local transfer')
             }),
             payload: {
-              id: joi.string().required().example('http://usd-ledger.example/transfers/3a2a1d9e-8640-4d2d-b06c-84f2cd613204'),
+              id: joi.string().required().example('http://usd-ledger.example/transfers/3a2a1d9e-8640-4d2d-b06c-84f2cd613300'),
               ledger: joi.string().required().example('http://usd-ledger.example'),
               debits: joi.array().items(
                 joi.object({
-                  account: joi.string().example('http://usd-ledger.example/accounts/000000001'),
-                  amount: joi.number(),
-                  authorized: joi.any().valid([true, false])
+                  account: joi.string().example('http://usd-ledger.example/accounts/000000003'),
+                  amount: joi.number().example(50),
+                  authorized: joi.any().valid([true, false]).example(true)
                 }).required()
               ),
               credits: joi.array().items(
                 joi.object({
-                  account: joi.string().example('http://usd-ledger.example/accounts/000000002'),
-                  amount: joi.number()
+                  account: joi.string().example('http://usd-ledger.example/accounts/000000004'),
+                  amount: joi.number().example(50)
                 }).required()
               ),
               execution_condition: joi.string().required().description('Crypto-Condition').example('cc:0:3:8ZdpKBDUV-KX_OnFZTsCWB_5mlCFI3DynX5f5H2dN-Y:2'),
+              cancellation_condition: joi.string().allow(null).example(null),
               expires_at: joi.date().required().example('2015-06-16T00:00:01.000Z')
             }
           },
@@ -120,7 +121,7 @@ module.exports = {
           tags: ['api'],
           validate: {
             params: joi.object({
-              id: joi.string().example('3a2a1d9e-8640-4d2d-b06c-84f2cd613204')
+              id: joi.string().example('3a2a1d9e-8640-4d2d-b06c-84f2cd613300').description('The UUID for the local transfer')
             })
           },
           plugins: {
@@ -171,7 +172,7 @@ module.exports = {
           tags: ['api'],
           validate: {
             params: joi.object({
-              id: joi.string().example('3a2a1d9e-8640-4d2d-b06c-84f2cd613204')
+              id: joi.string().example('3a2a1d9e-8640-4d2d-b06c-84f2cd613300').description('The UUID for the local transfer')
             })
           },
           plugins: {
@@ -203,9 +204,9 @@ module.exports = {
           tags: ['api'],
           validate: {
             params: joi.object({
-              transferId: joi.string().example('3a2a1d9e-8640-4d2d-b06c-84f2cd613204')
+              transferId: joi.string().example('3a2a1d9e-8640-4d2d-b06c-84f2cd613300').description('The UUID for the local transfer')
             }),
-            payload: joi.string().description('Payload should be a Crypto-Condition Fulfillment in text format')
+            payload: joi.string().example('cf:0:_v8').description('Payload should be a Crypto-Condition Fulfillment in text format')
           },
           plugins: {
             'hapi-swagger': {
