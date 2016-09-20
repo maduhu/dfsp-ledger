@@ -39,6 +39,20 @@ INSERT INTO ledger."transferState" ("transferStateId", name,"transferStateCode")
               SELECT  1, 'mWallet','mw'
  WHERE NOT EXISTS (SELECT 1 FROM ledger."accountType" WHERE "name"='mWallet');
 
+INSERT INTO ledger.account
+ select 4, 'testAccount', 'testAccount', '000000002', 0, 10000, 1, B'1', NULL, '2016-08-24 10:24:45.845802', 'BGN'
+ WHERE NOT EXISTS (SELECT 1 FROM ledger.account  WHERE "accountNumber"='000000002');
+
+
+INSERT INTO ledger.account
+ select 5, 'testAccount1', 'testAccount1', '000000003', 0, 10000, 1, B'1', NULL, '2016-08-24 10:24:45.845802', 'BGN'
+ WHERE NOT EXISTS (SELECT 1 FROM ledger.account  WHERE "accountNumber"='000000003');
+
+
+INSERT INTO ledger.account
+ select 6, 'testAccount2', 'testAccount2', '000000004', 0, 10000, 1, B'1', NULL, '2016-08-24 10:24:45.845802', 'BGN'
+ WHERE NOT EXISTS (SELECT 1 FROM ledger.account  WHERE "accountNumber"='000000004');
+
 
 
  
