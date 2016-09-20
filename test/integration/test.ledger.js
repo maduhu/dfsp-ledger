@@ -1,7 +1,14 @@
-/*eslint no-console:0*/
-var request = require('supertest-as-promised')
+var request = require('supertest-as-promised')('http://localhost:8014/ledger/transfers/')
 var test = require('ut-run/test')
 var config = require('./../lib/appConfig')
+var joi = require('joi')
+var commonFunc = require('./../lib/commonFunctions')
+const UUID = '3a2a1d9e-8640-4d2d-b06c-' + commonFunc.generateRandomNumber()
+const DEBITACCOUNT = 'http://usd-ledger.example/accounts/000000001'
+const CREDITACCOUNT = 'http://usd-ledger.example/accounts/000000002'
+const AMOUNT = '50.00'
+const STATE = 'executed'
+const FULFILLMENT = 'cf:0:_v8'
 
 test({
   type: 'integration',
@@ -14,61 +21,97 @@ test({
     run(test, bus, [{
       name: 'Transfer hold',
       params: (context) => {
-        return request('http://localhost:8014/ledger/transfers')
-        .put('/3a2a1d9e-8640-4d2d-b06c-84f2cd613213')
-        .send({
-          'id': 'http://usd-ledger.example/transfers/3a2a1d9e-8640-4d2d-b06c-84f2cd613213',
-          'ledger': 'http://usd-ledger.example',
-          'debits': [{
-            'account': 'http://usd-ledger.example/accounts/000000001',
-            'amount': '50',
-            'authorized': true
-          }],
-          'credits': [{
-            'account': 'http://usd-ledger.example/accounts/000000002',
-            'amount': '50'
-          }],
-          'execution_condition': 'cc:0:3:8ZdpKBDUV-KX_OnFZTsCWB_5mlCFI3DynX5f5H2dN-Y:2',
-          'expires_at': '2015-06-16T00:00:01.000Z'
-        })
-        .expect('Content-Type', /json/)
-        .expect(201)
+        return request
+          .put(UUID)
+          .send({
+            'id': 'http://usd-ledger.example/transfers/' + UUID,
+            'ledger': 'http://usd-ledger.example',
+            'debits': [{
+              'account': DEBITACCOUNT,
+              'amount': AMOUNT,
+              'authorized': true
+            }],
+            'credits': [{
+              'account': CREDITACCOUNT,
+              'amount': AMOUNT
+            }],
+            'execution_condition': 'cc:0:3:8ZdpKBDUV-KX_OnFZTsCWB_5mlCFI3DynX5f5H2dN-Y:2',
+            'expires_at': '2015-06-16T00:00:01.000Z'
+          })
+          .expect('Content-Type', /json/)
+          .expect(201)
       },
       result: (result, assert) => {
-        console.log(result.body)
-      },
-      error: (error, assert) => {
-        console.log(error)
+        assert.equals(joi.validate(result.body, joi.object().keys({
+          id: joi.string().required(),
+          ledger: joi.string().required(),
+          debits: joi.array().items(joi.object().keys({
+            account: joi.string().required(),
+            amount: joi.string().valid(AMOUNT).required()
+          })).required(),
+          credits: joi.array().items(joi.object().keys({
+            account: joi.string().required(),
+            amount: joi.string().valid(AMOUNT).required()
+          })).required(),
+          execution_condition: joi.string().required().allow(null),
+          cancellation_condition: joi.string().required().allow(null),
+          expires_at: joi.string().required()
+        })).error, null, 'return transfer hold details')
       }
-    },
-    {
-      name: 'Transfer hold2',
+    }, {
+      name: 'Execute Prepared Transfer',
       params: (context) => {
-        return request('http://localhost:8014/ledger/transfers')
-        .put('/3a2a1d9e-8640-4d2d-b06c-84f2cd613213')
-        .send({
-          'id': 'http://usd-ledger.example/transfers/3a2a1d9e-8640-4d2d-b06c-84f2cd613213',
-          'ledger': 'http://usd-ledger.example',
-          'debits': [{
-            'account': 'http://usd-ledger.example/accounts/000000001',
-            'amount': '50',
-            'authorized': true
-          }],
-          'credits': [{
-            'account': 'http://usd-ledger.example/accounts/000000002',
-            'amount': '50'
-          }],
-          'execution_condition': 'cc:0:3:8ZdpKBDUV-KX_OnFZTsCWB_5mlCFI3DynX5f5H2dN-Y:2',
-          'expires_at': '2015-06-16T00:00:01.000Z'
-        })
-        .expect('Content-Type', /json/)
-        .expect(201)
+        return request
+          .put(UUID + '/fulfillment')
+          .set('Content-type', 'text/plain')
+          .send(FULFILLMENT)
+          .expect('Content-Type', 'text/plain; charset=utf-8')
+          .expect(200)
       },
       result: (result, assert) => {
-        console.log(result.body)
+        assert.equals(result.text, FULFILLMENT, 'return fulfillment')
+      }
+    }, {
+      name: 'Get Transfer Fulfillment',
+      params: (context) => {
+        return request
+          .get(UUID + '/fulfillment')
+          .expect('Content-Type', 'text/plain; charset=utf-8')
+          .expect(200)
       },
-      error: (error, assert) => {
-        console.log(error)
+      result: (result, assert) => {
+        assert.equals(result.text, FULFILLMENT, 'return fulfillment')
+      }
+    }, {
+      name: 'Get Transfer by ID',
+      params: (context) => {
+        return request
+          .get(UUID)
+          .expect('Content-Type', /json/)
+          .expect(200)
+      },
+      result: (result, assert) => {
+        assert.equals(joi.validate(result.body, joi.object().keys({
+          id: joi.string().required(),
+          ledger: joi.string().required(),
+          debits: joi.array().items(joi.object().keys({
+            account: joi.string().required(),
+            amount: joi.string().valid(AMOUNT).required()
+          })).required(),
+          credits: joi.array().items(joi.object().keys({
+            account: joi.string().required(),
+            amount: joi.string().valid(AMOUNT).required()
+          })).required(),
+          execution_condition: joi.string().required().allow(null),
+          cancellation_condition: joi.string().required().allow(null),
+          expires_at: joi.string().required(),
+          state: joi.string().required().valid(STATE),
+          timeline: joi.object().keys({
+            proposed_at: joi.string().required(),
+            prepared_at: joi.string().required(),
+            executed_at: joi.string().required()
+          })
+        })).error, null, 'return transfer by id details')
       }
     }])
   }
