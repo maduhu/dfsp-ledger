@@ -271,6 +271,7 @@ module.exports = {
       }],
       'execution_condition': transfer.executionCondition,
       'cancellation_condition': transfer.cancellationCondition,
+      'state': transfer.state,
       'expires_at': transfer.expiresAt
     }
   },
