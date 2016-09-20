@@ -1,6 +1,6 @@
 {
   "name": "@leveloneproject/dfsp-ledger",
-  "version": "0.0.1",
+  "version": "0.2.0",
   "description": "DFSP Ledger service",
   "main": "index.js",
   "scripts": {
@@ -27,22 +27,24 @@
     "version": "ut-version"
   },
   "dependencies": {
-    "joi":"9.0.4",
-    "ut-bus": "~5.4.7",
+    "joi": "9.0.4",
+    "ut-bus": "~5.4.8",
     "ut-error": "~5.3.14",
-    "ut-port-httpserver":"~6.2.4",
-    "ut-port-postgres":"~5.4.0",
-    "ut-port-scipt":"~5.4.3",
-    "ut-run":"~6.0.2",
-    "pm2":"1.1.3",
-    "five-bells-condition":"3.2.0"
+    "ut-port-httpserver": "~6.3.0",
+    "ut-port-postgres": "~5.6.2",
+    "ut-port-script": "~5.4.3",
+    "ut-run": "~6.1.2",
+    "ut-port-console": "~6.1.4",
+    "ut-port-performance": "~5.4.5",
+    "pm2": "2.0.12",
+    "five-bells-condition": "3.2.0",
+    "supertest-as-promised": "4.0.0",
+    "supertest": "2.0.0"
   },
   "devDependencies": {
-    "blue-tape":"0.2.0",
+    "blue-tape": "1.0.0",
     "tap-xunit": "1.4.0",
-    "ut-port-jsonrpc": "~5.5.0",
-    "ut-port-performance": "~5.4.5",
-    "ut-port-console": "~6.1.4",
+    "ut-port-jsonrpc": "~5.5.1",
     "ut-tools": "^5.8.1"
   },
   "repository": {
@@ -52,6 +54,9 @@
   "engines": {
     "node": ">=4.4.7",
     "npm": ">=3.10.6"
+  },
+  "publishConfig": {
+    "registry": "https://modusbox.jfrog.io/modusbox/api/npm/level1-npm-release"
   },
   "author": "Kalin Krustev <kalin.krustev@softwaregroup-bg.com>",
   "license": "UNLICENSED"

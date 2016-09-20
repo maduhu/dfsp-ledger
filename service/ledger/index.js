@@ -1,6 +1,7 @@
 var path = require('path')
 var cc = require('five-bells-condition')
 var error = require('./error')
+var joi = require('joi')
 var ledgerAddress = 'localhost:8014/ledger'
 module.exports = {
   schema: [{
@@ -48,6 +49,63 @@ module.exports = {
         reply: (reply, response, $meta) => {
           reply(response, {'content-type': 'application/json'}, 201)
         },
+        config: {
+          description: 'Prepare/Propose transfer',
+          notes: 'Prepares a new transfer in the ledger.',
+          tags: ['api'],
+          validate: {
+            params: joi.object({
+              id: joi.string().example('3a2a1d9e-8640-4d2d-b06c-84f2cd613204')
+            }),
+            payload: {
+              id: joi.string().required().example('http://usd-ledger.example/transfers/3a2a1d9e-8640-4d2d-b06c-84f2cd613204'),
+              ledger: joi.string().required().example('http://usd-ledger.example'),
+              debits: joi.array().items(
+                joi.object({
+                  account: joi.string().example('http://usd-ledger.example/accounts/000000001'),
+                  amount: joi.number(),
+                  authorized: joi.any().valid([true, false])
+                }).required()
+              ),
+              credits: joi.array().items(
+                joi.object({
+                  account: joi.string().example('http://usd-ledger.example/accounts/000000002'),
+                  amount: joi.number()
+                }).required()
+              ),
+              execution_condition: joi.string().required().description('Crypto-Condition').example('cc:0:3:8ZdpKBDUV-KX_OnFZTsCWB_5mlCFI3DynX5f5H2dN-Y:2'),
+              expires_at: joi.date().required().example('2015-06-16T00:00:01.000Z')
+            }
+          },
+          plugins: {
+            'hapi-swagger': {
+              responses: {
+                '201': {
+                  description: 'Transfer was created successfully',
+                  schema: joi.object({
+                    id: joi.string(),
+                    ledger: joi.string(),
+                    debits: joi.array().items(
+                      joi.object({
+                        account: joi.string(),
+                        amount: joi.string()
+                      })
+                    ),
+                    credits: joi.array().items(
+                      joi.object({
+                        account: joi.string(),
+                        amount: joi.string()
+                      })
+                    ),
+                    execution_condition: joi.string(),
+                    expires_at: joi.date(),
+                    state: joi.string().valid(['proposed', 'prepared'])
+                  })
+                }
+              }
+            }
+          }
+        },
         method: 'put'
       },
       {
@@ -56,6 +114,49 @@ module.exports = {
         reply: (reply, response, $meta) => {
           reply(response, {'content-type': 'application/json'}, 200)
         },
+        config: {
+          description: 'Get Transfer by ID',
+          notes: 'Check the details or status of a local transfer',
+          tags: ['api'],
+          validate: {
+            params: joi.object({
+              id: joi.string().example('3a2a1d9e-8640-4d2d-b06c-84f2cd613204')
+            })
+          },
+          plugins: {
+            'hapi-swagger': {
+              responses: {
+                '200': {
+                  description: 'Transfer was executed successfully.',
+                  schema: joi.object({
+                    id: joi.string(),
+                    ledger: joi.string(),
+                    debits: joi.array().items(
+                      joi.object({
+                        account: joi.string(),
+                        amount: joi.number()
+                      })
+                    ),
+                    credits: joi.array().items(
+                      joi.object({
+                        account: joi.string(),
+                        amount: joi.number()
+                      })
+                    ),
+                    execution_condition: joi.string(),
+                    expires_at: joi.date(),
+                    state: joi.string().valid(['executed']),
+                    timeline: joi.object({
+                      proposed_at: joi.date(),
+                      prepared_at: joi.date(),
+                      executed_at: joi.date()
+                    })
+                  })
+                }
+              }
+            }
+          }
+        },
         method: 'get'
       },
       {
@@ -63,6 +164,25 @@ module.exports = {
         path: '/ledger/transfers/{id}/fulfillment',
         reply: (reply, response, $meta) => {
           reply(response, {'content-type': 'text/plain'}, 200)
+        },
+        config: {
+          description: 'Get Transfer Fulfillment',
+          notes: 'Retrieve the fulfillment for a transfer that has been executed or cancelled.',
+          tags: ['api'],
+          validate: {
+            params: joi.object({
+              id: joi.string().example('3a2a1d9e-8640-4d2d-b06c-84f2cd613204')
+            })
+          },
+          plugins: {
+            'hapi-swagger': {
+              responses: {
+                '200': {
+                  description: 'The body contains the Transfer\'s Crypto-Condition Fulfillment in text format.'
+                }
+              }
+            }
+          }
         },
         method: 'get'
       },
@@ -77,6 +197,27 @@ module.exports = {
         reply: (reply, response, $meta) => {
           reply(response, {'content-type': 'text/plain'}, 200)
         },
+        config: {
+          description: 'Execute prepared transfer',
+          notes: 'Execute or cancel a transfer that has already been prepared, by submitting a matching cryto-condition fulfillment. If the prepared transfer has an execution_condition, you can submit the fulfillment of that condition to execute the transfer. If the prepared transfer has a cancellation_condition, you can submit the fulfillment of that condition to cancel the transfer.',
+          tags: ['api'],
+          validate: {
+            params: joi.object({
+              transferId: joi.string().example('3a2a1d9e-8640-4d2d-b06c-84f2cd613204')
+            }),
+            payload: joi.string().description('Payload should be a Crypto-Condition Fulfillment in text format')
+          },
+          plugins: {
+            'hapi-swagger': {
+              consumes: ['text/plain'],
+              responses: {
+                '200': {
+                  description: 'Transfer was executed successfully.'
+                }
+              }
+            }
+          }
+        },
         method: 'put'
       }
     ].map((route) => {
@@ -84,7 +225,9 @@ module.exports = {
         method: route.method,
         path: route.path,
         handler: (request, reply) => rest(request, reply, route.rpc, route.reply),
-        config: { auth: false }
+        config: Object.assign({
+          auth: false
+        }, route.config)
       }
     })
 

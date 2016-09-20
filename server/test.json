@@ -19,8 +19,16 @@
       "port": 4444
     }
   },
+  "db": {
+    "logLevel": "trace",
+    "db": {
+      "host": "postgres"
+    },
+    "permission": {
+      "requireSession": true
+    }
+  },
   "script": {
     "mock": true
-  },
-  "db": false
+  }
 }

@@ -1,1 +1,1 @@
-require('ut-run').run()
+require('ut-run').run({}, module)
