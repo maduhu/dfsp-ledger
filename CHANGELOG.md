@@ -1,3 +1,24 @@
+<a name="0.3.0"></a>
+# [0.3.0](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.2.0...v0.3.0) (2016-09-20)
+
+
+### Bug Fixes
+
+* change request content-type for transfer.execute method in swagger documentation ([8dc8c35](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/8dc8c35))
+* fix accounts handling ([788d4a0](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/788d4a0))
+* fix console port settings ([ccbc3fa](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/ccbc3fa))
+* fix tests ([43ad8f4](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/43ad8f4))
+* log res.body but not res.text ([a881032](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/a881032))
+* prepare tests ([66d5824](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/66d5824))
+
+
+### Features
+
+* change credit/debit amount for initial accounts in the seed script ([ef4ae60](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/ef4ae60))
+* change example field values for swagger documentation ([591a0d5](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/591a0d5))
+
+
+
 <a name="0.2.0"></a>
 # [0.2.0](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.1.3...v0.2.0) (2016-09-19)
 
