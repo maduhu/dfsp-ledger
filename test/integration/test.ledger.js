@@ -7,7 +7,8 @@ const UUID = '3a2a1d9e-8640-4d2d-b06c-' + commonFunc.generateRandomNumber()
 const DEBITACCOUNT = 'http://usd-ledger.example/accounts/000000001'
 const CREDITACCOUNT = 'http://usd-ledger.example/accounts/000000002'
 const AMOUNT = '50.00'
-const STATE = 'executed'
+const EXECUTEDSTATE = 'executed'
+const PREPAREDSTATE = 'prepared'
 const FULFILLMENT = 'cf:0:_v8'
 
 test({
@@ -55,6 +56,7 @@ test({
           })).required(),
           execution_condition: joi.string().required().allow(null),
           cancellation_condition: joi.string().required().allow(null),
+          state: joi.string().required().valid(PREPAREDSTATE),
           expires_at: joi.string().required()
         })).error, null, 'return transfer hold details')
       }
@@ -105,7 +107,7 @@ test({
           execution_condition: joi.string().required().allow(null),
           cancellation_condition: joi.string().required().allow(null),
           expires_at: joi.string().required(),
-          state: joi.string().required().valid(STATE),
+          state: joi.string().required().valid(EXECUTEDSTATE),
           timeline: joi.object().keys({
             proposed_at: joi.string().required(),
             prepared_at: joi.string().required(),
