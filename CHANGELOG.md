@@ -1,3 +1,13 @@
+<a name="0.3.1"></a>
+## [0.3.1](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.3.0...v0.3.1) (2016-09-21)
+
+
+### Bug Fixes
+
+* add state field into transfer.hold (Prepare/Propose) method ([e0836b0](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/e0836b0))
+
+
+
 <a name="0.3.0"></a>
 # [0.3.0](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.2.0...v0.3.0) (2016-09-20)
 
