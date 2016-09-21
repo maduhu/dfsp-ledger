@@ -2,7 +2,7 @@ var path = require('path')
 var cc = require('five-bells-condition')
 var error = require('./error')
 var joi = require('joi')
-var ledgerAddress = 'localhost:8014/ledger'
+var ledgerAddress = 'dfsp1:8014/ledger'
 module.exports = {
   schema: [{
     path: path.join(__dirname, 'schema'),
@@ -55,25 +55,26 @@ module.exports = {
           tags: ['api'],
           validate: {
             params: joi.object({
-              id: joi.string().example('3a2a1d9e-8640-4d2d-b06c-84f2cd613204')
+              id: joi.string().example('3a2a1d9e-8640-4d2d-b06c-84f2cd613300').description('The UUID for the local transfer')
             }),
             payload: {
-              id: joi.string().required().example('http://usd-ledger.example/transfers/3a2a1d9e-8640-4d2d-b06c-84f2cd613204'),
-              ledger: joi.string().required().example('http://usd-ledger.example'),
+              id: joi.string().required().example('http://dfsp1:8014/transfers/3a2a1d9e-8640-4d2d-b06c-84f2cd613300'),
+              ledger: joi.string().required().example('http://dfsp1:8014'),
               debits: joi.array().items(
                 joi.object({
-                  account: joi.string().example('http://usd-ledger.example/accounts/000000001'),
-                  amount: joi.number(),
-                  authorized: joi.any().valid([true, false])
+                  account: joi.string().example('http://dfsp1:8014/accounts/000000003'),
+                  amount: joi.number().example(50),
+                  authorized: joi.any().valid([true, false]).example(true)
                 }).required()
               ),
               credits: joi.array().items(
                 joi.object({
-                  account: joi.string().example('http://usd-ledger.example/accounts/000000002'),
-                  amount: joi.number()
+                  account: joi.string().example('http://dfsp1:8014/accounts/000000004'),
+                  amount: joi.number().example(50)
                 }).required()
               ),
               execution_condition: joi.string().required().description('Crypto-Condition').example('cc:0:3:8ZdpKBDUV-KX_OnFZTsCWB_5mlCFI3DynX5f5H2dN-Y:2'),
+              cancellation_condition: joi.string().allow(null).example(null),
               expires_at: joi.date().required().example('2015-06-16T00:00:01.000Z')
             }
           },
@@ -120,7 +121,7 @@ module.exports = {
           tags: ['api'],
           validate: {
             params: joi.object({
-              id: joi.string().example('3a2a1d9e-8640-4d2d-b06c-84f2cd613204')
+              id: joi.string().example('3a2a1d9e-8640-4d2d-b06c-84f2cd613300').description('The UUID for the local transfer')
             })
           },
           plugins: {
@@ -171,7 +172,7 @@ module.exports = {
           tags: ['api'],
           validate: {
             params: joi.object({
-              id: joi.string().example('3a2a1d9e-8640-4d2d-b06c-84f2cd613204')
+              id: joi.string().example('3a2a1d9e-8640-4d2d-b06c-84f2cd613300').description('The UUID for the local transfer')
             })
           },
           plugins: {
@@ -203,9 +204,9 @@ module.exports = {
           tags: ['api'],
           validate: {
             params: joi.object({
-              transferId: joi.string().example('3a2a1d9e-8640-4d2d-b06c-84f2cd613204')
+              transferId: joi.string().example('3a2a1d9e-8640-4d2d-b06c-84f2cd613300').description('The UUID for the local transfer')
             }),
-            payload: joi.string().description('Payload should be a Crypto-Condition Fulfillment in text format')
+            payload: joi.string().example('cf:0:_v8').description('Payload should be a Crypto-Condition Fulfillment in text format')
           },
           plugins: {
             'hapi-swagger': {
@@ -261,15 +262,16 @@ module.exports = {
       'id': ledgerAddress + '/transfers/' + transfer.id,
       'ledger': ledgerAddress,
       'debits': [{
-        'account': ledgetAccountToUri(transfer.debitAccount),
+        'account': ledgerAccountToUri(transfer.debitAccount),
         'amount': transfer.amount
       }],
       'credits': [{
-        'account': ledgetAccountToUri(transfer.creditAccount),
+        'account': ledgerAccountToUri(transfer.creditAccount),
         'amount': transfer.amount
       }],
       'execution_condition': transfer.executionCondition,
       'cancellation_condition': transfer.cancellationCondition,
+      'state': transfer.state,
       'expires_at': transfer.expiresAt
     }
   },
@@ -304,11 +306,11 @@ module.exports = {
       'id': ledgerAddress + '/transfers/' + transfer.uuid,
       'ledger': ledgerAddress,
       'debits': [{
-        'account': ledgetAccountToUri(transfer.debitAccount),
+        'account': ledgerAccountToUri(transfer.debitAccount),
         'amount': transfer.amount
       }],
       'credits': [{
-        'account': ledgetAccountToUri(transfer.creditAccount),
+        'account': ledgerAccountToUri(transfer.creditAccount),
         'amount': transfer.amount
       }],
       'execution_condition': transfer.executionCondition,
@@ -324,6 +326,6 @@ module.exports = {
   }
 }
 
-function ledgetAccountToUri (accountNumber) {
+function ledgerAccountToUri (accountNumber) {
   return ledgerAddress + '/accounts/' + accountNumber
 }
