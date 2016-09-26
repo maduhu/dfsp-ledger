@@ -3,6 +3,7 @@ var cc = require('five-bells-condition')
 var error = require('./error')
 var joi = require('joi')
 var ledgerAddress = 'dfsp1:8014/ledger'
+
 module.exports = {
   schema: [{
     path: path.join(__dirname, 'schema'),
@@ -47,7 +48,14 @@ module.exports = {
         rpc: 'ledger.transfer.hold',
         path: '/ledger/transfers/{id}',
         reply: (reply, response, $meta) => {
-          reply(response, {'content-type': 'application/json'}, 201)
+          if (!response.error) {
+            return reply(response, {'content-type': 'application/json'}, 201)
+          }
+
+          return reply({
+            id: response.error.type,
+            message: response.error.message
+          }, {'content-type': 'application/json'}, response.debug.statusCode || 400)
         },
         config: {
           description: 'Prepare/Propose transfer',
@@ -55,28 +63,29 @@ module.exports = {
           tags: ['api'],
           validate: {
             params: joi.object({
-              id: joi.string().example('3a2a1d9e-8640-4d2d-b06c-84f2cd613300').description('The UUID for the local transfer')
+              id: joi.string().regex(/^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$/).example('3a2a1d9e-8640-4d2d-b06c-84f2cd613300').description('The UUID for the local transfer')
             }),
             payload: {
               id: joi.string().required().example('http://dfsp1:8014/transfers/3a2a1d9e-8640-4d2d-b06c-84f2cd613300'),
               ledger: joi.string().required().example('http://dfsp1:8014'),
               debits: joi.array().items(
                 joi.object({
-                  account: joi.string().example('http://dfsp1:8014/accounts/000000003'),
-                  amount: joi.number().example(50),
+                  account: joi.string().required().example('http://dfsp1:8014/accounts/000000003'),
+                  amount: joi.number().required().example(50),
                   authorized: joi.any().valid([true, false]).example(true)
-                }).required()
-              ),
+                })
+              ).required(),
               credits: joi.array().items(
                 joi.object({
-                  account: joi.string().example('http://dfsp1:8014/accounts/000000004'),
-                  amount: joi.number().example(50)
-                }).required()
-              ),
+                  account: joi.string().required().example('http://dfsp1:8014/accounts/000000004'),
+                  amount: joi.number().required().example(50)
+                })
+              ).required(),
               execution_condition: joi.string().required().description('Crypto-Condition').example('cc:0:3:8ZdpKBDUV-KX_OnFZTsCWB_5mlCFI3DynX5f5H2dN-Y:2'),
               cancellation_condition: joi.string().allow(null).example(null),
               expires_at: joi.date().required().example('2015-06-16T00:00:01.000Z')
-            }
+            },
+            failAction: validationFailHandler
           },
           plugins: {
             'hapi-swagger': {
@@ -113,7 +122,14 @@ module.exports = {
         rpc: 'ledger.transfer.get',
         path: '/ledger/transfers/{id}',
         reply: (reply, response, $meta) => {
-          reply(response, {'content-type': 'application/json'}, 200)
+          if (!response.error) {
+            return reply(response, {'content-type': 'application/json'}, 200)
+          }
+
+          return reply({
+            id: response.error.type,
+            message: response.error.message
+          }, {'content-type': 'application/json'}, response.debug.statusCode || 400)
         },
         config: {
           description: 'Get Transfer by ID',
@@ -121,8 +137,9 @@ module.exports = {
           tags: ['api'],
           validate: {
             params: joi.object({
-              id: joi.string().example('3a2a1d9e-8640-4d2d-b06c-84f2cd613300').description('The UUID for the local transfer')
-            })
+              id: joi.string().regex(/^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$/).example('3a2a1d9e-8640-4d2d-b06c-84f2cd613300').description('The UUID for the local transfer')
+            }),
+            failAction: validationFailHandler
           },
           plugins: {
             'hapi-swagger': {
@@ -164,7 +181,14 @@ module.exports = {
         rpc: 'ledger.transfer.getFulfillment',
         path: '/ledger/transfers/{id}/fulfillment',
         reply: (reply, response, $meta) => {
-          reply(response, {'content-type': 'text/plain'}, 200)
+          if (!response.error) {
+            return reply(response, {'content-type': 'text/plain'}, 200)
+          }
+
+          return reply({
+            id: response.error.type,
+            message: response.error.message
+          }, {'content-type': 'application/json'}, response.debug.statusCode || 400)
         },
         config: {
           description: 'Get Transfer Fulfillment',
@@ -172,8 +196,9 @@ module.exports = {
           tags: ['api'],
           validate: {
             params: joi.object({
-              id: joi.string().example('3a2a1d9e-8640-4d2d-b06c-84f2cd613300').description('The UUID for the local transfer')
-            })
+              id: joi.string().required().regex(/^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$/).example('3a2a1d9e-8640-4d2d-b06c-84f2cd613300').description('The UUID for the local transfer')
+            }),
+            failAction: validationFailHandler
           },
           plugins: {
             'hapi-swagger': {
@@ -196,7 +221,14 @@ module.exports = {
         rpc: 'ledger.transfer.execute',
         path: '/ledger/transfers/{transferId}/fulfillment',
         reply: (reply, response, $meta) => {
-          reply(response, {'content-type': 'text/plain'}, 200)
+          if (!response.error) {
+            return reply(response, {'content-type': 'text/plain'}, 200)
+          }
+
+          return reply({
+            id: response.error.type,
+            message: response.error.message
+          }, {'content-type': 'application/json'}, response.debug.statusCode || 400)
         },
         config: {
           description: 'Execute prepared transfer',
@@ -204,9 +236,10 @@ module.exports = {
           tags: ['api'],
           validate: {
             params: joi.object({
-              transferId: joi.string().example('3a2a1d9e-8640-4d2d-b06c-84f2cd613300').description('The UUID for the local transfer')
+              transferId: joi.string().required().regex(/^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$/).example('3a2a1d9e-8640-4d2d-b06c-84f2cd613300').description('The UUID for the local transfer')
             }),
-            payload: joi.string().example('cf:0:_v8').description('Payload should be a Crypto-Condition Fulfillment in text format')
+            payload: joi.string().required().example('cf:0:_v8').description('Payload should be a Crypto-Condition Fulfillment in text format'),
+            failAction: validationFailHandler
           },
           plugins: {
             'hapi-swagger': {
@@ -237,11 +270,9 @@ module.exports = {
   'transfer.hold.request.send': function (msg, $meta) {
     var debit = msg.debits && msg.debits[0]
     var credit = msg.credits && msg.credits[0]
-    if (!credit || !debit) {
-      // TODO: throw invalid params exception
-    }
+
     if (debit.amount !== credit.amount) {
-      // TODO: throw invalid params exception
+      throw error.unprocessableEntity({ message: 'Debits and credits are not equal' })
     }
 
     return {
@@ -275,6 +306,19 @@ module.exports = {
       'expires_at': transfer.expiresAt
     }
   },
+  'transfer.hold.error.receive': function (err, $meta) {
+    switch (err.message) {
+      case 'ledger.insufficientFunds':
+        throw error.insufficientFunds()
+      case 'ledger.alreadyExists':
+        throw error.alreadyExist()
+      case 'ledger.debitAccountNotFound':
+      case 'ledger.creditAccountNotFound':
+        throw error.unprocessableEntity({ message: 'Account `unknown` does not exist' })
+      default:
+        throw error.unknown()
+    }
+  },
   'transfer.execute.request.send': function (msg, $meta) {
     msg.fulfillment = msg.plainText
     msg.condition = cc.fulfillmentToCondition(msg.plainText)
@@ -283,15 +327,28 @@ module.exports = {
     return msg
   },
   'transfer.execute.response.receive': function (msg, $meta) {
+    if (msg.length === 0) {
+      throw error.notFound()
+    }
     return msg[0]['fulfillment']
+  },
+  'transfer.execute.error.receive': function (err, $meta) {
+    switch (err.message) {
+      case 'transfer.unmetCondition':
+        throw error.unmetCondition()
+      case 'ledger.transferIsProcessedAlready':
+        throw error.alreadyExists()
+      default:
+        throw error.unknown()
+    }
   },
   'transfer.getFulfillment.request.send': function (msg, $meta) {
     msg.uuid = msg.id
     return msg
   },
   'transfer.getFulfillment.response.receive': function (msg, $meta) {
-    if (msg[0]['transfer.getFulfillment'] === null) {
-      throw error.transferNotFound()
+    if (msg.length === 0 || msg[0]['transfer.getFulfillment'] === null) {
+      throw error.notFound()
     }
     return msg[0]['transfer.getFulfillment']
   },
@@ -301,7 +358,9 @@ module.exports = {
   },
   'transfer.get.response.receive': function (msg, $meta) {
     var transfer = msg[0]
-
+    if (msg.length === 0) {
+      throw error.notFound()
+    }
     return {
       'id': ledgerAddress + '/transfers/' + transfer.uuid,
       'ledger': ledgerAddress,
@@ -328,4 +387,24 @@ module.exports = {
 
 function ledgerAccountToUri (accountNumber) {
   return ledgerAddress + '/accounts/' + accountNumber
+}
+
+function validationFailHandler (request, reply, source, error) {
+  var response = {}
+  if (source === 'params') {
+    response.id = 'InvalidUriParameterError'
+    response.message = 'id is not a valid Uuid'
+  } else {
+    response.id = 'InvalidBodyError'
+    response.message = 'Body did not match schema'
+  }
+
+  response.validationErrors = []
+  error.data.details.forEach((err) => {
+    response.validationErrors.push({
+      message: err.message,
+      params: err.context
+    })
+  })
+  return reply(response)
 }
