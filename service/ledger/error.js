@@ -74,7 +74,7 @@ module.exports = {
   },
   notFound: function (params) {
     return new NotFound({
-      message: 'Unknown transfer.',
+      message: params.message,
       statusCode: 404,
       params: params
     })

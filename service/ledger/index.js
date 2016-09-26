@@ -32,6 +32,29 @@ module.exports = {
       {
         rpc: 'ledger.account.get',
         path: '/ledger/accounts/{accountNumber}',
+        reply: (reply, response, $meta) => {
+          return reply(response, {'content-type': 'application/json'}, 200)
+        },
+        config: {
+          description: 'Get Server Metadata',
+          notes: 'Receive information about the ILP Ledger Adapter.',
+          tags: ['api'],
+          validate: {
+            params: {
+              accountNumber: joi.string().required()
+            }
+          },
+          plugins: {
+            'hapi-swagger': {
+              responses: {
+                '200': {
+                  description: 'Transfer was executed successfully.',
+                  schema: joi.object()
+                }
+              }
+            }
+          }
+        },
         method: 'get'
       },
       {
@@ -258,7 +281,7 @@ module.exports = {
         rpc: 'ledger.getServerMeta',
         path: '/ledger',
         reply: (reply, response, $meta) => {
-          return reply(response, {'content-type': 'text/plain'}, 200)
+          return reply(response, {'content-type': 'application/json'}, 200)
         },
         config: {
           description: 'Get Server Metadata',
@@ -366,7 +389,7 @@ module.exports = {
   },
   'transfer.execute.response.receive': function (msg, $meta) {
     if (msg.length === 0) {
-      throw error.notFound()
+      throw error.notFound({ message: 'Unknown transfer.' })
     }
     return msg[0]['fulfillment']
   },
@@ -386,7 +409,7 @@ module.exports = {
   },
   'transfer.getFulfillment.response.receive': function (msg, $meta) {
     if (msg.length === 0 || msg[0]['transfer.getFulfillment'] === null) {
-      throw error.notFound()
+      throw error.notFound({ message: 'Unknown transfer.' })
     }
     return msg[0]['transfer.getFulfillment']
   },
@@ -397,7 +420,7 @@ module.exports = {
   'transfer.get.response.receive': function (msg, $meta) {
     var transfer = msg[0]
     if (msg.length === 0) {
-      throw error.notFound()
+      throw error.notFound({ message: 'Unknown transfer.' })
     }
     return {
       'id': ledgerAddress + '/transfers/' + transfer.uuid,
@@ -419,6 +442,19 @@ module.exports = {
         'prepared_at': transfer.preparedAt,
         'executed_at': transfer.executedAt
       }
+    }
+  },
+  'account.get.response.receive': function (msg, $meta) {
+    var account = msg[0]
+    if (msg.length === 0) {
+      throw error.notFound({ message: 'Unknown account.' })
+    }
+
+    return {
+      id: ledgerAddress + '/accounts/' + account.accountNumber,
+      name: account.accountNumber,
+      balance: account.balance,
+      is_disabled: account.isDisable
     }
   },
   'getServerMeta': function (msg, $meta) {
