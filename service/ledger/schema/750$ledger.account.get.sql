@@ -1,5 +1,5 @@
 CREATE OR REPLACE FUNCTION ledger."account.get" (
-  "accountNumber" varchar
+  "@accountNumber" varchar
 )
 RETURNS TABLE (
   "accountNumber" varchar,
@@ -14,7 +14,7 @@ $body$
     FROM
         ledger."account" a
     WHERE
-        a."accountNumber"="accountNumber"
+        a."accountNumber"="@accountNumber"
 $body$
 LANGUAGE 'sql'
  
