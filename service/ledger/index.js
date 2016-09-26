@@ -33,7 +33,14 @@ module.exports = {
         rpc: 'ledger.account.get',
         path: '/ledger/accounts/{accountNumber}',
         reply: (reply, response, $meta) => {
-          return reply(response, {'content-type': 'application/json'}, 200)
+          if (!response.error) {
+            return reply(response, {'content-type': 'application/json'}, 200)
+          }
+
+          return reply({
+            id: response.error.type,
+            message: response.error.message
+          }, {'content-type': 'application/json'}, response.debug.statusCode || 400)
         },
         config: {
           description: 'Get Server Metadata',
