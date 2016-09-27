@@ -66,8 +66,8 @@ module.exports = {
           }, {'content-type': 'application/json'}, response.debug.statusCode || 400)
         },
         config: {
-          description: 'Get Server Metadata',
-          notes: 'Receive information about the ILP Ledger Adapter.',
+          description: 'Get ledger account',
+          notes: 'Receive information about ledger account.',
           tags: ['api'],
           validate: {
             params: {
@@ -90,6 +90,45 @@ module.exports = {
       {
         rpc: 'ledger.account.edit',
         path: '/ledger/accounts/{accountNumber}',
+        reply: (reply, response, $meta) => {
+          if (!response.error) {
+            return reply(response, {'content-type': 'application/json'}, 200)
+          }
+
+          return reply({
+            id: response.error.type,
+            message: response.error.message
+          }, {'content-type': 'application/json'}, response.debug.statusCode || 400)
+        },
+        config: {
+          description: 'Create account',
+          tags: ['api'],
+          validate: {
+            params: {
+              accountNumber: joi.string().required()
+            },
+            payload: {
+              name: joi.string().min(1).required(),
+              balance: joi.string().required()
+            },
+            failAction: validationFailHandler
+          },
+          plugins: {
+            'hapi-swagger': {
+              responses: {
+                '200': {
+                  description: 'Account created successfully.',
+                  schema: joi.object({
+                    id: joi.string(),
+                    name: joi.string(),
+                    balance: joi.string(),
+                    is_disabled: joi.string().allow([0, 1])
+                  })
+                }
+              }
+            }
+          }
+        },
         method: 'put'
       },
       {
@@ -501,6 +540,32 @@ module.exports = {
       },
       precision: 10,
       scale: 2
+    }
+  },
+  'account.edit.request.send': function (msg, $meta) {
+    return {
+      accountNumber: msg.accountNumber,
+      debit: 0,
+      credit: msg.balance,
+      name: msg.name,
+      displayName: msg.name,
+      accountTypeId: 1,
+      currencyId: 'USD'
+    }
+  },
+  'account.edit.response.receive': function (msg, $meta) {
+    var account = msg[0]
+    if (account.length === 0) {
+      throw error.notFound({ message: 'Unknown account.' })
+    }
+    if (account.accountNumber.length === 0) {
+      throw error.InvalidUriParameter()
+    }
+    return {
+      id: ledgerPrefix + '/accounts/' + account.accountNumber,
+      name: account.accountNumber,
+      balance: account.balance,
+      is_disabled: !account.isActive
     }
   }
 }
