@@ -3,12 +3,11 @@ var cc = require('five-bells-condition')
 var error = require('./error')
 var joi = require('joi')
 var domain = 'http://dfsp1:8014'
-var ledgerPrefix = domain + '/ledger'
 var publish
 function buildTransferResource (transfer) {
   return {
-    'id': ledgerPrefix + '/transfers/' + transfer.id,
-    'ledger': ledgerPrefix,
+    'id': domain + '/transfers/' + transfer.id,
+    'ledger': domain,
     'debits': [{
       'account': ledgerAccountToUri(transfer.debitAccount),
       'amount': transfer.amount
@@ -490,8 +489,8 @@ module.exports = {
       throw error.notFound({ message: 'Unknown transfer.' })
     }
     return {
-      'id': ledgerPrefix + '/transfers/' + transfer.uuid,
-      'ledger': ledgerPrefix,
+      'id': domain + '/transfers/' + transfer.uuid,
+      'ledger': domain,
       'debits': [{
         'account': ledgerAccountToUri(transfer.debitAccount),
         'amount': transfer.amount
@@ -531,12 +530,12 @@ module.exports = {
       condition_sign_public_key: '',
       notification_sign_public_key: '',
       urls: {
-        transfer: ledgerPrefix + '/transfers/:id',
-        transfer_fulfillment: ledgerPrefix + '/transfers/:id/fulfillment',
-        transfer_state: ledgerPrefix + ledgerPrefix + '/transfers/:id/state',
+        transfer: domain + '/transfers/:id',
+        transfer_fulfillment: domain + '/transfers/:id/fulfillment',
+        transfer_state: domain + '/transfers/:id/state',
         accounts: domain + '/accounts',
         account: domain + '/accounts/:name',
-        subscription: ledgerPrefix + '/subscriptions/:id'
+        subscription: domain + '/subscriptions/:id'
       },
       precision: 10,
       scale: 2
@@ -562,7 +561,7 @@ module.exports = {
       throw error.InvalidUriParameter()
     }
     return {
-      id: ledgerPrefix + '/accounts/' + account.accountNumber,
+      id: domain + '/accounts/' + account.accountNumber,
       name: account.accountNumber,
       balance: account.balance,
       is_disabled: !account.isActive
