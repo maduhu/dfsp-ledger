@@ -4,8 +4,9 @@ var config = require('./../lib/appConfig')
 var joi = require('joi')
 var uuid = require('uuid')
 const UUID = uuid.v4()
-const DEBITACCOUNT = 'http://usd-ledger.example/accounts/000000001'
-const CREDITACCOUNT = 'http://usd-ledger.example/accounts/000000002'
+const BASE = 'http://dfsp1:8014'
+const DEBITACCOUNT = BASE + '/accounts/000000001'
+const CREDITACCOUNT = BASE + '/accounts/000000002'
 const AMOUNT = '50.00'
 const EXECUTEDSTATE = 'executed'
 const PREPAREDSTATE = 'prepared'
@@ -25,8 +26,8 @@ test({
         return request
           .put(UUID)
           .send({
-            'id': 'http://usd-ledger.example/transfers/' + UUID,
-            'ledger': 'http://usd-ledger.example',
+            'id': BASE + '/transfers/' + UUID,
+            'ledger': BASE,
             'debits': [{
               'account': DEBITACCOUNT,
               'amount': AMOUNT,
