@@ -1,3 +1,23 @@
+<a name="0.4.0"></a>
+# [0.4.0](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.3.1...v0.4.0) (2016-09-27)
+
+
+### Bug Fixes
+
+* add uuid npm package for uuid generation ([bab47bf](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/bab47bf))
+* change parameter name of account.get method ([157faeb](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/157faeb))
+
+
+### Features
+
+* change error format for account.get method ([79ad1eb](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/79ad1eb))
+* initial implementation for account.edit method ([d08df96](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/d08df96))
+* initial implementation for account.get method ([4f3e3b2](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/4f3e3b2))
+* initial implementation for ledger.getServerMeta method ([4bde7dc](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/4bde7dc))
+* modify error response format to match the requirements ([0d726fe](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/0d726fe))
+
+
+
 <a name="0.3.1"></a>
 ## [0.3.1](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.3.0...v0.3.1) (2016-09-21)
 
