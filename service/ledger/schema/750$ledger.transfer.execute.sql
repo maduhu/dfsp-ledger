@@ -1,9 +1,25 @@
 ﻿CREATE OR replace FUNCTION ledger."transfer.execute"("@transferId" CHARACTER varying ,
                                                      "@condition" CHARACTER varying ,
                                                      "@fulfillment" CHARACTER varying(100))
-RETURNS TABLE(fulfillment CHARACTER varying(100))
+RETURNS TABLE(
+  "uuid" character varying(100),
+  "debitAccount" character varying(20),
+  "creditAccount" character varying(20),
+  "amount" numeric(19,2),
+  "executionCondition" character varying(100),
+  "cancellationCondition" character varying(100),
+  "state" character varying(25),
+  "expiresAt" timestamp,
+  "creationDate" timestamp,
+  "proposedAt" timestamp,
+  "preparedAt" timestamp,
+  "executedAt"timestamp,
+  "rejectedAt" timestamp,
+  "fulfillment" character varying(100)
+)
 AS
   $body$
+  #variable_conflict use_column
   DECLARE
     "@executionCondition" CHARACTER varying(100);
     "@cancellationCondition" CHARACTER varying(100);
@@ -80,8 +96,8 @@ AS
 
     END IF ;
     RETURN query
-    SELECT t.fulfillment
-    FROM   ledger.transfer AS t
-    WHERE  t."uuid" = "@transferId";
+    SELECT
+      *
+    FROM ledger."transfer.get"("@transferId");
 
   END $body$ LANGUAGE plpgsql

@@ -4,7 +4,7 @@ var error = require('./error')
 var joi = require('joi')
 var domain = 'http://dfsp1:8014'
 var ledgerPrefix = domain + '/ledger'
-
+var publish
 module.exports = {
   schema: [{
     path: path.join(__dirname, 'schema'),
@@ -15,7 +15,6 @@ module.exports = {
       return
     }
     var port = this
-    var publish
     try {
       publish = this.registerSocketServer('/accounts/{account}/transfers')
     } catch (e) {
@@ -85,8 +84,6 @@ module.exports = {
         path: '/ledger/transfers/{id}',
         reply: (reply, response, $meta) => {
           if (!response.error) {
-            response.debits.forEach((debit) => publish({account: uriToLedgerAccount(debit.account)}, response))
-            response.credits.forEach((credit) => publish({account: uriToLedgerAccount(credit.account)}, response))
             return reply(response, {'content-type': 'application/json'}, 201)
           }
 
@@ -364,7 +361,7 @@ module.exports = {
   },
   'transfer.hold.response.receive': function (msg, $meta) {
     var transfer = msg[0]
-    return {
+    var response = {
       'id': ledgerPrefix + '/transfers/' + transfer.id,
       'ledger': ledgerPrefix,
       'debits': [{
@@ -380,6 +377,9 @@ module.exports = {
       'state': transfer.state,
       'expires_at': transfer.expiresAt
     }
+    publish({account: transfer.debitAccount}, response)
+    publish({account: transfer.creditAccount}, response)
+    return response
   },
   'transfer.hold.error.receive': function (err, $meta) {
     switch (err.message) {
