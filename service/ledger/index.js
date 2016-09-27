@@ -2,7 +2,8 @@ var path = require('path')
 var cc = require('five-bells-condition')
 var error = require('./error')
 var joi = require('joi')
-var ledgerAddress = 'dfsp1:8014/ledger'
+var domain = 'http://dfsp1:8014'
+var ledgerPrefix = domain + '/ledger'
 
 module.exports = {
   schema: [{
@@ -14,7 +15,12 @@ module.exports = {
       return
     }
     var port = this
-
+    var publish
+    try {
+      publish = this.registerSocketServer('/accounts/{account}/transfers')
+    } catch (e) {
+      publish = function noop () {}
+    }
     function rest (request, reply, method, customReply) {
       // Used in case header is "Content-Type: text/plain"
       if (typeof request.payload === 'string') {
@@ -67,45 +73,6 @@ module.exports = {
       {
         rpc: 'ledger.account.edit',
         path: '/ledger/accounts/{accountNumber}',
-        reply: (reply, response, $meta) => {
-          if (!response.error) {
-            return reply(response, {'content-type': 'application/json'}, 200)
-          }
-
-          return reply({
-            id: response.error.type,
-            message: response.error.message
-          }, {'content-type': 'application/json'}, response.debug.statusCode || 400)
-        },
-        config: {
-          description: 'Create account',
-          tags: ['api'],
-          validate: {
-            params: {
-              accountNumber: joi.string().required()
-            },
-            payload: {
-              name: joi.string().min(1).required(),
-              balance: joi.string().required()
-            },
-            failAction: validationFailHandler
-          },
-          plugins: {
-            'hapi-swagger': {
-              responses: {
-                '200': {
-                  description: 'Account created successfully.',
-                  schema: joi.object({
-                    id: joi.string(),
-                    name: joi.string(),
-                    balance: joi.string(),
-                    is_disabled: joi.string().allow([0, 1])
-                  })
-                }
-              }
-            }
-          }
-        },
         method: 'put'
       },
       {
@@ -118,6 +85,8 @@ module.exports = {
         path: '/ledger/transfers/{id}',
         reply: (reply, response, $meta) => {
           if (!response.error) {
+            response.debits.forEach((debit) => publish({account: uriToLedgerAccount(debit.account)}, response))
+            response.credits.forEach((credit) => publish({account: uriToLedgerAccount(credit.account)}, response))
             return reply(response, {'content-type': 'application/json'}, 201)
           }
 
@@ -135,18 +104,18 @@ module.exports = {
               id: joi.string().regex(/^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$/).example('3a2a1d9e-8640-4d2d-b06c-84f2cd613300').description('The UUID for the local transfer')
             }),
             payload: {
-              id: joi.string().required().example('http://dfsp1:8014/transfers/3a2a1d9e-8640-4d2d-b06c-84f2cd613300'),
-              ledger: joi.string().required().example('http://dfsp1:8014'),
+              id: joi.string().required().example(domain + '/transfers/3a2a1d9e-8640-4d2d-b06c-84f2cd613300'),
+              ledger: joi.string().required().example(domain),
               debits: joi.array().items(
                 joi.object({
-                  account: joi.string().required().example('http://dfsp1:8014/accounts/000000003'),
+                  account: joi.string().required().example(domain + '/accounts/000000003'),
                   amount: joi.number().required().example(50),
                   authorized: joi.any().valid([true, false]).example(true)
                 })
               ).required(),
               credits: joi.array().items(
                 joi.object({
-                  account: joi.string().required().example('http://dfsp1:8014/accounts/000000004'),
+                  account: joi.string().required().example(domain + '/accounts/000000004'),
                   amount: joi.number().required().example(50)
                 })
               ).required(),
@@ -371,7 +340,6 @@ module.exports = {
         }, route.config)
       }
     })
-
     this.registerRequestHandler(routes)
   },
   'transfer.hold.request.send': function (msg, $meta) {
@@ -384,8 +352,8 @@ module.exports = {
 
     return {
       uuid: msg.id,
-      debitAccount: debit.account.split('/').pop(),
-      creditAccount: credit.account.split('/').pop(),
+      debitAccount: uriToLedgerAccount(debit.account),
+      creditAccount: uriToLedgerAccount(credit.account),
       amount: debit.amount,
       executionCondition: msg.execution_condition,
       cancellationCondition: msg.cancellation_condition,
@@ -397,8 +365,8 @@ module.exports = {
   'transfer.hold.response.receive': function (msg, $meta) {
     var transfer = msg[0]
     return {
-      'id': ledgerAddress + '/transfers/' + transfer.id,
-      'ledger': ledgerAddress,
+      'id': ledgerPrefix + '/transfers/' + transfer.id,
+      'ledger': ledgerPrefix,
       'debits': [{
         'account': ledgerAccountToUri(transfer.debitAccount),
         'amount': transfer.amount
@@ -469,8 +437,8 @@ module.exports = {
       throw error.notFound({ message: 'Unknown transfer.' })
     }
     return {
-      'id': ledgerAddress + '/transfers/' + transfer.uuid,
-      'ledger': ledgerAddress,
+      'id': ledgerPrefix + '/transfers/' + transfer.uuid,
+      'ledger': ledgerPrefix,
       'debits': [{
         'account': ledgerAccountToUri(transfer.debitAccount),
         'amount': transfer.amount
@@ -497,7 +465,7 @@ module.exports = {
     }
 
     return {
-      id: ledgerAddress + '/accounts/' + account.accountNumber,
+      id: domain + '/accounts/' + account.accountNumber,
       name: account.accountNumber,
       balance: account.balance,
       is_disabled: account.isDisable
@@ -510,47 +478,30 @@ module.exports = {
       condition_sign_public_key: '',
       notification_sign_public_key: '',
       urls: {
-        transfer: ledgerAddress + '/transfers/:id',
-        transfer_fulfillment: ledgerAddress + '/transfers/:id/fulfillment',
-        transfer_state: ledgerAddress + ledgerAddress + '/transfers/:id/state',
-        accounts: ledgerAddress + '/accounts',
-        account: ledgerAddress + '/accounts/:name',
-        subscription: ledgerAddress + '/subscriptions/:id'
+        transfer: ledgerPrefix + '/transfers/:id',
+        transfer_fulfillment: ledgerPrefix + '/transfers/:id/fulfillment',
+        transfer_state: ledgerPrefix + ledgerPrefix + '/transfers/:id/state',
+        accounts: domain + '/accounts',
+        account: domain + '/accounts/:name',
+        subscription: ledgerPrefix + '/subscriptions/:id'
       },
       precision: 10,
       scale: 2
-    }
-  },
-  'account.edit.request.send': function (msg, $meta) {
-    return {
-      accountNumber: msg.accountNumber,
-      debit: 0,
-      credit: msg.balance,
-      name: msg.name,
-      displayName: msg.name,
-      accountTypeId: 1,
-      currencyId: 'USD'
-    }
-  },
-  'account.edit.response.receive': function (msg, $meta) {
-    var account = msg[0]
-    if (msg.length === 0) {
-      throw error.notFound({ message: 'Unknown account.' })
-    }
-    if (msg.name.length === 0) {
-      throw error.InvalidUriParameter()
-    }
-    return {
-      id: ledgerAddress + '/accounts/' + account.accountNumber,
-      name: account.accountNumber,
-      balance: account.balance,
-      is_disabled: !account.isActive
     }
   }
 }
 
 function ledgerAccountToUri (accountNumber) {
-  return ledgerAddress + '/accounts/' + accountNumber
+  return domain + '/accounts/' + accountNumber
+}
+function uriToLedgerAccount (uri) {
+  var account = (typeof uri === 'string') && uri.split(domain + '/accounts/')[1]
+  if (!account) {
+    throw error.accountNotFound({
+      uri: uri
+    })
+  }
+  return account
 }
 
 function validationFailHandler (request, reply, source, error) {
