@@ -5,6 +5,24 @@ var joi = require('joi')
 var domain = 'http://dfsp1:8014'
 var ledgerPrefix = domain + '/ledger'
 var publish
+function buildTransferResource(transfer) {
+  return {
+    'id': ledgerPrefix + '/transfers/' + transfer.id,
+    'ledger': ledgerPrefix,
+    'debits': [{
+      'account': ledgerAccountToUri(transfer.debitAccount),
+      'amount': transfer.amount
+    }],
+    'credits': [{
+      'account': ledgerAccountToUri(transfer.creditAccount),
+      'amount': transfer.amount
+    }],
+    'execution_condition': transfer.executionCondition,
+    'cancellation_condition': transfer.cancellationCondition,
+    'state': transfer.state,
+    'expires_at': transfer.expiresAt
+  }
+}
 module.exports = {
   schema: [{
     path: path.join(__dirname, 'schema'),
@@ -362,24 +380,11 @@ module.exports = {
   'transfer.hold.response.receive': function (msg, $meta) {
     var transfer = msg[0]
     var response = {
-      'id': ledgerPrefix + '/transfers/' + transfer.id,
-      'ledger': ledgerPrefix,
-      'debits': [{
-        'account': ledgerAccountToUri(transfer.debitAccount),
-        'amount': transfer.amount
-      }],
-      'credits': [{
-        'account': ledgerAccountToUri(transfer.creditAccount),
-        'amount': transfer.amount
-      }],
-      'execution_condition': transfer.executionCondition,
-      'cancellation_condition': transfer.cancellationCondition,
-      'state': transfer.state,
-      'expires_at': transfer.expiresAt
+      resource: buildTransferResource(transfer)
     }
     publish({account: transfer.debitAccount}, response)
     publish({account: transfer.creditAccount}, response)
-    return response
+    return response.resource
   },
   'transfer.hold.error.receive': function (err, $meta) {
     switch (err.message) {
@@ -405,7 +410,16 @@ module.exports = {
     if (msg.length === 0) {
       throw error.notFound({ message: 'Unknown transfer.' })
     }
-    return msg[0]['fulfillment']
+    var transfer = msg[0];
+    var response = {
+      resource: buildTransferResource(transfer),
+      related_resources: {
+        execution_condition_fulfillment: transfer.fulfillment
+      }
+    }
+    publish({account: transfer.debitAccount}, response)
+    publish({account: transfer.creditAccount}, response)
+    return transfer.fulfillment
   },
   'transfer.execute.error.receive': function (err, $meta) {
     switch (err.message) {
