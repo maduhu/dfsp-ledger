@@ -1,3 +1,14 @@
+<a name="0.4.1"></a>
+## [0.4.1](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.4.0...v0.4.1) (2016-09-27)
+
+
+### Bug Fixes
+
+* fix dependencies ([5b261a6](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/5b261a6))
+* typos and socketServer integration ([04a772a](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/04a772a))
+
+
+
 <a name="0.4.0"></a>
 # [0.4.0](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.3.1...v0.4.0) (2016-09-27)
 
