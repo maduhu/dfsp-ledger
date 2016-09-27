@@ -5,7 +5,7 @@ var joi = require('joi')
 var domain = 'http://dfsp1:8014'
 var ledgerPrefix = domain + '/ledger'
 var publish
-function buildTransferResource(transfer) {
+function buildTransferResource (transfer) {
   return {
     'id': ledgerPrefix + '/transfers/' + transfer.id,
     'ledger': ledgerPrefix,
@@ -410,7 +410,7 @@ module.exports = {
     if (msg.length === 0) {
       throw error.notFound({ message: 'Unknown transfer.' })
     }
-    var transfer = msg[0];
+    var transfer = msg[0]
     var response = {
       resource: buildTransferResource(transfer),
       related_resources: {
