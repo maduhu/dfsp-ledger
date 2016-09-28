@@ -33,7 +33,7 @@ module.exports = {
     }
     var port = this
     try {
-      publish = this.registerSocketServer('/accounts/{account}/transfers')
+      publish = this.registerSocketSubscription('/accounts/{account}/transfers')
     } catch (e) {
       publish = function noop () {}
     }
