@@ -536,6 +536,7 @@ module.exports = {
         transfer_state: baseUrl + '/transfers/:id/state',
         accounts: baseUrl + '/accounts',
         account: baseUrl + '/accounts/:name',
+        account_transfers: baseUrl + '/accounts/:name/transfers',
         subscription: baseUrl + '/subscriptions/:id'
       },
       precision: 10,

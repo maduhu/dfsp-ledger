@@ -52,6 +52,7 @@ test({
             transfer_state: joi.string(),
             accounts: joi.string(),
             account: joi.string(),
+            account_transfers: joi.string(),
             subscription: joi.string()
           }),
           precision: joi.number().integer(),
