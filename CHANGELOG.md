@@ -1,3 +1,13 @@
+<a name="0.6.3"></a>
+## [0.6.3](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.6.2...v0.6.3) (2016-09-28)
+
+
+### Bug Fixes
+
+* return id instead of uuid ([4762e4b](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/4762e4b))
+
+
+
 <a name="0.6.2"></a>
 ## [0.6.2](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.6.1...v0.6.2) (2016-09-28)
 
