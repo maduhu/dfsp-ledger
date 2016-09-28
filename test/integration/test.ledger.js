@@ -1,16 +1,22 @@
+var seed = (Date.now() - 1463200000000) * 10000 // 1463200000000 is 14 May 2016
+function next () {
+  seed += 1
+  return seed
+}
+
 var request = require('supertest-as-promised')('http://localhost:8014/')
 var test = require('ut-run/test')
 var config = require('./../lib/appConfig')
 var joi = require('joi')
 var uuid = require('uuid')
 const UUID = uuid.v4()
-const BASE = 'http://dfsp1:8014'
-const DEBITACCOUNTNUMBER = 'alice'
-const DEBITACCOUNTNAME = 'alice'
+const BASE = 'http://localhost:8014'
+const DEBITACCOUNTNUMBER = 'alice' + next()
+const DEBITACCOUNTNAME = 'Alice'
 const DEBITACCOUNTBALANCE = '1000.00'
 const DEBITACCOUNT = BASE + '/accounts/' + DEBITACCOUNTNUMBER
-const CREDITACCOUNTNUMBER = 'bob'
-const CREDITACCOUNTNAME = 'alice'
+const CREDITACCOUNTNUMBER = 'bob' + next()
+const CREDITACCOUNTNAME = 'Bob'
 const CREDITACCOUNTBALANCE = '1000.00'
 const CREDITACCOUNT = BASE + '/accounts/' + CREDITACCOUNTNUMBER
 const AMOUNT = '50.00'
