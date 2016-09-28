@@ -534,10 +534,10 @@ module.exports = {
       urls: {
         transfer: baseUrl + '/transfers/:id',
         transfer_fulfillment: baseUrl + '/transfers/:id/fulfillment',
-        transfer_state: baseUrl.replace(/^https?:\/\//, 'ws://') + '/transfers/:id/state',
+        transfer_state: baseUrl + '/transfers/:id/state',
         accounts: baseUrl + '/accounts',
         account: baseUrl + '/accounts/:name',
-        account_transfers: baseUrl + '/accounts/:name/transfers',
+        account_transfers: baseUrl.replace(/^https?:\/\//, 'ws://') + '/accounts/:name/transfers',
         subscription: baseUrl + '/subscriptions/:id'
       },
       precision: 10,
