@@ -1,3 +1,18 @@
+<a name="0.6.0"></a>
+# [0.6.0](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.5.1...v0.6.0) (2016-09-28)
+
+
+### Bug Fixes
+
+* fix URL issues ([6e4ca84](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/6e4ca84))
+
+
+### Features
+
+* add ledger.account.remove db function ([718d6f7](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/718d6f7))
+
+
+
 <a name="0.5.1"></a>
 ## [0.5.1](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.5.0...v0.5.1) (2016-09-28)
 
