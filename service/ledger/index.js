@@ -361,10 +361,10 @@ module.exports = {
                 '200': {
                   description: 'Transfer was executed successfully.',
                   schema: joi.object({
-                    currency_code: joi.string().allow(null),
-                    currency_symbol: joi.string().allow(null),
-                    condition_sign_public_key: joi.string().allow(null),
-                    notification_sign_public_key: joi.string().allow(null),
+                    currency_code: joi.string().allow([null, '']),
+                    currency_symbol: joi.string().allow([null, '']),
+                    condition_sign_public_key: joi.string().allow([null, '']),
+                    notification_sign_public_key: joi.string().allow([null, '']),
                     urls: joi.object({
                       transfer: joi.string(),
                       transfer_fulfillment: joi.string(),

@@ -1,12 +1,16 @@
-var request = require('supertest-as-promised')('http://localhost:8014/ledger/transfers/')
+var request = require('supertest-as-promised')('http://localhost:8014/')
 var test = require('ut-run/test')
 var config = require('./../lib/appConfig')
 var joi = require('joi')
 var uuid = require('uuid')
 const UUID = uuid.v4()
 const BASE = 'http://dfsp1:8014'
-const DEBITACCOUNT = BASE + '/accounts/000000001'
-const CREDITACCOUNT = BASE + '/accounts/000000002'
+const DEBITACCOUNTNUMBER = '000000001'
+const DEBITACCOUNTNAME = 'alice'
+const DEBITACCOUNTBALANCE = '1000.00'
+const DEBITACCOUNT = BASE + '/accounts/' + DEBITACCOUNTNUMBER
+const CREDITACCOUNTNUMBER = '000000002'
+const CREDITACCOUNT = BASE + '/accounts/' + CREDITACCOUNTNUMBER
 const AMOUNT = '50.00'
 const EXECUTEDSTATE = 'executed'
 const PREPAREDSTATE = 'prepared'
@@ -21,10 +25,72 @@ test({
   clientConfig: config.clientConfig,
   steps: function (test, bus, run) {
     run(test, bus, [{
+      name: 'Get server meta',
+      params: (context) => {
+        return request
+          .get('ledger')
+          .expect('Content-Type', /json/)
+          .expect(200)
+      },
+      result: (result, assert) => {
+        assert.equals(joi.validate(result.body, joi.object().keys({
+          currency_code: joi.string().allow([null, '']),
+          currency_symbol: joi.string().allow([null, '']),
+          condition_sign_public_key: joi.string().allow([null, '']),
+          notification_sign_public_key: joi.string().allow([null, '']),
+          urls: joi.object({
+            transfer: joi.string(),
+            transfer_fulfillment: joi.string(),
+            transfer_state: joi.string(),
+            accounts: joi.string(),
+            account: joi.string(),
+            subscription: joi.string()
+          }),
+          precision: joi.number().integer(),
+          scale: joi.number().integer()
+        })).error, null, 'return server meta')
+      }
+    }, {
+      name: 'Create ledger account',
+      params: (context) => {
+        return request
+          .put('ledger/accounts/' + DEBITACCOUNTNUMBER)
+          .send({
+            'name': DEBITACCOUNTNAME,
+            'balance': DEBITACCOUNTBALANCE
+          })
+          .expect('Content-Type', /json/)
+          .expect(200)
+      },
+      result: (result, assert) => {
+        assert.equals(joi.validate(result.body, joi.object().keys({
+          id: joi.string(),
+          name: joi.string(),
+          balance: joi.string(),
+          is_disabled: joi.any()
+        })).error, null, 'return ledger account details')
+      }
+    }, {
+      name: 'Get ledger account',
+      params: (context) => {
+        return request
+          .get('ledger/accounts/' + DEBITACCOUNTNUMBER)
+          .expect('Content-Type', /json/)
+          .expect(200)
+      },
+      result: (result, assert) => {
+        assert.equals(joi.validate(result.body, joi.object().keys({
+          id: joi.string(),
+          name: joi.string(),
+          balance: joi.string(),
+          is_disabled: joi.any()
+        })).error, null, 'return ledger account details')
+      }
+    }, {
       name: 'Transfer hold',
       params: (context) => {
         return request
-          .put(UUID)
+          .put('ledger/transfers/' + UUID)
           .send({
             'id': BASE + '/transfers/' + UUID,
             'ledger': BASE,
@@ -65,7 +131,7 @@ test({
       name: 'Execute Prepared Transfer',
       params: (context) => {
         return request
-          .put(UUID + '/fulfillment')
+          .put('ledger/transfers/' + UUID + '/fulfillment')
           .set('Content-type', 'text/plain')
           .send(FULFILLMENT)
           .expect('Content-Type', 'text/plain; charset=utf-8')
@@ -78,7 +144,7 @@ test({
       name: 'Get Transfer Fulfillment',
       params: (context) => {
         return request
-          .get(UUID + '/fulfillment')
+          .get('ledger/transfers/' + UUID + '/fulfillment')
           .expect('Content-Type', 'text/plain; charset=utf-8')
           .expect(200)
       },
@@ -89,7 +155,7 @@ test({
       name: 'Get Transfer by ID',
       params: (context) => {
         return request
-          .get(UUID)
+          .get('ledger/transfers/' + UUID)
           .expect('Content-Type', /json/)
           .expect(200)
       },
