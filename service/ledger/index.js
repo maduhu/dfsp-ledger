@@ -34,7 +34,7 @@ module.exports = {
     baseUrl = this.config.baseUrl
     var port = this
     try {
-      publish = this.registerSocketSubscription('/accounts/{account}/transfers')
+      publish = this.registerSocketSubscription('/ledger/accounts/{account}/transfers')
     } catch (e) {
       publish = function noop () {}
     }
@@ -534,8 +534,8 @@ module.exports = {
       urls: {
         transfer: baseUrl + '/transfers/:id',
         transfer_fulfillment: baseUrl + '/transfers/:id/fulfillment',
-        transfer_state: baseUrl + '/transfers/:id/state',
-        accounts: baseUrl.replace(/^https?:\/\//, 'ws://') + '/accounts',
+        transfer_state: baseUrl.replace(/^https?:\/\//, 'ws://') + '/transfers/:id/state',
+        accounts: baseUrl + '/accounts',
         account: baseUrl + '/accounts/:name',
         account_transfers: baseUrl + '/accounts/:name/transfers',
         subscription: baseUrl + '/subscriptions/:id'
