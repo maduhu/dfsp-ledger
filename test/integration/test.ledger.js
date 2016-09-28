@@ -5,11 +5,13 @@ var joi = require('joi')
 var uuid = require('uuid')
 const UUID = uuid.v4()
 const BASE = 'http://dfsp1:8014'
-const DEBITACCOUNTNUMBER = '000000001'
+const DEBITACCOUNTNUMBER = 'alice'
 const DEBITACCOUNTNAME = 'alice'
 const DEBITACCOUNTBALANCE = '1000.00'
 const DEBITACCOUNT = BASE + '/accounts/' + DEBITACCOUNTNUMBER
-const CREDITACCOUNTNUMBER = '000000002'
+const CREDITACCOUNTNUMBER = 'bob'
+const CREDITACCOUNTNAME = 'alice'
+const CREDITACCOUNTBALANCE = '1000.00'
 const CREDITACCOUNT = BASE + '/accounts/' + CREDITACCOUNTNUMBER
 const AMOUNT = '50.00'
 const EXECUTEDSTATE = 'executed'
@@ -51,13 +53,33 @@ test({
         })).error, null, 'return server meta')
       }
     }, {
-      name: 'Create ledger account',
+      name: 'Create first ledger account',
       params: (context) => {
         return request
           .put('ledger/accounts/' + DEBITACCOUNTNUMBER)
           .send({
             'name': DEBITACCOUNTNAME,
             'balance': DEBITACCOUNTBALANCE
+          })
+          .expect('Content-Type', /json/)
+          .expect(200)
+      },
+      result: (result, assert) => {
+        assert.equals(joi.validate(result.body, joi.object().keys({
+          id: joi.string(),
+          name: joi.string(),
+          balance: joi.string(),
+          is_disabled: joi.any()
+        })).error, null, 'return ledger account details')
+      }
+    }, {
+      name: 'Create second ledger account',
+      params: (context) => {
+        return request
+          .put('ledger/accounts/' + CREDITACCOUNTNUMBER)
+          .send({
+            'name': CREDITACCOUNTNAME,
+            'balance': CREDITACCOUNTBALANCE
           })
           .expect('Content-Type', /json/)
           .expect(200)
