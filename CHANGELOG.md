@@ -1,3 +1,17 @@
+<a name="0.4.2"></a>
+## [0.4.2](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.4.1...v0.4.2) (2016-09-28)
+
+
+### Bug Fixes
+
+* fix db functions and prepare socket publishing ([1025084](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/1025084))
+* fix socket notifications ([963ad20](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/963ad20))
+* linting ([f778785](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/f778785))
+* re-apply initial implemention for account.edit method ([153ea3d](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/153ea3d))
+* urls ([148b6a8](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/148b6a8))
+
+
+
 <a name="0.4.1"></a>
 ## [0.4.1](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.4.0...v0.4.1) (2016-09-27)
 
