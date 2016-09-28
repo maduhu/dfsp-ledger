@@ -1,3 +1,21 @@
+<a name="0.5.0"></a>
+# [0.5.0](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.4.2...v0.5.0) (2016-09-28)
+
+
+### Bug Fixes
+
+* add baseUrl setting to httpserver port ([a04f15c](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/a04f15c))
+* fix tests ([7bab61b](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/7bab61b))
+* rename registerSocketServer to registerSocketSubscription according to the latest changes in ut-port-httpserver ([6192934](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/6192934))
+* require proper httpserver port version ([0473b3c](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/0473b3c))
+
+
+### Features
+
+* create tests for getServerMeta, account.edit, account.get methods ([8146441](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/8146441))
+
+
+
 <a name="0.4.2"></a>
 ## [0.4.2](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.4.1...v0.4.2) (2016-09-28)
 
