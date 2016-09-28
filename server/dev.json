@@ -8,7 +8,7 @@
     }
   },
   "httpserver": {
-    "baseUrl": "http://localhost:8014"
+    "baseUrl": "http://localhost:8014/ledger"
   },
   "stdOut": {
     "mode": "dev"

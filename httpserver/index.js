@@ -3,12 +3,17 @@ module.exports = {
   id: 'httpserver',
   createPort: require('ut-port-httpserver'),
   logLevel: 'trace',
-  baseUrl: 'http://localhost:8014',
+  baseUrl: 'http://localhost:8014/ledger',
   api: ['ledger'],
-  port: 8014,
   bundle: 'ledger',
   dist: path.resolve(__dirname, '../dist'),
   imports: ['ledger.start'],
+  connections: [{
+    port: 8014,
+    router: {
+      stripTrailingSlash: true
+    }
+  }],
   routes: {
     rpc: {
       method: '*',

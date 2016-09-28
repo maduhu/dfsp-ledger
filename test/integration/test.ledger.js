@@ -4,13 +4,13 @@ function next () {
   return seed
 }
 
-var request = require('supertest-as-promised')('http://localhost:8014/')
+var request = require('supertest-as-promised')('http://localhost:8014/ledger/')
 var test = require('ut-run/test')
 var config = require('./../lib/appConfig')
 var joi = require('joi')
 var uuid = require('uuid')
 const UUID = uuid.v4()
-const BASE = 'http://localhost:8014'
+const BASE = 'http://localhost:8014/ledger'
 const DEBITACCOUNTNUMBER = 'alice' + next()
 const DEBITACCOUNTNAME = 'Alice'
 const DEBITACCOUNTBALANCE = '1000.00'
@@ -36,7 +36,7 @@ test({
       name: 'Get server meta',
       params: (context) => {
         return request
-          .get('ledger')
+          .get('')
           .expect('Content-Type', /json/)
           .expect(200)
       },
@@ -63,7 +63,7 @@ test({
       name: 'Create first ledger account',
       params: (context) => {
         return request
-          .put('ledger/accounts/' + DEBITACCOUNTNUMBER)
+          .put('accounts/' + DEBITACCOUNTNUMBER)
           .send({
             'name': DEBITACCOUNTNAME,
             'balance': DEBITACCOUNTBALANCE
@@ -83,7 +83,7 @@ test({
       name: 'Create second ledger account',
       params: (context) => {
         return request
-          .put('ledger/accounts/' + CREDITACCOUNTNUMBER)
+          .put('accounts/' + CREDITACCOUNTNUMBER)
           .send({
             'name': CREDITACCOUNTNAME,
             'balance': CREDITACCOUNTBALANCE
@@ -103,7 +103,7 @@ test({
       name: 'Get ledger account',
       params: (context) => {
         return request
-          .get('ledger/accounts/' + DEBITACCOUNTNUMBER)
+          .get('accounts/' + DEBITACCOUNTNUMBER)
           .expect('Content-Type', /json/)
           .expect(200)
       },
@@ -112,6 +112,7 @@ test({
           id: joi.string(),
           name: joi.string(),
           balance: joi.string(),
+          ledger: joi.string(),
           is_disabled: joi.any()
         })).error, null, 'return ledger account details')
       }
@@ -119,7 +120,7 @@ test({
       name: 'Transfer hold',
       params: (context) => {
         return request
-          .put('ledger/transfers/' + UUID)
+          .put('transfers/' + UUID)
           .send({
             'id': BASE + '/transfers/' + UUID,
             'ledger': BASE,
@@ -160,7 +161,7 @@ test({
       name: 'Execute Prepared Transfer',
       params: (context) => {
         return request
-          .put('ledger/transfers/' + UUID + '/fulfillment')
+          .put('transfers/' + UUID + '/fulfillment')
           .set('Content-type', 'text/plain')
           .send(FULFILLMENT)
           .expect('Content-Type', 'text/plain; charset=utf-8')
@@ -173,7 +174,7 @@ test({
       name: 'Get Transfer Fulfillment',
       params: (context) => {
         return request
-          .get('ledger/transfers/' + UUID + '/fulfillment')
+          .get('transfers/' + UUID + '/fulfillment')
           .expect('Content-Type', 'text/plain; charset=utf-8')
           .expect(200)
       },
@@ -184,7 +185,7 @@ test({
       name: 'Get Transfer by ID',
       params: (context) => {
         return request
-          .get('ledger/transfers/' + UUID)
+          .get('transfers/' + UUID)
           .expect('Content-Type', /json/)
           .expect(200)
       },

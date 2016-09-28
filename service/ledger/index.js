@@ -521,7 +521,8 @@ module.exports = {
       id: baseUrl + '/accounts/' + account.accountNumber,
       name: account.accountNumber,
       balance: account.balance,
-      is_disabled: account.isDisable
+      is_disabled: account.isDisable,
+      ledger: baseUrl
     }
   },
   'getServerMeta': function (msg, $meta) {
@@ -534,7 +535,7 @@ module.exports = {
         transfer: baseUrl + '/transfers/:id',
         transfer_fulfillment: baseUrl + '/transfers/:id/fulfillment',
         transfer_state: baseUrl + '/transfers/:id/state',
-        accounts: baseUrl + '/accounts',
+        accounts: baseUrl.replace(/^https?:\/\//, 'ws://') + '/accounts',
         account: baseUrl + '/accounts/:name',
         account_transfers: baseUrl + '/accounts/:name/transfers',
         subscription: baseUrl + '/subscriptions/:id'
