@@ -2,12 +2,12 @@ var path = require('path')
 var cc = require('five-bells-condition')
 var error = require('./error')
 var joi = require('joi')
-var domain = 'http://dfsp1:8014'
+var baseUrl
 var publish
 function buildTransferResource (transfer) {
   return {
-    'id': domain + '/transfers/' + transfer.id,
-    'ledger': domain,
+    'id': baseUrl + '/transfers/' + transfer.id,
+    'ledger': baseUrl,
     'debits': [{
       'account': ledgerAccountToUri(transfer.debitAccount),
       'amount': transfer.amount
@@ -31,6 +31,7 @@ module.exports = {
     if (!this.registerRequestHandler) {
       return
     }
+    baseUrl = this.config.baseUrl
     var port = this
     try {
       publish = this.registerSocketSubscription('/accounts/{account}/transfers')
@@ -157,18 +158,18 @@ module.exports = {
               id: joi.string().regex(/^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$/).example('3a2a1d9e-8640-4d2d-b06c-84f2cd613300').description('The UUID for the local transfer')
             }),
             payload: {
-              id: joi.string().required().example(domain + '/transfers/3a2a1d9e-8640-4d2d-b06c-84f2cd613300'),
-              ledger: joi.string().required().example(domain),
+              id: joi.string().required().example(baseUrl + '/transfers/3a2a1d9e-8640-4d2d-b06c-84f2cd613300'),
+              ledger: joi.string().required().example(baseUrl),
               debits: joi.array().items(
                 joi.object({
-                  account: joi.string().required().example(domain + '/accounts/000000003'),
+                  account: joi.string().required().example(baseUrl + '/accounts/000000003'),
                   amount: joi.number().required().example(50),
                   authorized: joi.any().valid([true, false]).example(true)
                 })
               ).required(),
               credits: joi.array().items(
                 joi.object({
-                  account: joi.string().required().example(domain + '/accounts/000000004'),
+                  account: joi.string().required().example(baseUrl + '/accounts/000000004'),
                   amount: joi.number().required().example(50)
                 })
               ).required(),
@@ -489,8 +490,8 @@ module.exports = {
       throw error.notFound({ message: 'Unknown transfer.' })
     }
     return {
-      'id': domain + '/transfers/' + transfer.uuid,
-      'ledger': domain,
+      'id': baseUrl + '/transfers/' + transfer.uuid,
+      'ledger': baseUrl,
       'debits': [{
         'account': ledgerAccountToUri(transfer.debitAccount),
         'amount': transfer.amount
@@ -517,7 +518,7 @@ module.exports = {
     }
 
     return {
-      id: domain + '/accounts/' + account.accountNumber,
+      id: baseUrl + '/accounts/' + account.accountNumber,
       name: account.accountNumber,
       balance: account.balance,
       is_disabled: account.isDisable
@@ -530,12 +531,12 @@ module.exports = {
       condition_sign_public_key: '',
       notification_sign_public_key: '',
       urls: {
-        transfer: domain + '/transfers/:id',
-        transfer_fulfillment: domain + '/transfers/:id/fulfillment',
-        transfer_state: domain + '/transfers/:id/state',
-        accounts: domain + '/accounts',
-        account: domain + '/accounts/:name',
-        subscription: domain + '/subscriptions/:id'
+        transfer: baseUrl + '/transfers/:id',
+        transfer_fulfillment: baseUrl + '/transfers/:id/fulfillment',
+        transfer_state: baseUrl + '/transfers/:id/state',
+        accounts: baseUrl + '/accounts',
+        account: baseUrl + '/accounts/:name',
+        subscription: baseUrl + '/subscriptions/:id'
       },
       precision: 10,
       scale: 2
@@ -561,7 +562,7 @@ module.exports = {
       throw error.InvalidUriParameter()
     }
     return {
-      id: domain + '/accounts/' + account.accountNumber,
+      id: baseUrl + '/accounts/' + account.accountNumber,
       name: account.accountNumber,
       balance: account.balance,
       is_disabled: !account.isActive
@@ -570,10 +571,10 @@ module.exports = {
 }
 
 function ledgerAccountToUri (accountNumber) {
-  return domain + '/accounts/' + accountNumber
+  return baseUrl + '/accounts/' + accountNumber
 }
 function uriToLedgerAccount (uri) {
-  var account = (typeof uri === 'string') && uri.split(domain + '/accounts/')[1]
+  var account = (typeof uri === 'string') && uri.split(baseUrl + '/accounts/')[1]
   if (!account) {
     throw error.accountNotFound({
       uri: uri

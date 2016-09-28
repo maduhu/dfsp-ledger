@@ -7,6 +7,9 @@
       "port": 30014
     }
   },
+  "httpserver": {
+    "baseUrl": "http://localhost:8014"
+  },
   "stdOut": {
     "mode": "dev"
   },

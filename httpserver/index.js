@@ -3,6 +3,7 @@ module.exports = {
   id: 'httpserver',
   createPort: require('ut-port-httpserver'),
   logLevel: 'trace',
+  baseUrl: 'http://localhost:8014',
   api: ['ledger'],
   port: 8014,
   bundle: 'ledger',
