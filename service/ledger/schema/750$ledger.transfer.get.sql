@@ -2,7 +2,7 @@
 )
 RETURNS
     TABLE(
-		"uuid" character varying(100),
+		"id" character varying(100),
 		"debitAccount" character varying(20),
 		"creditAccount" character varying(20),
 		"amount" numeric(19,2),
@@ -20,7 +20,7 @@ RETURNS
 AS
 $BODY$
     SELECT
-	t.uuid,
+	t.uuid as id,
 	debit."accountNumber" "debitAccount" ,
 	credit."accountNumber" "creditAccount" ,
 	t.amount,
@@ -34,8 +34,6 @@ $BODY$
 	t."executedAt",
 	t."rejectedAt",
 	t."fulfillment"
-
-
   FROM ledger.transfer t
 	join ledger.account debit on t."debitAccountId"=debit."accountId"
 	join ledger.account credit on t."creditAccountId"=credit."accountId"

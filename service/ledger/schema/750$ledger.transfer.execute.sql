@@ -2,7 +2,7 @@
                                                      "@condition" CHARACTER varying ,
                                                      "@fulfillment" CHARACTER varying(100))
 RETURNS TABLE(
-  "uuid" character varying(100),
+  "id" character varying(100),
   "debitAccount" character varying(20),
   "creditAccount" character varying(20),
   "amount" numeric(19,2),
