@@ -11,11 +11,11 @@ var joi = require('joi')
 var uuid = require('uuid')
 const UUID = uuid.v4()
 const BASE = 'http://localhost:8014/ledger'
-const DEBITACCOUNTNUMBER = 'alice' + next()
+const DEBITACCOUNTNUMBER = 'alice-' + next()
 const DEBITACCOUNTNAME = 'Alice'
 const DEBITACCOUNTBALANCE = '1000.00'
 const DEBITACCOUNT = BASE + '/accounts/' + DEBITACCOUNTNUMBER
-const CREDITACCOUNTNUMBER = 'bob' + next()
+const CREDITACCOUNTNUMBER = 'bob-' + next()
 const CREDITACCOUNTNAME = 'Bob'
 const CREDITACCOUNTBALANCE = '1000.00'
 const CREDITACCOUNT = BASE + '/accounts/' + CREDITACCOUNTNUMBER
@@ -127,10 +127,12 @@ test({
             'debits': [{
               'account': DEBITACCOUNT,
               'amount': AMOUNT,
+              'memo': 'debit memo',
               'authorized': true
             }],
             'credits': [{
               'account': CREDITACCOUNT,
+              'memo': 'credit memo',
               'amount': AMOUNT
             }],
             'execution_condition': 'cc:0:3:8ZdpKBDUV-KX_OnFZTsCWB_5mlCFI3DynX5f5H2dN-Y:2',
@@ -145,10 +147,12 @@ test({
           ledger: joi.string().required(),
           debits: joi.array().items(joi.object().keys({
             account: joi.string().required(),
+            memo: joi.string(),
             amount: joi.string().valid(AMOUNT).required()
           })).required(),
           credits: joi.array().items(joi.object().keys({
             account: joi.string().required(),
+            memo: joi.string(),
             amount: joi.string().valid(AMOUNT).required()
           })).required(),
           execution_condition: joi.string().required().allow(null),
