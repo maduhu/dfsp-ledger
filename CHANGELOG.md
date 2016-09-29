@@ -1,3 +1,13 @@
+<a name="0.7.0"></a>
+# [0.7.0](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.6.3...v0.7.0) (2016-09-29)
+
+
+### Features
+
+* add support for memo field ([9ea31b5](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/9ea31b5))
+
+
+
 <a name="0.6.3"></a>
 ## [0.6.3](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.6.2...v0.6.3) (2016-09-28)
 
