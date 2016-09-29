@@ -5,7 +5,9 @@
   "transferDate" timestamp without time zone NOT NULL,
   "transferTypeId" integer NOT NULL,
   "debitAccountId" integer NOT NULL,
+  "debitMemo" text,
   "creditAccountId" integer NOT NULL,
+  "creditMemo" text,
   "currencyId" character(3) NOT NULL,
   "fulfillment" character varying(100),
   "amount" numeric(19,2) NOT NULL,
@@ -19,10 +21,11 @@
   "executedAt" timestamp,
   "rejectedAt" timestamp,
   "creationDate" timestamp without time zone NOT NULL,
-  CONSTRAINT "pkLedgerTransaction" PRIMARY KEY ("transferId"),
-  CONSTRAINT "fkLedgerTransaction_debitAccount" FOREIGN KEY ("debitAccountId") REFERENCES ledger.account ("accountId") MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION,
-  CONSTRAINT "fkLedgerTransaction_creditAccount" FOREIGN KEY ("creditAccountId") REFERENCES ledger.account ("accountId") MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION,
-  CONSTRAINT "fkLedgerTransaction_currency" FOREIGN KEY ("currencyId") REFERENCES ledger.currency ("currencyId") MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION,
-  CONSTRAINT "fkLedgerTransaction_transferType" FOREIGN KEY ("transferTypeId") REFERENCES ledger."transferType" ("transferTypeId") MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION,
-  CONSTRAINT "fkLedgerTransaction_transferState" FOREIGN KEY ("transferStateId") REFERENCES ledger."transferState" ("transferStateId") MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION
+  CONSTRAINT "pkLedgerTransfer" PRIMARY KEY ("transferId"),
+  CONSTRAINT "ukLedgerTransfer" UNIQUE ("uuid"),
+  CONSTRAINT "fkLedgerTransfer_debitAccount" FOREIGN KEY ("debitAccountId") REFERENCES ledger.account ("accountId") MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT "fkLedgerTransfer_creditAccount" FOREIGN KEY ("creditAccountId") REFERENCES ledger.account ("accountId") MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT "fkLedgerTransfer_currency" FOREIGN KEY ("currencyId") REFERENCES ledger.currency ("currencyId") MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT "fkLedgerTransfer_transferType" FOREIGN KEY ("transferTypeId") REFERENCES ledger."transferType" ("transferTypeId") MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT "fkLedgerTransfer_transferState" FOREIGN KEY ("transferStateId") REFERENCES ledger."transferState" ("transferStateId") MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION
 )

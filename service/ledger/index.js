@@ -10,10 +10,12 @@ function buildTransferResource (transfer) {
     'ledger': baseUrl,
     'debits': [{
       'account': ledgerAccountToUri(transfer.debitAccount),
+      'memo': transfer.debitMemo,
       'amount': transfer.amount
     }],
     'credits': [{
       'account': ledgerAccountToUri(transfer.creditAccount),
+      'memo': transfer.creditMemo,
       'amount': transfer.amount
     }],
     'execution_condition': transfer.executionCondition,
@@ -164,12 +166,14 @@ module.exports = {
                 joi.object({
                   account: joi.string().required().example(baseUrl + '/accounts/000000003'),
                   amount: joi.number().required().example(50),
+                  memo: joi.string().max(4000),
                   authorized: joi.any().valid([true, false]).example(true)
                 })
               ).required(),
               credits: joi.array().items(
                 joi.object({
                   account: joi.string().required().example(baseUrl + '/accounts/000000004'),
+                  memo: joi.string().max(4000),
                   amount: joi.number().required().example(50)
                 })
               ).required(),
@@ -190,12 +194,14 @@ module.exports = {
                     debits: joi.array().items(
                       joi.object({
                         account: joi.string(),
+                        memo: joi.string().max(4000),
                         amount: joi.string()
                       })
                     ),
                     credits: joi.array().items(
                       joi.object({
                         account: joi.string(),
+                        memo: joi.string().max(4000),
                         amount: joi.string()
                       })
                     ),
@@ -244,12 +250,14 @@ module.exports = {
                     debits: joi.array().items(
                       joi.object({
                         account: joi.string(),
+                        memo: joi.string(),
                         amount: joi.number()
                       })
                     ),
                     credits: joi.array().items(
                       joi.object({
                         account: joi.string(),
+                        memo: joi.string(),
                         amount: joi.number()
                       })
                     ),
@@ -407,7 +415,9 @@ module.exports = {
     return {
       uuid: msg.id,
       debitAccount: uriToLedgerAccount(debit.account),
+      debitMemo: debit.memo,
       creditAccount: uriToLedgerAccount(credit.account),
+      creditMemo: credit.memo,
       amount: debit.amount,
       executionCondition: msg.execution_condition,
       cancellationCondition: msg.cancellation_condition,
@@ -430,7 +440,7 @@ module.exports = {
       case 'ledger.insufficientFunds':
         throw error.insufficientFunds()
       case 'ledger.alreadyExists':
-        throw error.alreadyExist()
+        throw error.alreadyExists()
       case 'ledger.debitAccountNotFound':
       case 'ledger.creditAccountNotFound':
         throw error.unprocessableEntity({ message: 'Account `unknown` does not exist' })
