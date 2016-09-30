@@ -1,17 +1,18 @@
-﻿CREATE OR REPLACE FUNCTION ledger."account.edit"("@accountNumber" character varying(100)
-,"@debit" "numeric"(19,2)
-,"@credit" "numeric"(19,2)
-,"@name" character varying(20)
-,"@displayName" character varying(100)
-,"@accountTypeId" INT
-,"@currencyId" char(3)
-
+﻿CREATE OR REPLACE FUNCTION ledger."account.edit"(
+  "@accountNumber" character varying(100),
+  "@debit" "numeric"(19,2),
+  "@credit" "numeric"(19,2),
+  "@name" character varying(20),
+  "@displayName" character varying(100),
+  "@accountTypeId" INT,
+  "@currencyId" char(3)
 )
-RETURNS
-    TABLE("accountNumber" character varying(100)
-    , "balance" "numeric"(19,2)
-    , "isActive" bit
-   )
+RETURNS TABLE(
+    "accountNumber" character varying(100),
+    "balance" "numeric"(19,2),
+    "currency" character(3),
+    "isActive" bit
+)
 AS
 $BODY$
   declare
@@ -52,6 +53,7 @@ VALUES (
       SELECT
         a."accountNumber",
         a.credit-a.debit,
+        a."currencyId",
         a."isActive"
     FROM
         ledger."account" a
@@ -61,4 +63,3 @@ VALUES (
  END
 $BODY$
 LANGUAGE plpgsql
-	

@@ -124,6 +124,7 @@ module.exports = {
                     id: joi.string(),
                     name: joi.string(),
                     balance: joi.string(),
+                    currency: joi.string(),
                     is_disabled: joi.string().allow([0, 1])
                   })
                 }
@@ -577,6 +578,7 @@ module.exports = {
       id: baseUrl + '/accounts/' + account.accountNumber,
       name: account.accountNumber,
       balance: account.balance,
+      currency: account.currency,
       is_disabled: !account.isActive
     }
   }
