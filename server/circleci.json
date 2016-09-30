@@ -1,0 +1,29 @@
+{
+  "implementation": "dfsp-ledger",
+  "repl": false,
+  "console": false,
+  "log": false,
+  "debug": true,
+  "workDir": "./tmp",
+  "masterBus": {
+    "logLevel": "error",
+    "socket": "dfsp-ledger"
+  },
+  "workerBus": {
+    "logLevel": "error"
+  },
+  "performance": false,
+  "script": {
+    "mock": true
+  },
+  "db": {
+    "logLevel": "trace",
+    "db": {
+      "host": "localhost",
+      "database": "circle_test"
+    },
+    "permission": {
+      "requireSession": true
+    }
+  }
+}
