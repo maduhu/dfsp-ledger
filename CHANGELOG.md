@@ -1,3 +1,15 @@
+<a name="0.7.1"></a>
+## [0.7.1](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.7.0...v0.7.1) (2016-09-30)
+
+
+### Bug Fixes
+
+* change memo to object ([7625f79](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/7625f79))
+* fix circle ci build ([34ebbe5](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/34ebbe5))
+* update dependencies ([43cfe3b](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/43cfe3b))
+
+
+
 <a name="0.7.0"></a>
 # [0.7.0](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.6.3...v0.7.0) (2016-09-29)
 
