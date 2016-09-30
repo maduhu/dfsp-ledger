@@ -127,12 +127,12 @@ test({
             'debits': [{
               'account': DEBITACCOUNT,
               'amount': AMOUNT,
-              'memo': 'debit memo',
+              'memo': {note: 'debit memo'},
               'authorized': true
             }],
             'credits': [{
               'account': CREDITACCOUNT,
-              'memo': 'credit memo',
+              'memo': {note: 'credit memo'},
               'amount': AMOUNT
             }],
             'execution_condition': 'cc:0:3:8ZdpKBDUV-KX_OnFZTsCWB_5mlCFI3DynX5f5H2dN-Y:2',
@@ -147,12 +147,12 @@ test({
           ledger: joi.string().required(),
           debits: joi.array().items(joi.object().keys({
             account: joi.string().required(),
-            memo: joi.string(),
+            memo: joi.object().optional(),
             amount: joi.string().valid(AMOUNT).required()
           })).required(),
           credits: joi.array().items(joi.object().keys({
             account: joi.string().required(),
-            memo: joi.string(),
+            memo: joi.object().optional(),
             amount: joi.string().valid(AMOUNT).required()
           })).required(),
           execution_condition: joi.string().required().allow(null),

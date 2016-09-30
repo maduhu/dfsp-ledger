@@ -166,14 +166,14 @@ module.exports = {
                 joi.object({
                   account: joi.string().required().example(baseUrl + '/accounts/000000003'),
                   amount: joi.number().required().example(50),
-                  memo: joi.string().max(4000),
+                  memo: joi.object().optional(),
                   authorized: joi.any().valid([true, false]).example(true)
                 })
               ).required(),
               credits: joi.array().items(
                 joi.object({
                   account: joi.string().required().example(baseUrl + '/accounts/000000004'),
-                  memo: joi.string().max(4000),
+                  memo: joi.object().optional(),
                   amount: joi.number().required().example(50)
                 })
               ).required(),
@@ -194,14 +194,14 @@ module.exports = {
                     debits: joi.array().items(
                       joi.object({
                         account: joi.string(),
-                        memo: joi.string().max(4000),
+                        memo: joi.object().optional(),
                         amount: joi.string()
                       })
                     ),
                     credits: joi.array().items(
                       joi.object({
                         account: joi.string(),
-                        memo: joi.string().max(4000),
+                        memo: joi.object().optional(),
                         amount: joi.string()
                       })
                     ),
@@ -250,14 +250,14 @@ module.exports = {
                     debits: joi.array().items(
                       joi.object({
                         account: joi.string(),
-                        memo: joi.string(),
+                        memo: joi.object().optional(),
                         amount: joi.number()
                       })
                     ),
                     credits: joi.array().items(
                       joi.object({
                         account: joi.string(),
-                        memo: joi.string(),
+                        memo: joi.object().optional(),
                         amount: joi.number()
                       })
                     ),

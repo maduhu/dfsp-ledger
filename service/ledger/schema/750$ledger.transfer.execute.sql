@@ -5,9 +5,9 @@
 ) RETURNS TABLE (
     "id" character varying(100),
     "debitAccount" character varying(20),
-    "debitMemo" text,
+    "debitMemo" json,
     "creditAccount" character varying(20),
-    "creditMemo" text,
+    "creditMemo" json,
     "amount" numeric(19,2),
     "executionCondition" character varying(100),
     "cancellationCondition" character varying(100),
