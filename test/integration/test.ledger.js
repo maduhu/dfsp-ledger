@@ -76,6 +76,7 @@ test({
           id: joi.string(),
           name: joi.string(),
           balance: joi.string(),
+          currency: joi.string(),
           is_disabled: joi.any()
         })).error, null, 'return ledger account details')
       }
@@ -96,6 +97,7 @@ test({
           id: joi.string(),
           name: joi.string(),
           balance: joi.string(),
+          currency: joi.string(),
           is_disabled: joi.any()
         })).error, null, 'return ledger account details')
       }
@@ -112,6 +114,7 @@ test({
           id: joi.string(),
           name: joi.string(),
           balance: joi.string(),
+          currency: joi.string(),
           ledger: joi.string(),
           is_disabled: joi.any()
         })).error, null, 'return ledger account details')
