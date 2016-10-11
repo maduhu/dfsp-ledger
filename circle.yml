@@ -1,9 +1,18 @@
 machine:
+  services:
+    - docker
   node:
-    version: 4.3.0
+    version: 6.1.0
   environment:
     UT_ENV: circleci
 
 test:
   override:
-    - set -o pipefail && npm run test | tap-xunit > ${CIRCLE_TEST_REPORTS}/tape.xml && npm run cover -- --dir ${CIRCLE_ARTIFACTS}
+    - npm run circleci:test
+
+deployment:
+  prod:
+    branch: master
+    commands:
+      - npm run circleci:build
+      - npm run circleci:push

@@ -27,16 +27,16 @@
     "version": "ut-version"
   },
   "dependencies": {
-    "joi": "9.0.4",
+    "joi": "9.1.0",
     "ut-bus": "^5.4.9",
     "ut-error": "^5.3.15",
-    "ut-port-httpserver": "^6.5.9",
+    "ut-port-httpserver": "^6.6.0",
     "ut-port-postgres": "^5.7.0",
     "ut-port-script": "^5.4.4",
     "ut-run": "^6.3.1",
     "ut-port-console": "^6.1.5",
     "ut-port-performance": "^5.4.6",
-    "pm2": "2.0.12",
+    "pm2": "2.0.18",
     "five-bells-condition": "3.2.0"
   },
   "devDependencies": {
@@ -44,8 +44,8 @@
     "supertest-as-promised": "4.0.0",
     "supertest": "2.0.0",
     "tap-xunit": "1.4.0",
-    "ut-port-jsonrpc": "^5.5.3",
-    "ut-tools": "^5.8.2",
+    "ut-port-jsonrpc": "^5.5.4",
+    "ut-tools": "^5.9.9",
     "uuid": "^2.0.3"
   },
   "repository": {
