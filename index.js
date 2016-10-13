@@ -1,1 +1,1 @@
-require('ut-run').run({}, module)
+module.exports = require('ut-run').run({}, module)

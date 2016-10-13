@@ -17,7 +17,8 @@
     "influx": {
       "host": "influxdb",
       "port": 4444
-    }
+    },
+    "test": true
   },
   "db": {
     "logLevel": "trace",
