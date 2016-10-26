@@ -1,11 +1,19 @@
 var joi = require('joi')
 var error = require('../error')
+var util = require('../util')
 module.exports = {
   rest: function () {
     return {
       rpc: 'ledger.transfer.getFulfillment',
       path: '/ledger/transfers/{id}/fulfillment',
       method: 'get',
+      reply: (reply, response, $meta) => {
+        if (!response.error) {
+          return reply(response, {'content-type': 'text/plain'}, 200)
+        }
+        var defaultReply = util.get('defaultReply')
+        return defaultReply(reply, response, $meta)
+      },
       config: {
         description: 'Get Transfer Fulfillment',
         notes: 'Retrieve the fulfillment for a transfer that has been executed or cancelled.',
