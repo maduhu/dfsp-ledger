@@ -66,7 +66,7 @@ $body$
             )
         )
         THEN
-            RAISE EXCEPTION 'ledger.transferIsProcessedAlready';
+            RAISE EXCEPTION 'ledger.transfer.execute.alreadyExists';
         END IF ;
 
         IF ("@condition" = "@cancellationCondition") THEN
@@ -85,7 +85,7 @@ $body$
 
         IF ("@condition" = "@executionCondition") THEN
             IF "@creditBalance" < "@amount" THEN
-                RAISE EXCEPTION 'ledger.insufficientFunds';
+                RAISE EXCEPTION 'ledger.transfer.execute.insufficientFunds';
             END IF ;
 
             UPDATE

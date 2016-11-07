@@ -33,7 +33,7 @@ $BODY$
 
     BEGIN
         IF (SELECT COUNT(*) FROM ledger.transfer WHERE uuid = "@uuid") > 0 THEN
-            RAISE EXCEPTION 'ledger.alreadyExists';
+            RAISE EXCEPTION 'ledger.transfer.hold.alreadyExists';
         END IF;
 
         SELECT
@@ -55,13 +55,13 @@ $BODY$
             a."accountNumber"="@creditAccount" ;
 
         IF "@creditBalance"<"@amount" THEN
-            RAISE EXCEPTION 'ledger.insufficientFunds';
+            RAISE EXCEPTION 'ledger.transfer.hold.insufficientFunds';
         END IF;
         IF "@debitAccountId" IS NULL THEN
-            RAISE EXCEPTION 'ledger.debitAccountNotFound';
+            RAISE EXCEPTION 'ledger.transfer.hold.debitAccountNotFound';
         END IF;
         IF "@creditAccountId" IS NULL THEN
-            RAISE EXCEPTION 'ledger.creditAccountNotFound';
+            RAISE EXCEPTION 'ledger.transfer.hold.creditAccountNotFound';
         END IF;
 
         INSERT INTO
