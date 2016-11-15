@@ -70,7 +70,8 @@ module.exports = [
   {
     id: 'NotFoundError',
     type: 'ledger.transfer.execute.notFound',
-    message: 'Unknown transfer.'
+    message: 'Unknown transfer.',
+    statusCode: 404
   },
   {
     id: 'AlreadyExistsError',
@@ -85,7 +86,8 @@ module.exports = [
   {
     id: 'NotFoundError',
     type: 'ledger.transfer.get.notFound',
-    message: 'Unknown transfer'
+    message: 'Unknown transfer',
+    statusCode: 404
   },
   {
     id: 'InvalidUriParameterError',
@@ -99,7 +101,8 @@ module.exports = [
   {
     id: 'NotFoundError',
     type: 'ledger.transfer.getFulfillment.notFound',
-    message: 'Unknown transfer'
+    message: 'Unknown transfer',
+    statusCode: 404
   },
   {
     id: 'InvalidUriParameterError',
