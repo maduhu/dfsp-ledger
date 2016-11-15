@@ -7,6 +7,7 @@ module.exports = {
   api: ['ledger'],
   bundle: 'ledger',
   dist: path.resolve(__dirname, '../dist'),
+  validationPassThrough: true,
   imports: ['ledger.start'],
   connections: [{
     port: 8014,
