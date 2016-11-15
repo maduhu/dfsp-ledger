@@ -1,4 +1,5 @@
-﻿INSERT INTO
+﻿-- transfer state
+INSERT INTO
   ledger."transferState" ("transferStateId", name,"transferStateCode")
 SELECT
   2, 'prepared','pre'
@@ -33,28 +34,37 @@ SELECT
 WHERE
   NOT EXISTS (SELECT 1 FROM ledger."transferType" WHERE "transferCode"='p2p');
 
+-- currency
 INSERT INTO
-  ledger."currency"(  "currencyId",  name)
+  ledger."currency"("currencyId", "name", "symbol")
 SELECT
-  'USD', 'US Dollar'
+  'USD', 'US Dollar', '$'
 WHERE
   NOT EXISTS (SELECT 1 FROM ledger.currency WHERE "currencyId"='USD');
 
-
 INSERT INTO
-  ledger."currency"(  "currencyId",  name)
+  ledger."currency"("currencyId", "name", "symbol")
 SELECT
-  'CNY', ' Chinese Yuan Renminbi'
+  'CNY', ' Chinese Yuan Renminbi', '¥'
 WHERE
   NOT EXISTS (SELECT 1 FROM ledger.currency WHERE "currencyId"='CNY');
 
 INSERT INTO
-  ledger."accountType"(  "accountTypeId",  name,code)
+  ledger."currency"("currencyId", "name", "symbol")
+SELECT
+  'TZS', ' Tanzanian shilling', 'TSh'
+WHERE
+  NOT EXISTS (SELECT 1 FROM ledger.currency WHERE "currencyId"='TZS');
+
+-- accountType
+INSERT INTO
+  ledger."accountType"("accountTypeId", "name", "code")
 SELECT
   1, 'mWallet','mw'
 WHERE
   NOT EXISTS (SELECT 1 FROM ledger."accountType" WHERE "name"='mWallet');
 
+-- account
 INSERT INTO
   ledger.account("name", "displayName", "accountNumber", "credit", "debit", "accountTypeId", "isActive", "parentId", "creationDate", "currencyId")
 SELECT

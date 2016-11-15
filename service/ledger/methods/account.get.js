@@ -39,6 +39,8 @@ module.exports = {
       id: baseUrl + '/accounts/' + account.accountNumber,
       name: account.accountNumber,
       balance: account.balance,
+      currencyCode: account.currencyCode,
+      currencySymbol: account.currencySymbol,
       is_disabled: account.isDisable,
       ledger: baseUrl
     }
