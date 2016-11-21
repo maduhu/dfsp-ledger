@@ -33,7 +33,7 @@
     "joi": "9.1.1",
     "ut-bus": "^5.6.1",
     "ut-error": "^5.3.16",
-    "ut-port-httpserver": "^8.0.0",
+    "ut-port-httpserver": "^8.1.0",
     "ut-port-postgres": "^5.7.3",
     "ut-port-script": "^5.4.7",
     "ut-run": "^7.0.0",
