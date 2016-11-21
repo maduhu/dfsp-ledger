@@ -114,7 +114,8 @@ test({
           id: joi.string(),
           name: joi.string(),
           balance: joi.string(),
-          currency: joi.string(),
+          currencySymbol: joi.string(),
+          currencyCode: joi.string(),
           ledger: joi.string(),
           is_disabled: joi.any()
         })).error, null, 'return ledger account details')
