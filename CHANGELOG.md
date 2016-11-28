@@ -1,3 +1,26 @@
+<a name="0.10.0"></a>
+# [0.10.0](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.9.1...v0.10.0) (2016-11-21)
+
+
+### Bug Fixes
+
+* add currency symbol and db slight restructuring ([fd70a1b](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/fd70a1b))
+* add custom response headers to transfer.getFulfillment method ([46f999d](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/46f999d))
+* add missing error response codes ([a621bdb](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/a621bdb))
+* add validationPassThrough flagh ([f47d293](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/f47d293))
+* fix tests and dependencies ([79c58ed](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/79c58ed))
+* license ([f836a9a](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/f836a9a))
+* remove old code for errors ([ae09fec](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/ae09fec))
+* update dependencies ([62309dd](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/62309dd))
+* update dependencies ([44b0396](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/44b0396))
+
+
+### Features
+
+* refactor errors, split requests into separate files, apply resthooks ([b420858](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/b420858))
+
+
+
 <a name="0.9.1"></a>
 ## [0.9.1](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.9.0...v0.9.1) (2016-10-14)
 
