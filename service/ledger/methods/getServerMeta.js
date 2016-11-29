@@ -23,6 +23,7 @@ module.exports = {
                   urls: joi.object({
                     transfer: joi.string(),
                     transfer_fulfillment: joi.string(),
+                    transfer_rejection: joi.string(),
                     transfer_state: joi.string(),
                     accounts: joi.string(),
                     account: joi.string(),
@@ -48,6 +49,7 @@ module.exports = {
       urls: {
         transfer: baseUrl + '/transfers/:id',
         transfer_fulfillment: baseUrl + '/transfers/:id/fulfillment',
+        transfer_rejection: baseUrl + '/transfers/:id/rejection',
         transfer_state: baseUrl + '/transfers/:id/state',
         accounts: baseUrl + '/accounts',
         account: baseUrl + '/accounts/:name',
