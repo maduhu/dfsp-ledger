@@ -1,3 +1,13 @@
+<a name="0.10.1"></a>
+## [0.10.1](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.10.0...v0.10.1) (2016-11-28)
+
+
+### Bug Fixes
+
+* update dependencies ([39b14cb](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/39b14cb))
+
+
+
 <a name="0.10.0"></a>
 # [0.10.0](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.9.1...v0.10.0) (2016-11-21)
 
