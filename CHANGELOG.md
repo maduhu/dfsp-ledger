@@ -1,3 +1,14 @@
+<a name="0.10.2"></a>
+## [0.10.2](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.10.1...v0.10.2) (2016-11-29)
+
+
+### Bug Fixes
+
+* add transfer_rejection in server metadata ([350c818](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/350c818))
+* tests ([fd83760](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/fd83760))
+
+
+
 <a name="0.10.1"></a>
 ## [0.10.1](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.10.0...v0.10.1) (2016-11-28)
 
