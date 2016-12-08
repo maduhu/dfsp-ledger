@@ -1,3 +1,13 @@
+<a name="0.10.4"></a>
+## [0.10.4](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.10.3...v0.10.4) (2016-12-08)
+
+
+### Bug Fixes
+
+* handle no debitMemo case ([b7ba2d9](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/b7ba2d9))
+
+
+
 <a name="0.10.3"></a>
 ## [0.10.3](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.10.2...v0.10.3) (2016-12-08)
 
