@@ -85,9 +85,9 @@ module.exports = {
     return {
       uuid: msg.id,
       debitAccount: uriToLedgerAccount(debit.account),
-      debitMemo: debit.memo,
+      debitMemo: debit.memo || {},
       creditAccount: uriToLedgerAccount(credit.account),
-      creditMemo: credit.memo,
+      creditMemo: credit.memo || {},
       amount: debit.amount,
       executionCondition: msg.execution_condition,
       cancellationCondition: msg.cancellation_condition,
