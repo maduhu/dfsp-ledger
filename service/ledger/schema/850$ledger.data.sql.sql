@@ -64,31 +64,59 @@ SELECT
 WHERE
   NOT EXISTS (SELECT 1 FROM ledger."accountType" WHERE "name"='mWallet');
 
+INSERT INTO
+  ledger."accountType"("accountTypeId", "name", "code")
+SELECT
+  2, 'settlement','s'
+WHERE
+  NOT EXISTS (SELECT 1 FROM ledger."accountType" WHERE "name"='settlement');
+
+INSERT INTO
+  ledger."accountType"("accountTypeId", "name", "code")
+SELECT
+  3, 'fee','f'
+WHERE
+  NOT EXISTS (SELECT 1 FROM ledger."accountType" WHERE "name"='fee');
+
 -- account
 INSERT INTO
   ledger.account("name", "displayName", "accountNumber", "credit", "debit", "accountTypeId", "isActive", "parentId", "creationDate", "currencyId")
 SELECT
-  'testAccount1', 'testAccount1', '000000001', 10000, 1000, 1, B'1', NULL, '2016-08-24 10:24:45.845802', 'USD'
+  'settlement', 'settlement', '000000001', 10000, 0, 2, B'1', NULL, '2016-08-24 10:24:45.845802', 'USD'
+WHERE
+  NOT EXISTS (SELECT 1 FROM ledger.account  WHERE "accountNumber"='000000001');
+
+INSERT INTO
+  ledger.account("name", "displayName", "accountNumber", "credit", "debit", "accountTypeId", "isActive", "parentId", "creationDate", "currencyId")
+SELECT
+  'fee', 'fee', '000000002', 10000, 0, 3, B'1', NULL, '2016-08-24 10:24:45.845802', 'USD'
 WHERE
   NOT EXISTS (SELECT 1 FROM ledger.account  WHERE "accountNumber"='000000002');
 
 INSERT INTO
   ledger.account("name", "displayName", "accountNumber", "credit", "debit", "accountTypeId", "isActive", "parentId", "creationDate", "currencyId")
 SELECT
-  'testAccount2', 'testAccount2', '000000002', 10000, 1000, 1, B'1', NULL, '2016-08-24 10:24:45.845802', 'USD'
+  'testAccount1', 'testAccount1', '000000011', 10000, 1000, 1, B'1', NULL, '2016-08-24 10:24:45.845802', 'USD'
 WHERE
-  NOT EXISTS (SELECT 1 FROM ledger.account  WHERE "accountNumber"='000000002');
+  NOT EXISTS (SELECT 1 FROM ledger.account  WHERE "accountNumber"='000000011');
 
 INSERT INTO
   ledger.account("name", "displayName", "accountNumber", "credit", "debit", "accountTypeId", "isActive", "parentId", "creationDate", "currencyId")
 SELECT
-  'testAccount3', 'testAccount3', '000000003', 10000, 1000, 1, B'1', NULL, '2016-08-24 10:24:45.845802', 'USD'
+  'testAccount2', 'testAccount2', '000000012', 10000, 1000, 1, B'1', NULL, '2016-08-24 10:24:45.845802', 'USD'
 WHERE
-  NOT EXISTS (SELECT 1 FROM ledger.account  WHERE "accountNumber"='000000003');
+  NOT EXISTS (SELECT 1 FROM ledger.account  WHERE "accountNumber"='000000012');
 
 INSERT INTO
   ledger.account("name", "displayName", "accountNumber", "credit", "debit", "accountTypeId", "isActive", "parentId", "creationDate", "currencyId")
 SELECT
-  'testAccount4', 'testAccount4', '000000004', 10000, 1000, 1, B'1', NULL, '2016-08-24 10:24:45.845802', 'USD'
+  'testAccount3', 'testAccount3', '000000013', 10000, 1000, 1, B'1', NULL, '2016-08-24 10:24:45.845802', 'USD'
 WHERE
-  NOT EXISTS (SELECT 1 FROM ledger.account  WHERE "accountNumber"='000000004');
+  NOT EXISTS (SELECT 1 FROM ledger.account  WHERE "accountNumber"='000000013');
+
+INSERT INTO
+  ledger.account("name", "displayName", "accountNumber", "credit", "debit", "accountTypeId", "isActive", "parentId", "creationDate", "currencyId")
+SELECT
+  'testAccount4', 'testAccount4', '000000014', 10000, 1000, 1, B'1', NULL, '2016-08-24 10:24:45.845802', 'USD'
+WHERE
+  NOT EXISTS (SELECT 1 FROM ledger.account  WHERE "accountNumber"='000000014');
