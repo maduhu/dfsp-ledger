@@ -1,3 +1,13 @@
+<a name="0.11.0"></a>
+# [0.11.0](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.10.4...v0.11.0) (2016-12-13)
+
+
+### Features
+
+* add seeds for settlement and fee accounts and expose sql.isnpect method to be able to query the db ([903dbcc](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/903dbcc))
+
+
+
 <a name="0.10.4"></a>
 ## [0.10.4](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.10.3...v0.10.4) (2016-12-08)
 
