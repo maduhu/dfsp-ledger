@@ -1,3 +1,14 @@
+<a name="0.11.2"></a>
+## [0.11.2](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.11.1...v0.11.2) (2016-12-14)
+
+
+### Bug Fixes
+
+* add debit and credit memo objects ([dacdab0](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/dacdab0))
+* ledger tests ([68b9927](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/68b9927))
+
+
+
 <a name="0.11.1"></a>
 ## [0.11.1](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.11.0...v0.11.1) (2016-12-14)
 
