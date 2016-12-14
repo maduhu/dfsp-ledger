@@ -70,11 +70,13 @@ module.exports = {
       'ledger': baseUrl,
       'debits': [{
         'account': ledgerAccountToUri(transfer.debitAccount),
-        'amount': transfer.amount
+        'amount': transfer.amount,
+        'memo': transfer.debitMemo
       }],
       'credits': [{
         'account': ledgerAccountToUri(transfer.creditAccount),
-        'amount': transfer.amount
+        'amount': transfer.amount,
+        'memo': transfer.creditMemo
       }],
       'execution_condition': transfer.executionCondition,
       'cancellation_condition': transfer.cancellationCondition,
