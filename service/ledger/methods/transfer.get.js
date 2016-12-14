@@ -66,7 +66,7 @@ module.exports = {
     }
     var ledgerAccountToUri = util.get('ledgerAccountToUri')
     return {
-      'id': baseUrl + '/transfers/' + transfer.uuid,
+      'id': baseUrl + '/transfers/' + transfer.id,
       'ledger': baseUrl,
       'debits': [{
         'account': ledgerAccountToUri(transfer.debitAccount),
