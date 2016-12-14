@@ -204,10 +204,12 @@ test({
           ledger: joi.string().required(),
           debits: joi.array().items(joi.object().keys({
             account: joi.string().required(),
+            memo: joi.any().required(),
             amount: joi.string().valid(AMOUNT).required()
           })).required(),
           credits: joi.array().items(joi.object().keys({
             account: joi.string().required(),
+            memo: joi.any().required(),
             amount: joi.string().valid(AMOUNT).required()
           })).required(),
           execution_condition: joi.string().required().allow(null),
