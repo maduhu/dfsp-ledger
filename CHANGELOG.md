@@ -1,3 +1,13 @@
+<a name="0.11.3"></a>
+## [0.11.3](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.11.2...v0.11.3) (2016-12-15)
+
+
+### Bug Fixes
+
+* bump postgres port version ([ba14f0a](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/ba14f0a))
+
+
+
 <a name="0.11.2"></a>
 ## [0.11.2](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.11.1...v0.11.2) (2016-12-14)
 
