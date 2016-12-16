@@ -59,16 +59,21 @@ function validationFailHandler (request, reply, source, error) {
 function rest (request, reply, method, customReply) {
   // httpserver port should be bound (as this) in order for this method to work
   // Used in case header is "Content-Type: text/plain"
+  var payload = {
+    id: '1',
+    jsonrpc: '2.0.',
+    method: method
+  }
   if (typeof request.payload === 'string') {
-    request.payload = Object.assign({
+    payload.params = Object.assign({
       plainText: request.payload
     }, request.params)
   } else if (request.payload === null) {
-    request.payload = Object.assign({}, request.params)
+    payload.params = Object.assign({}, request.params)
   } else {
-    request.payload = Object.assign({}, request.payload, request.params)
+    payload.params = Object.assign({}, request.payload, request.params)
   }
-  request.params.method = method
+  request.payload = payload
   return this.handler(request, reply, customReply)
 }
 function defaultReply (reply, response, $meta) {
