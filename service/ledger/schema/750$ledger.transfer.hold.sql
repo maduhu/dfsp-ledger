@@ -25,8 +25,9 @@ $BODY$
     DECLARE
         "@debitAccountId" int;
         "@creditAccountId" int;
-        "@creditBalance" numeric(19,2);
+        "@debitBalance" numeric(19,2);
         "@currencyId" char(3);
+        "@memo" json:=CAST("@creditMemo"->'ilp_header'->'data'->'data'->>'memo' AS json);
         "@transferStateId" int:=(
             SELECT
                 ts."transferStateId"
@@ -41,8 +42,9 @@ $BODY$
             FROM
                 ledger."transferType" tt
             WHERE
-                tt."transferCode" = ISNULL(cast(t.creditMemo->'ilp_header'->'data'->'data'->>'memo' AS json)->'transferCode', 'p2p')
+                tt."transferCode" = COALESCE(CAST("@memo"->>'transferCode' AS varchar), 'p2p')
         );
+        "@fee" numeric(19,2):=COALESCE(CAST("@memo"->>'fee' AS numeric(19,2)), 0);
         "@transferId" BIGINT:=(SELECT nextval('ledger."transfer_transferId_seq"'));
 
     BEGIN
@@ -52,9 +54,11 @@ $BODY$
 
         SELECT
             a."accountId",
+            a.credit-a.debit,
             a."currencyId"
         INTO
             "@debitAccountId",
+            "@debitBalance",
             "@currencyId"
         FROM
             ledger.account a
@@ -62,17 +66,15 @@ $BODY$
             a."accountNumber"="@debitAccount";
 
         SELECT
-            a."accountId",
-            a.credit-a.debit
+            a."accountId"
         INTO
-            "@creditAccountId",
-            "@creditBalance"
+            "@creditAccountId"
         FROM
             ledger.account a
         WHERE
             a."accountNumber"="@creditAccount" ;
 
-        IF "@creditBalance"<"@amount" THEN
+        IF "@debitBalance"<("@amount"+"@fee") THEN
             RAISE EXCEPTION 'ledger.transfer.hold.insufficientFunds';
         END IF;
         IF "@debitAccountId" IS NULL THEN

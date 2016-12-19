@@ -27,9 +27,11 @@ $body$
         "@cancellationCondition" CHARACTER varying(100);
         "@debitAccountId"  INT;
         "@creditAccountId" INT;
-        "@fee" INT;
+        "@fee" numeric(19,2);
         "@amount"          numeric(19,2);
         "@transferStateId" INT;
+
+        "@feeAccountId" bigint;
 
         "@debitBalance"   numeric(19,2);
     BEGIN
@@ -38,7 +40,7 @@ $body$
             t."cancellationCondition",
             t."debitAccountId",
             t."creditAccountId",
-            ISNULL(cast(t.creditMemo->'ilp_header'->'data'->'data'->>'memo' AS json)->'fee', 0),
+            COALESCE(CAST(CAST(t."creditMemo"->'ilp_header'->'data'->'data'->>'memo' AS json)->>'fee' AS numeric(19,2)), 0),
             t."transferStateId",
             t.amount
         INTO
@@ -54,9 +56,19 @@ $body$
         WHERE
             t."uuid" = "@transferId";
 
+        SELECT
+            a."accountId"
+        INTO
+            "@feeAccountId"
+        FROM
+            ledger.account a
+        JOIN
+            ledger."accountType" at ON a."accountTypeId" = at."accountTypeId"
+        WHERE
+            at."code" = 'f';
 
         SELECT
-            a.credit - a.debit - "@fee"
+            CAST(a.credit - a.debit AS numeric(19,2))
         INTO
             "@debitBalance"
         FROM
@@ -78,18 +90,22 @@ $body$
             UPDATE
               ledger.transfer
             SET
-              "transferStateId" = (
-                  SELECT "transferStateId"
-                  FROM   ledger."transferState" ts
-                  WHERE  ts.name = 'rejected' ) ,
-              fulfillment = "@fulfillment",
-              "rejectedAt"=NOW()
+                "transferStateId" = (
+                    SELECT
+                    "transferStateId"
+                    FROM
+                    ledger."transferState" ts
+                    WHERE
+                    ts.name = 'rejected'
+                ),
+                fulfillment = "@fulfillment",
+                "rejectedAt"=NOW()
             WHERE
               "uuid" = "@transferId";
         END IF ;
 
         IF ("@condition" = "@executionCondition") THEN
-            IF "@debitBalance" < "@amount" THEN
+            IF "@debitBalance" < ("@amount" + "@fee") THEN
                 RAISE EXCEPTION 'ledger.transfer.execute.insufficientFunds';
             END IF ;
 
@@ -108,16 +124,50 @@ $body$
                 "accountId" = "@creditAccountId";
 
             UPDATE
+                ledger.account
+            SET
+                credit = credit + "@fee"
+            WHERE
+                "accountId" = "@feeAccountId";
+
+            UPDATE
                 ledger.transfer
             SET
                 "transferStateId" = (
-                    SELECT "transferStateId"
-                    FROM   ledger."transferState" ts
-                    WHERE  ts.name = 'executed' ) ,
+                    SELECT
+                        "transferStateId"
+                    FROM
+                        ledger."transferState" ts
+                    WHERE
+                        ts.name = 'executed'
+                ),
                 fulfillment = "@fulfillment",
                 "executedAt"=NOW()
             WHERE
                 "uuid" = "@transferId";
+
+            IF ("@fee" > 0) THEN
+                INSERT INTO
+                    ledger.fee(
+                        "transferDate",
+                        "debitAccountId",
+                        "creditAccountId",
+                        "currencyId",
+                        "amount",
+                        "transferId"
+                    )
+                SELECT
+                    t."transferDate",
+                    "@debitAccountId",
+                    "@feeAccountId",
+                    t."currencyId",
+                    "@fee",
+                    t."transferId"
+                FROM
+                    ledger.transfer t
+                WHERE
+                    t."uuid" = "@transferId";
+            END IF;
         END IF ;
 
         RETURN query
