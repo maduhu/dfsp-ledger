@@ -1,3 +1,13 @@
+<a name="0.12.0"></a>
+# [0.12.0](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.11.4...v0.12.0) (2016-12-19)
+
+
+### Features
+
+* add invoice and fee transfer types in seed ([7fe066b](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/7fe066b))
+
+
+
 <a name="0.11.4"></a>
 ## [0.11.4](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.11.3...v0.11.4) (2016-12-16)
 
