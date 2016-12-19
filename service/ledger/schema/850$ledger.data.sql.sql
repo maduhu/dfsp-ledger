@@ -27,12 +27,27 @@ SELECT
 WHERE
   NOT EXISTS (SELECT 1 FROM ledger."transferState" WHERE name='executed');
 
+-- transfer type
 INSERT INTO
   ledger."transferType"(  "transferTypeId",  name,  "transferCode")
 SELECT
   1, 'person to person','p2p'
 WHERE
   NOT EXISTS (SELECT 1 FROM ledger."transferType" WHERE "transferCode"='p2p');
+
+INSERT INTO
+  ledger."transferType"(  "transferTypeId",  name,  "transferCode")
+SELECT
+  2, 'invoice','invoice'
+WHERE
+  NOT EXISTS (SELECT 1 FROM ledger."transferType" WHERE "transferCode"='invoice');
+
+INSERT INTO
+  ledger."transferType"(  "transferTypeId",  name,  "transferCode")
+SELECT
+ 3, 'fee','fee'
+WHERE
+  NOT EXISTS (SELECT 1 FROM ledger."transferType" WHERE "transferCode"='fee');
 
 -- currency
 INSERT INTO
