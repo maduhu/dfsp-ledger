@@ -8,8 +8,7 @@
     "@executionCondition"  character varying(100),
     "@cancellationCondition"  character varying(100),
     "@state"  character varying(20),
-    "@expiresAt"  timestamp,
-    "@transferTypeId" integer
+    "@expiresAt"  timestamp
 ) RETURNS TABLE(
     id character varying(100),
     "debitAccount" character varying(20),
@@ -28,7 +27,22 @@ $BODY$
         "@creditAccountId" int;
         "@creditBalance" numeric(19,2);
         "@currencyId" char(3);
-        "@transferStateId" int:=(SELECT ts."transferStateId" FROM ledger."transferState" ts WHERE ts.name="@state");
+        "@transferStateId" int:=(
+            SELECT
+                ts."transferStateId"
+            FROM
+                ledger."transferState" ts
+            WHERE
+                ts.name="@state"
+        );
+        "@transferTypeId" int:=(
+            SELECT
+                tt."transferTypeId"
+            FROM
+                ledger."transferType" tt
+            WHERE
+                tt."transferCode" = ISNULL(cast(t.creditMemo->'ilp_header'->'data'->'data'->>'memo' AS json)->'transferCode', 'p2p')
+        );
         "@transferId" BIGINT:=(SELECT nextval('ledger."transfer_transferId_seq"'));
 
     BEGIN
@@ -37,18 +51,22 @@ $BODY$
         END IF;
 
         SELECT
-            a."accountId",a."currencyId"
+            a."accountId",
+            a."currencyId"
         INTO
-            "@debitAccountId","@currencyId"
+            "@debitAccountId",
+            "@currencyId"
         FROM
             ledger.account a
         WHERE
             a."accountNumber"="@debitAccount";
 
         SELECT
-            a."accountId",a.credit-a.debit
+            a."accountId",
+            a.credit-a.debit
         INTO
-            "@creditAccountId","@creditBalance"
+            "@creditAccountId",
+            "@creditBalance"
         FROM
             ledger.account a
         WHERE
@@ -75,7 +93,7 @@ $BODY$
                 "creditAccountId",
                 "creditMemo",
                 "currencyId",
-                amount,
+                "amount",
                 "executionCondition",
                 "cancellationCondition",
                 "transferStateId",
@@ -89,15 +107,15 @@ $BODY$
             "@uuid",
             NOW(),
             "@transferTypeId",
-             "@debitAccountId",
-             "@debitMemo",
-             "@creditAccountId",
-             "@creditMemo",
-             "@currencyId",
+            "@debitAccountId",
+            "@debitMemo",
+            "@creditAccountId",
+            "@creditMemo",
+            "@currencyId",
             "@amount",
             "@executionCondition",
             "@cancellationCondition",
-             "@transferStateId",
+            "@transferStateId",
             "@expiresAt",
             now(),
             now(),

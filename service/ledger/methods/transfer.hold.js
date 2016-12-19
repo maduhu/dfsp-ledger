@@ -92,8 +92,7 @@ module.exports = {
       executionCondition: msg.execution_condition,
       cancellationCondition: msg.cancellation_condition,
       state: (debit.authorized) ? 'prepared' : 'proposed',
-      expiresAt: msg.expires_at,
-      transferTypeId: 1 /* P2P */
+      expiresAt: msg.expires_at
     }
   },
   'transfer.hold.response.receive': function (msg, $meta) {

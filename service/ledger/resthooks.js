@@ -1,15 +1,18 @@
 var path = require('path')
 var util = require('./util')
 var error = require('./error')
+// function uriToLedgerAccount (uri) {
+//   var baseUrl = util.get('baseUrl')
+//   var account = (typeof uri === 'string') && uri.split(baseUrl + '/accounts/')[1]
+//   if (!account) {
+//     throw error['ledger.transfer.hold.unprocessableEntity']({
+//       uri: uri
+//     })
+//   }
+//   return account
+// }
 function uriToLedgerAccount (uri) {
-  var baseUrl = util.get('baseUrl')
-  var account = (typeof uri === 'string') && uri.split(baseUrl + '/accounts/')[1]
-  if (!account) {
-    throw error['ledger.transfer.hold.unprocessableEntity']({
-      uri: uri
-    })
-  }
-  return account
+  return uri.split('/').pop()
 }
 function ledgerAccountToUri (accountNumber) {
   var baseUrl = util.get('baseUrl')

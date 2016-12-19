@@ -27,22 +27,26 @@ $body$
         "@cancellationCondition" CHARACTER varying(100);
         "@debitAccountId"  INT;
         "@creditAccountId" INT;
-        "@creditBalance"   numeric(19,2);
+        "@fee" INT;
         "@amount"          numeric(19,2);
         "@transferStateId" INT;
+
+        "@debitBalance"   numeric(19,2);
     BEGIN
         SELECT
             t."executionCondition",
             t."cancellationCondition",
             t."debitAccountId",
             t."creditAccountId",
+            ISNULL(cast(t.creditMemo->'ilp_header'->'data'->'data'->>'memo' AS json)->'fee', 0),
             t."transferStateId",
             t.amount
         INTO
-            "@executionCondition" ,
-            "@cancellationCondition" ,
-            "@debitAccountId" ,
-            "@creditAccountId" ,
+            "@executionCondition",
+            "@cancellationCondition",
+            "@debitAccountId",
+            "@creditAccountId",
+            "@fee",
             "@transferStateId",
             "@amount"
         FROM
@@ -50,14 +54,15 @@ $body$
         WHERE
             t."uuid" = "@transferId";
 
+
         SELECT
-            a.credit - a.debit
+            a.credit - a.debit - "@fee"
         INTO
-            "@creditBalance"
+            "@debitBalance"
         FROM
             ledger.account a
         WHERE
-            a."accountId" = "@creditAccountId";
+            a."accountId" = "@debitAccountId";
 
         IF ("@transferStateId" != (
               SELECT "transferStateId"
@@ -67,7 +72,7 @@ $body$
         )
         THEN
             RAISE EXCEPTION 'ledger.transfer.execute.alreadyExists';
-        END IF ;
+        END IF;
 
         IF ("@condition" = "@cancellationCondition") THEN
             UPDATE
@@ -84,14 +89,14 @@ $body$
         END IF ;
 
         IF ("@condition" = "@executionCondition") THEN
-            IF "@creditBalance" < "@amount" THEN
+            IF "@debitBalance" < "@amount" THEN
                 RAISE EXCEPTION 'ledger.transfer.execute.insufficientFunds';
             END IF ;
 
             UPDATE
                 ledger.account
             SET
-                debit = debit + "@amount"
+                debit = debit + "@amount" + "@fee"
             WHERE
                 "accountId" = "@debitAccountId";
 
