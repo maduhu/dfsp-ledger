@@ -1,3 +1,19 @@
+<a name="0.14.0"></a>
+# [0.14.0](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.13.0...v0.14.0) (2016-12-20)
+
+
+### Bug Fixes
+
+* fix ledger.ministatement.get ([5782a45](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/5782a45))
+* typo ([4af71df](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/4af71df))
+
+
+### Features
+
+* add ledger.ministatement.get db function added ([0970682](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/0970682))
+
+
+
 <a name="0.13.0"></a>
 # [0.13.0](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.12.0...v0.13.0) (2016-12-20)
 
