@@ -1,3 +1,13 @@
+<a name="0.14.1"></a>
+## [0.14.1](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.14.0...v0.14.1) (2016-12-20)
+
+
+### Bug Fixes
+
+* columns and values naming in ledger.ministatement.get ([6a0d99f](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/6a0d99f))
+
+
+
 <a name="0.14.0"></a>
 # [0.14.0](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.13.0...v0.14.0) (2016-12-20)
 
