@@ -1,34 +1,34 @@
 ﻿CREATE OR REPLACE FUNCTION ledger."ministatement.get"(
 	"@accountNumber" varchar(50)
 ) RETURNS TABLE (
-	"name" varchar(50),
-	"amount" varchar(50),
+	"name" text,
+	"amount" text,
 	"date" timestamp without time zone
 ) AS
 $BODY$
-	DECLARE "@accountId" bigint:=(SELECT "accountId" FROM ledger.account WHERE "accountNumber" = "@accountNumber");
+	DECLARE "@accountId" bigint:=(SELECT "accountId" FROM ledger."account" WHERE "accountNumber" = "@accountNumber");
 	BEGIN
 		RETURN query
 		SELECT
-			CASE WHEN "debitAccountId" = "@accountId"
-				THEN CAST("creditMemo"->'ilp_header'->'data'->'data'->>'memo' AS json)->>'creditName'
-				ELSE CAST("creditMemo"->'ilp_header'->'data'->'data'->>'memo' AS json)->>'debitName'
+			CASE WHEN t."debitAccountId" = "@accountId"
+				THEN CAST(t."creditMemo"->'ilp_header'->'data'->'data'->>'memo' AS json)->>'creditName'
+				ELSE CAST(t."creditMemo"->'ilp_header'->'data'->'data'->>'memo' AS json)->>'debitName'
 			END AS "name",
-			CONCAT(CASE WHEN "debitAccountId" = "@accountId" THEN '-' ELSE '' END, CAST("amount" AS varchar)) AS "amount",
-			"transferDate" AS "date"
+			CONCAT(CASE WHEN t."debitAccountId" = "@accountId" THEN '-' ELSE '' END, CAST(t."amount" AS varchar)) AS "amount",
+			t."transferDate" AS "date"
 		FROM
-			ledger.transfer
+			ledger.transfer t
 		WHERE
-			"debitAccountId" = "@accountId" OR "creditAccountId" = "@accountId"
+			t."debitAccountId" = "@accountId" OR t."creditAccountId" = "@accountId"
 		UNION ALL
 		SELECT
 			'fee' AS "name",
-			CONCAT('-', CAST("amount" AS varchar)) AS "amount",
-			"transferDate" AS "date"
+			CONCAT('-', CAST(f."amount" AS varchar)) AS "amount",
+			f."transferDate" AS "date"
 		FROM
-			ledger.fee
+			ledger.fee f
 		WHERE
-			"debitAccountId" = "@accountId"
+			f."debitAccountId" = "@accountId"
 		ORDER BY "date" DESC;
 	END
 $BODY$
