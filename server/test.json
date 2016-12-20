@@ -2,7 +2,6 @@
   "implementation": "dfsp-ledger",
   "repl": false,
   "console": false,
-  "log": false,
   "debug": true,
   "workDir": "./tmp",
   "masterBus": {
