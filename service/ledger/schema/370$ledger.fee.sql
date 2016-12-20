@@ -13,4 +13,3 @@ CREATE TABLE ledger."fee"
   CONSTRAINT "fkLedgerFee_currency" FOREIGN KEY ("currencyId") REFERENCES ledger.currency ("currencyId") MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION,
   CONSTRAINT "fkLedgerFee_transfer" FOREIGN KEY ("transferId") REFERENCES ledger.transfer ("transferId") MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION
 )
-
