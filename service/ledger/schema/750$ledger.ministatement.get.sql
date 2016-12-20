@@ -1,4 +1,4 @@
-﻿CREATE OR REPLACE FUNCTION ledger."transfer.get"(
+﻿CREATE OR REPLACE FUNCTION ledger."ministatement.get"(
 	"@accountId" character varying(100)
 ) RETURNS TABLE (
 	"name" varchar(100),
