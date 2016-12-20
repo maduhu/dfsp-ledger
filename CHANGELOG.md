@@ -1,3 +1,20 @@
+<a name="0.13.0"></a>
+# [0.13.0](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.12.0...v0.13.0) (2016-12-20)
+
+
+### Bug Fixes
+
+* handle memo in db ([6573986](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/6573986))
+* reenable logging ([5dc150f](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/5dc150f))
+* reorder db functions ([fe03f45](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/fe03f45))
+
+
+### Features
+
+* add fee table and handle fee transfers locally ([ea914a1](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/ea914a1))
+
+
+
 <a name="0.12.0"></a>
 # [0.12.0](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.11.4...v0.12.0) (2016-12-19)
 
