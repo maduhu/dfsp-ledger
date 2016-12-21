@@ -3,6 +3,7 @@
   "repl": false,
   "console": false,
   "debug": true,
+  "log": false,
   "workDir": "./tmp",
   "masterBus": {
     "logLevel": "error",
