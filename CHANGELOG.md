@@ -1,3 +1,13 @@
+<a name="0.14.3"></a>
+## [0.14.3](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.14.2...v0.14.3) (2016-12-22)
+
+
+### Bug Fixes
+
+* temp fix and ut-tools version bump ([588a933](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/588a933))
+
+
+
 <a name="0.14.2"></a>
 ## [0.14.2](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.14.1...v0.14.2) (2016-12-21)
 
