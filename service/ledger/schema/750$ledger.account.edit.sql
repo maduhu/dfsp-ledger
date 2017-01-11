@@ -10,7 +10,8 @@
 RETURNS TABLE(
     "accountNumber" character varying(100),
     "balance" "numeric"(19,2),
-    "currency" character(3)
+    "currency" character(3),
+    "name" character varying(20)
 )
 AS
 $BODY$
@@ -32,7 +33,8 @@ return QUERY
     SELECT
       a."accountNumber",
       a.credit-a.debit,
-      a."currencyId"
+      a."currencyId",
+      a."name"
   FROM
       ledger."account" a
   WHERE

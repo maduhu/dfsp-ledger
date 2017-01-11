@@ -1,4 +1,4 @@
-var seed = (Date.now() - 1463200000000) * 10000 // 1463200000000 is 14 May 2016
+var seed = 1000
 function next () {
   seed += 1
   return seed
@@ -11,11 +11,11 @@ var joi = require('joi')
 var uuid = require('uuid')
 const UUID = uuid.v4()
 const BASE = 'http://localhost:8014/ledger'
-const DEBITACCOUNTNUMBER = 'alice-' + next()
+const DEBITACCOUNTNUMBER = '0000' + next()
 const DEBITACCOUNTNAME = 'Alice'
 const DEBITACCOUNTBALANCE = '1000.00'
 const DEBITACCOUNT = BASE + '/accounts/' + DEBITACCOUNTNUMBER
-const CREDITACCOUNTNUMBER = 'bob-' + next()
+const CREDITACCOUNTNUMBER = '0000' + next()
 const CREDITACCOUNTNAME = 'Bob'
 const CREDITACCOUNTBALANCE = '1000.00'
 const CREDITACCOUNT = BASE + '/accounts/' + CREDITACCOUNTNUMBER
