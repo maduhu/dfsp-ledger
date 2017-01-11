@@ -42,7 +42,7 @@ module.exports = {
     return {
       accountNumber: msg.accountNumber,
       debit: 0,
-      credit: msg.credit,
+      credit: msg.balance,
       name: msg.name,
       displayName: msg.name,
       accountTypeId: 1,
