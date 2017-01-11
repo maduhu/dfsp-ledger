@@ -4,11 +4,11 @@ var util = require('../util')
 module.exports = {
   rest: function () {
     return {
-      rpc: 'ledger.account.edit',
+      rpc: 'ledger.account.add',
       path: '/ledger/accounts/{accountNumber}',
-      method: 'post',
+      method: 'put',
       config: {
-        description: 'Edit account',
+        description: 'Create account',
         tags: ['api'],
         validate: {
           params: {
@@ -23,7 +23,7 @@ module.exports = {
           'hapi-swagger': {
             responses: {
               '200': {
-                description: 'Account edited successfully.',
+                description: 'Account created successfully.',
                 schema: joi.object({
                   id: joi.string(),
                   name: joi.string(),
@@ -38,26 +38,25 @@ module.exports = {
       }
     }
   },
-  'account.edit.request.send': function (msg, $meta) {
+  'account.add.request.send': function (msg, $meta) {
     return {
       accountNumber: msg.accountNumber,
       debit: 0,
-      crcreate: msg.balance,
+      credit: msg.credit,
       name: msg.name,
       displayName: msg.name,
       accountTypeId: 1,
-      currencyId: 'USD',
-      isDisabled: msg.isDisabled
+      currencyId: 'USD'
     }
   },
-  'account.edit.response.receive': function (msg, $meta) {
+  'account.add.response.receive': function (msg, $meta) {
     var account = msg[0]
     var baseUrl = util.get('baseUrl')
     if (account.length === 0) {
-      throw error['ledger.account.edit.notFound']()
+      throw error['ledger.account.add.notFound']()
     }
     if (account.accountNumber.length === 0) {
-      throw error['ledger.account.edit.invalidUriParameter']()
+      throw error['ledger.account.add.invalidUriParameter']()
     }
     return {
       id: baseUrl + '/accounts/' + account.accountNumber,

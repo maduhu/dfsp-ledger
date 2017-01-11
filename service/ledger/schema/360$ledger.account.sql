@@ -7,7 +7,7 @@ CREATE TABLE ledger.account
   "credit" numeric(19,2) NOT NULL,
   "debit" numeric(19,2) NOT NULL,
   "accountTypeId" integer NOT NULL,
-  "isActive" bit(1) NOT NULL,
+  "isDisabled" boolean NOT NULL,
   "parentId" integer,
   "creationDate" timestamp without time zone NOT NULL,
   "currencyId" character(3) NOT NULL,

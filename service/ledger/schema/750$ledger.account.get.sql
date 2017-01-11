@@ -6,7 +6,7 @@ RETURNS TABLE (
   "balance" numeric(19,2),
   "currencyCode" character(3),
   "currencySymbol" varchar(10),
-  "isDisable" bit
+  "isDisabled" boolean
 ) AS
 $body$
     SELECT
@@ -14,12 +14,12 @@ $body$
         a.credit-a.debit AS "balance",
         a."currencyId" AS "currencyCode",
         c."symbol" AS "currencySymbol",
-        case when a."isActive"=CAST(1 as bit) then CAST(1 as bit) else CAST(0 as bit) end AS "isDisable"
+        a."isDisabled" AS "isDisabled"
     FROM
         ledger."account" a
     JOIN
         ledger."currency" c ON a."currencyId" = c."currencyId"
     WHERE
-        a."accountNumber"="@accountNumber"
+        a."accountNumber"="@accountNumber" and a."isDisabled" = FALSE
 $body$
 LANGUAGE 'sql'

@@ -114,29 +114,29 @@ module.exports = [
     message: 'ledger account error'
   },
   {
-    type: 'ledger.account.edit',
-    message: 'ledger account.edit error'
+    type: 'ledger.account.add',
+    message: 'ledger account.add error'
   },
   {
     id: 'UnauthorizedError',
-    type: 'ledger.account.edit.unauthorized',
+    type: 'ledger.account.add.unauthorized',
     message: 'You do not have permissions to access this resource',
     statusCode: 403
   },
   {
     id: 'NotFoundError',
-    type: 'ledger.account.edit.notFound',
+    type: 'ledger.account.add.notFound',
     message: 'Unknown account.',
     statusCode: 404
   },
   {
     id: 'InvalidUriParameterError',
-    type: 'ledger.account.edit.invalidUriParameter',
+    type: 'ledger.account.add.invalidUriParameter',
     message: 'One of the provided URI parameters was invalid'
   },
   {
     id: 'InvalidBodyError',
-    type: 'ledger.account.edit.invalidBody',
+    type: 'ledger.account.add.invalidBody',
     message: 'The submitted JSON entity does not match the required schema'
   },
   {

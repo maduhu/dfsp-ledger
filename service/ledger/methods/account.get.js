@@ -41,7 +41,7 @@ module.exports = {
       balance: account.balance,
       currencyCode: account.currencyCode,
       currencySymbol: account.currencySymbol,
-      is_disabled: account.isDisable,
+      is_disabled: account.isDisabled,
       ledger: baseUrl
     }
   }
