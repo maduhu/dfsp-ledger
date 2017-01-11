@@ -3,7 +3,6 @@
   "@debit" "numeric"(19,2),
   "@credit" "numeric"(19,2),
   "@name" character varying(20),
-  "@displayName" character varying(100),
   "@accountTypeId" INT,
   "@currencyId" char(3)
 )
@@ -23,7 +22,6 @@ INSERT INTO
 (
   "accountId",
   "name",
-  "displayName",
   "accountNumber",
   "credit",
   "debit",
@@ -36,7 +34,6 @@ INSERT INTO
 VALUES (
   "@accountId",
   "@name",
-  "@displayName",
   "@accountNumber",
   "@credit",
   "@debit",

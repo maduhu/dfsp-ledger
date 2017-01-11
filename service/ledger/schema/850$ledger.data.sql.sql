@@ -96,43 +96,43 @@ WHERE
 
 -- account
 INSERT INTO
-  ledger.account("name", "displayName", "accountNumber", "credit", "debit", "accountTypeId", "isDisabled", "parentId", "creationDate", "currencyId")
+  ledger.account("name", "accountNumber", "credit", "debit", "accountTypeId", "isDisabled", "parentId", "creationDate", "currencyId")
 SELECT
-  'settlement', 'settlement', '000000001', 10000, 0, 2, FALSE, NULL, '2016-08-24 10:24:45.845802', 'USD'
+  'settlement', '000000001', 10000, 0, 2, FALSE, NULL, '2016-08-24 10:24:45.845802', 'USD'
 WHERE
   NOT EXISTS (SELECT 1 FROM ledger.account  WHERE "accountNumber"='000000001');
 
 INSERT INTO
-  ledger.account("name", "displayName", "accountNumber", "credit", "debit", "accountTypeId", "isDisabled", "parentId", "creationDate", "currencyId")
+  ledger.account("name", "accountNumber", "credit", "debit", "accountTypeId", "isDisabled", "parentId", "creationDate", "currencyId")
 SELECT
-  'fee', 'fee', '000000002', 10000, 0, 3, FALSE, NULL, '2016-08-24 10:24:45.845802', 'USD'
+  'fee', '000000002', 10000, 0, 3, FALSE, NULL, '2016-08-24 10:24:45.845802', 'USD'
 WHERE
   NOT EXISTS (SELECT 1 FROM ledger.account  WHERE "accountNumber"='000000002');
 
 INSERT INTO
-  ledger.account("name", "displayName", "accountNumber", "credit", "debit", "accountTypeId", "isDisabled", "parentId", "creationDate", "currencyId")
+  ledger.account("name", "accountNumber", "credit", "debit", "accountTypeId", "isDisabled", "parentId", "creationDate", "currencyId")
 SELECT
-  'testAccount1', 'testAccount1', '000000011', 10000, 1000, 1, FALSE, NULL, '2016-08-24 10:24:45.845802', 'USD'
+  'testAccount1', '000000011', 10000, 1000, 1, FALSE, NULL, '2016-08-24 10:24:45.845802', 'USD'
 WHERE
   NOT EXISTS (SELECT 1 FROM ledger.account  WHERE "accountNumber"='000000011');
 
 INSERT INTO
-  ledger.account("name", "displayName", "accountNumber", "credit", "debit", "accountTypeId", "isDisabled", "parentId", "creationDate", "currencyId")
+  ledger.account("name", "accountNumber", "credit", "debit", "accountTypeId", "isDisabled", "parentId", "creationDate", "currencyId")
 SELECT
-  'testAccount2', 'testAccount2', '000000012', 10000, 1000, 1, FALSE, NULL, '2016-08-24 10:24:45.845802', 'USD'
+  'testAccount2', '000000012', 10000, 1000, 1, FALSE, NULL, '2016-08-24 10:24:45.845802', 'USD'
 WHERE
   NOT EXISTS (SELECT 1 FROM ledger.account  WHERE "accountNumber"='000000012');
 
 INSERT INTO
-  ledger.account("name", "displayName", "accountNumber", "credit", "debit", "accountTypeId", "isDisabled", "parentId", "creationDate", "currencyId")
+  ledger.account("name", "accountNumber", "credit", "debit", "accountTypeId", "isDisabled", "parentId", "creationDate", "currencyId")
 SELECT
-  'testAccount3', 'testAccount3', '000000013', 10000, 1000, 1, FALSE, NULL, '2016-08-24 10:24:45.845802', 'USD'
+  'testAccount3', '000000013', 10000, 1000, 1, FALSE, NULL, '2016-08-24 10:24:45.845802', 'USD'
 WHERE
   NOT EXISTS (SELECT 1 FROM ledger.account  WHERE "accountNumber"='000000013');
 
 INSERT INTO
-  ledger.account("name", "displayName", "accountNumber", "credit", "debit", "accountTypeId", "isDisabled", "parentId", "creationDate", "currencyId")
+  ledger.account("name", "accountNumber", "credit", "debit", "accountTypeId", "isDisabled", "parentId", "creationDate", "currencyId")
 SELECT
-  'testAccount4', 'testAccount4', '000000014', 10000, 1000, 1, FALSE, NULL, '2016-08-24 10:24:45.845802', 'USD'
+  'testAccount4', '000000014', 10000, 1000, 1, FALSE, NULL, '2016-08-24 10:24:45.845802', 'USD'
 WHERE
   NOT EXISTS (SELECT 1 FROM ledger.account  WHERE "accountNumber"='000000014');

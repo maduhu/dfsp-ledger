@@ -3,7 +3,6 @@
   "@debit" "numeric"(19,2),
   "@credit" "numeric"(19,2),
   "@name" character varying(20),
-  "@displayName" character varying(100),
   "@accountTypeId" INT,
   "@currencyId" char(3),
   "@isDisabled" boolean
@@ -21,7 +20,6 @@ UPDATE
   ledger.account
 SET
   "name" = COALESCE("@name", "name"),
-  "displayName" = COALESCE("@displayName", "displayName"),
   "credit" = COALESCE("@credit", "credit"),
   "debit" = COALESCE("@debit", "debit"),
   "accountTypeId" = COALESCE("@accountTypeId", "accountTypeId"),

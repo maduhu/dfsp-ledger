@@ -44,7 +44,6 @@ module.exports = {
       debit: 0,
       credit: msg.balance,
       name: msg.name,
-      displayName: msg.name,
       accountTypeId: 1,
       currencyId: 'USD'
     }
@@ -60,7 +59,7 @@ module.exports = {
     }
     return {
       id: baseUrl + '/accounts/' + account.accountNumber,
-      name: account.accountNumber,
+      name: account.name,
       balance: account.balance,
       currency: account.currency,
       is_disabled: account.isDisabled

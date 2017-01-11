@@ -2,7 +2,6 @@ CREATE TABLE ledger.account
 (
   "accountId" serial NOT NULL,
   "name" character varying(50) NOT NULL,
-  "displayName" character varying(100),
   "accountNumber" character varying(50),
   "credit" numeric(19,2) NOT NULL,
   "debit" numeric(19,2) NOT NULL,
