@@ -37,7 +37,7 @@ module.exports = {
     }
     return {
       id: baseUrl + '/accounts/' + account.accountNumber,
-      name: account.accountNumber,
+      name: account.name,
       balance: account.balance,
       currencyCode: account.currencyCode,
       currencySymbol: account.currencySymbol,

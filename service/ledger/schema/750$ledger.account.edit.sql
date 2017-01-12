@@ -3,7 +3,6 @@
   "@debit" "numeric"(19,2),
   "@credit" "numeric"(19,2),
   "@name" character varying(20),
-  "@displayName" character varying(100),
   "@accountTypeId" INT,
   "@currencyId" char(3),
   "@isDisabled" boolean
@@ -11,7 +10,8 @@
 RETURNS TABLE(
     "accountNumber" character varying(100),
     "balance" "numeric"(19,2),
-    "currency" character(3)
+    "currency" character(3),
+    "name" character varying(20)
 )
 AS
 $BODY$
@@ -21,7 +21,6 @@ UPDATE
   ledger.account
 SET
   "name" = COALESCE("@name", "name"),
-  "displayName" = COALESCE("@displayName", "displayName"),
   "credit" = COALESCE("@credit", "credit"),
   "debit" = COALESCE("@debit", "debit"),
   "accountTypeId" = COALESCE("@accountTypeId", "accountTypeId"),
@@ -34,7 +33,8 @@ return QUERY
     SELECT
       a."accountNumber",
       a.credit-a.debit,
-      a."currencyId"
+      a."currencyId",
+      a."name"
   FROM
       ledger."account" a
   WHERE

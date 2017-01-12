@@ -6,15 +6,12 @@ module.exports = {
     var baseUrl = util.get('baseUrl')
     return {
       rpc: 'ledger.account.add',
-      path: '/ledger/accounts/{accountNumber}',
+      path: '/ledger/accounts',
       method: 'put',
       config: {
         description: 'Create account',
         tags: ['api'],
         validate: {
-          params: {
-            accountNumber: joi.string().required()
-          },
           payload: {
             name: joi.string().min(1).required().example('alice'),
             balance: joi.string().required().example('1000')
@@ -27,6 +24,7 @@ module.exports = {
                 description: 'Account created successfully.',
                 schema: joi.object({
                   id: joi.string().example(baseUrl + '/ledger/accounts/00001011'),
+                  accountNumber: joi.string().example('00001011'),
                   name: joi.string().example('alice'),
                   balance: joi.string().example('1000'),
                   currency: joi.string().example('USD'),
@@ -41,11 +39,9 @@ module.exports = {
   },
   'account.add.request.send': function (msg, $meta) {
     return {
-      accountNumber: msg.accountNumber,
       debit: 0,
       credit: msg.balance,
       name: msg.name,
-      displayName: msg.name,
       accountTypeId: 1,
       currencyId: 'USD'
     }
@@ -61,7 +57,8 @@ module.exports = {
     }
     return {
       id: baseUrl + '/accounts/' + account.accountNumber,
-      name: account.accountNumber,
+      accountNumber: account.accountNumber,
+      name: account.name,
       balance: account.balance,
       currency: account.currency,
       is_disabled: account.isDisabled

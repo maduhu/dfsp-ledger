@@ -1,9 +1,3 @@
-var seed = (Date.now() - 1463200000000) * 10000 // 1463200000000 is 14 May 2016
-function next () {
-  seed += 1
-  return seed
-}
-
 var request = require('supertest-as-promised')('http://localhost:8014/ledger/')
 var test = require('ut-run/test')
 var config = require('./../lib/appConfig')
@@ -11,14 +5,10 @@ var joi = require('joi')
 var uuid = require('uuid')
 const UUID = uuid.v4()
 const BASE = 'http://localhost:8014/ledger'
-const DEBITACCOUNTNUMBER = 'alice-' + next()
 const DEBITACCOUNTNAME = 'Alice'
 const DEBITACCOUNTBALANCE = '1000.00'
-const DEBITACCOUNT = BASE + '/accounts/' + DEBITACCOUNTNUMBER
-const CREDITACCOUNTNUMBER = 'bob-' + next()
 const CREDITACCOUNTNAME = 'Bob'
 const CREDITACCOUNTBALANCE = '1000.00'
-const CREDITACCOUNT = BASE + '/accounts/' + CREDITACCOUNTNUMBER
 const AMOUNT = '50.00'
 const EXECUTEDSTATE = 'executed'
 const PREPAREDSTATE = 'prepared'
@@ -64,7 +54,7 @@ test({
       name: 'Create first ledger account',
       params: (context) => {
         return request
-          .put('accounts/' + DEBITACCOUNTNUMBER)
+          .put('accounts')
           .send({
             'name': DEBITACCOUNTNAME,
             'balance': DEBITACCOUNTBALANCE
@@ -75,6 +65,7 @@ test({
       result: (result, assert) => {
         assert.equals(joi.validate(result.body, joi.object().keys({
           id: joi.string(),
+          accountNumber: joi.string(),
           name: joi.string(),
           balance: joi.string(),
           currency: joi.string(),
@@ -85,7 +76,7 @@ test({
       name: 'Create second ledger account',
       params: (context) => {
         return request
-          .put('accounts/' + CREDITACCOUNTNUMBER)
+          .put('accounts')
           .send({
             'name': CREDITACCOUNTNAME,
             'balance': CREDITACCOUNTBALANCE
@@ -96,6 +87,7 @@ test({
       result: (result, assert) => {
         assert.equals(joi.validate(result.body, joi.object().keys({
           id: joi.string(),
+          accountNumber: joi.string(),
           name: joi.string(),
           balance: joi.string(),
           currency: joi.string(),
@@ -106,7 +98,7 @@ test({
       name: 'Get ledger account',
       params: (context) => {
         return request
-          .get('accounts/' + DEBITACCOUNTNUMBER)
+          .get('accounts/' + context['Create first ledger account'].body.accountNumber)
           .expect('Content-Type', /json/)
           .expect(200)
       },
@@ -130,13 +122,13 @@ test({
             'id': BASE + '/transfers/' + UUID,
             'ledger': BASE,
             'debits': [{
-              'account': DEBITACCOUNT,
+              'account': BASE + '/accounts/' + context['Create first ledger account'].body.accountNumber,
               'amount': AMOUNT,
               'memo': {note: 'debit memo'},
               'authorized': true
             }],
             'credits': [{
-              'account': CREDITACCOUNT,
+              'account': BASE + '/accounts/' + context['Create second ledger account'].body.accountNumber,
               'memo': {note: 'credit memo'},
               'amount': AMOUNT
             }],
