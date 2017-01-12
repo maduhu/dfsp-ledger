@@ -1,3 +1,19 @@
+<a name="0.15.0"></a>
+# [0.15.0](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.14.3...v0.15.0) (2017-01-12)
+
+
+### Bug Fixes
+
+* unit tests ([6f971e2](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/6f971e2))
+* unit tests ([5595aa5](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/5595aa5))
+
+
+### Features
+
+* account close ([3befdce](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/3befdce))
+
+
+
 <a name="0.14.3"></a>
 ## [0.14.3](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.14.2...v0.14.3) (2016-12-22)
 

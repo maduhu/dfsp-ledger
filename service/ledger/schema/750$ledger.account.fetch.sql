@@ -20,6 +20,6 @@ $body$
     JOIN
         ledger."currency" c ON a."currencyId" = c."currencyId"
     WHERE
-        a."accountNumber" = ANY("@accountNumber") and a."isDisabled" = FALSE
+        a."accountNumber" IN (SELECT UNNEST("@accountNumber")) and a."isDisabled" = FALSE
 $body$
 LANGUAGE 'sql'

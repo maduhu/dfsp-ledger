@@ -3,6 +3,7 @@ var error = require('../error')
 var util = require('../util')
 module.exports = {
   rest: function () {
+    var baseUrl = util.get('baseUrl')
     return {
       rpc: 'ledger.account.add',
       path: '/ledger/accounts/{accountNumber}',
@@ -15,8 +16,8 @@ module.exports = {
             accountNumber: joi.string().required()
           },
           payload: {
-            name: joi.string().min(1).required(),
-            balance: joi.string().required()
+            name: joi.string().min(1).required().example('alice'),
+            balance: joi.string().required().example('1000')
           }
         },
         plugins: {
@@ -25,11 +26,11 @@ module.exports = {
               '200': {
                 description: 'Account created successfully.',
                 schema: joi.object({
-                  id: joi.string(),
-                  name: joi.string(),
-                  balance: joi.string(),
-                  currency: joi.string(),
-                  is_disabled: joi.string().allow([0, 1])
+                  id: joi.string().example(baseUrl + '/ledger/accounts/00001011'),
+                  name: joi.string().example('alice'),
+                  balance: joi.string().example('1000'),
+                  currency: joi.string().example('USD'),
+                  is_disabled: joi.bool().example(false)
                 })
               }
             }

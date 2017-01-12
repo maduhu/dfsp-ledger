@@ -11,15 +11,24 @@ module.exports = {
         tags: ['api'],
         validate: {
           params: {
-            accountNumber: joi.string().required()
+            accountNumber: joi.string().required().description('Account number')
           }
         },
         plugins: {
           'hapi-swagger': {
             responses: {
               '200': {
-                description: 'Transfer was executed successfully.',
-                schema: joi.object()
+                description: 'Accounts fetched successfully.',
+                schema: joi.array()
+                  .items(
+                    joi.object({
+                      id: joi.string().example('/ledger/accounts/00001011'),
+                      name: joi.string().example('alice1'),
+                      balance: joi.string().example('1000'),
+                      currency: joi.string().example('USD'),
+                      is_disabled: joi.bool().example(false)
+                    })
+                  )
               }
             }
           }
