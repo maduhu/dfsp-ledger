@@ -24,6 +24,7 @@ module.exports = {
                 description: 'Account created successfully.',
                 schema: joi.object({
                   id: joi.string().example(baseUrl + '/ledger/accounts/00001011'),
+                  accountNumber: joi.string().example('00001011'),
                   name: joi.string().example('alice'),
                   balance: joi.string().example('1000'),
                   currency: joi.string().example('USD'),
@@ -56,6 +57,7 @@ module.exports = {
     }
     return {
       id: baseUrl + '/accounts/' + account.accountNumber,
+      accountNumber: account.accountNumber,
       name: account.name,
       balance: account.balance,
       currency: account.currency,

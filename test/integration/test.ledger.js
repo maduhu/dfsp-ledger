@@ -75,6 +75,7 @@ test({
       result: (result, assert) => {
         assert.equals(joi.validate(result.body, joi.object().keys({
           id: joi.string(),
+          accountNumber: joi.string(),
           name: joi.string(),
           balance: joi.string(),
           currency: joi.string(),
@@ -96,6 +97,7 @@ test({
       result: (result, assert) => {
         assert.equals(joi.validate(result.body, joi.object().keys({
           id: joi.string(),
+          accountNumber: joi.string(),
           name: joi.string(),
           balance: joi.string(),
           currency: joi.string(),
@@ -106,7 +108,7 @@ test({
       name: 'Get ledger account',
       params: (context) => {
         return request
-          .get('accounts/' + DEBITACCOUNTNUMBER)
+          .get('accounts/' + context['Create first ledger account'].body.accountNumber)
           .expect('Content-Type', /json/)
           .expect(200)
       },
