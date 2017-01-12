@@ -1,43 +1,6 @@
-var joi = require('joi')
 var error = require('../error')
 var util = require('../util')
 module.exports = {
-  rest: function () {
-    return {
-      rpc: 'ledger.account.edit',
-      path: '/ledger/accounts/{accountNumber}',
-      method: 'put',
-      config: {
-        description: 'Create account',
-        tags: ['api'],
-        validate: {
-          params: {
-            accountNumber: joi.string().required()
-          },
-          payload: {
-            name: joi.string().min(1).required(),
-            balance: joi.string().required()
-          }
-        },
-        plugins: {
-          'hapi-swagger': {
-            responses: {
-              '200': {
-                description: 'Account created successfully.',
-                schema: joi.object({
-                  id: joi.string(),
-                  name: joi.string(),
-                  balance: joi.string(),
-                  currency: joi.string(),
-                  is_disabled: joi.string().allow([0, 1])
-                })
-              }
-            }
-          }
-        }
-      }
-    }
-  },
   'account.edit.request.send': function (msg, $meta) {
     return {
       accountNumber: msg.accountNumber,
@@ -46,7 +9,8 @@ module.exports = {
       name: msg.name,
       displayName: msg.name,
       accountTypeId: 1,
-      currencyId: 'USD'
+      currencyId: 'USD',
+      isDisabled: msg.isDisabled
     }
   },
   'account.edit.response.receive': function (msg, $meta) {
@@ -63,7 +27,7 @@ module.exports = {
       name: account.accountNumber,
       balance: account.balance,
       currency: account.currency,
-      is_disabled: !account.isActive
+      is_disabled: account.isDisabled
     }
   }
 }

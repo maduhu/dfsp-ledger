@@ -1,5 +1,5 @@
-CREATE OR REPLACE FUNCTION ledger."account.get" (
-  "@accountNumber" varchar
+CREATE OR REPLACE FUNCTION ledger."account.fetch" (
+  "@accountNumber" varchar[]
 )
 RETURNS TABLE (
   "accountNumber" varchar,
@@ -20,6 +20,6 @@ $body$
     JOIN
         ledger."currency" c ON a."currencyId" = c."currencyId"
     WHERE
-        a."accountNumber"="@accountNumber" and a."isDisabled" = FALSE
+        a."accountNumber" IN (SELECT UNNEST("@accountNumber")) and a."isDisabled" = FALSE
 $body$
 LANGUAGE 'sql'

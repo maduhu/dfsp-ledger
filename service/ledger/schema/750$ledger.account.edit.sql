@@ -5,61 +5,41 @@
   "@name" character varying(20),
   "@displayName" character varying(100),
   "@accountTypeId" INT,
-  "@currencyId" char(3)
+  "@currencyId" char(3),
+  "@isDisabled" boolean
 )
 RETURNS TABLE(
     "accountNumber" character varying(100),
     "balance" "numeric"(19,2),
-    "currency" character(3),
-    "isActive" bit
+    "currency" character(3)
 )
 AS
 $BODY$
-  declare
-  "@accountId" BIGINT:=(SELECT nextval('ledger."account_accountId_seq"'));
+   #variable_conflict use_column
 BEGIN
-INSERT INTO
+UPDATE
   ledger.account
-(
-  "accountId",
-  name,
-  "displayName",
-  "accountNumber",
-  credit,
-  debit,
-  "accountTypeId",
-  "isActive",
-  "parentId",
-  "creationDate",
-  "currencyId"
-)
-VALUES (
-  "@accountId",
-  "@name",
- "@displayName",
-  "@accountNumber",
-  "@credit",
-  "@debit",
-  "@accountTypeId",
-  CAST(1 as BIT),
-  NULL,
-  now(),
-  "@currencyId"
-);
+SET
+  "name" = COALESCE("@name", "name"),
+  "displayName" = COALESCE("@displayName", "displayName"),
+  "credit" = COALESCE("@credit", "credit"),
+  "debit" = COALESCE("@debit", "debit"),
+  "accountTypeId" = COALESCE("@accountTypeId", "accountTypeId"),
+  "isDisabled" = COALESCE("@isDisabled", "isDisabled"),
+  "currencyId" = COALESCE("@currencyId", "currencyId")
+WHERE
+  "accountNumber" = "@accountNumber";
 
+return QUERY
+    SELECT
+      a."accountNumber",
+      a.credit-a.debit,
+      a."currencyId"
+  FROM
+      ledger."account" a
+  WHERE
+      a."accountNumber" = "@accountNumber";
 
-
-  return QUERY
-      SELECT
-        a."accountNumber",
-        a.credit-a.debit,
-        a."currencyId",
-        a."isActive"
-    FROM
-        ledger."account" a
-    WHERE
-        a."accountId"="@accountId";
-
- END
+END
 $BODY$
 LANGUAGE plpgsql

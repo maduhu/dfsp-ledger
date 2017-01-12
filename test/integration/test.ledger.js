@@ -78,7 +78,7 @@ test({
           name: joi.string(),
           balance: joi.string(),
           currency: joi.string(),
-          is_disabled: joi.any()
+          is_disabled: joi.bool()
         })).error, null, 'return ledger account details')
       }
     }, {
