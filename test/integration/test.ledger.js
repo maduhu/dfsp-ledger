@@ -1,9 +1,3 @@
-var seed = 1000
-function next () {
-  seed += 1
-  return seed
-}
-
 var request = require('supertest-as-promised')('http://localhost:8014/ledger/')
 var test = require('ut-run/test')
 var config = require('./../lib/appConfig')
@@ -11,14 +5,10 @@ var joi = require('joi')
 var uuid = require('uuid')
 const UUID = uuid.v4()
 const BASE = 'http://localhost:8014/ledger'
-const DEBITACCOUNTNUMBER = '0000' + next()
 const DEBITACCOUNTNAME = 'Alice'
 const DEBITACCOUNTBALANCE = '1000.00'
-const DEBITACCOUNT = BASE + '/accounts/' + DEBITACCOUNTNUMBER
-const CREDITACCOUNTNUMBER = '0000' + next()
 const CREDITACCOUNTNAME = 'Bob'
 const CREDITACCOUNTBALANCE = '1000.00'
-const CREDITACCOUNT = BASE + '/accounts/' + CREDITACCOUNTNUMBER
 const AMOUNT = '50.00'
 const EXECUTEDSTATE = 'executed'
 const PREPAREDSTATE = 'prepared'
@@ -132,13 +122,13 @@ test({
             'id': BASE + '/transfers/' + UUID,
             'ledger': BASE,
             'debits': [{
-              'account': DEBITACCOUNT,
+              'account': BASE + '/accounts/' + context['Create first ledger account'].body.accountNumber,
               'amount': AMOUNT,
               'memo': {note: 'debit memo'},
               'authorized': true
             }],
             'credits': [{
-              'account': CREDITACCOUNT,
+              'account': BASE + '/accounts/' + context['Create second ledger account'].body.accountNumber,
               'memo': {note: 'credit memo'},
               'amount': AMOUNT
             }],
