@@ -64,7 +64,7 @@ test({
       name: 'Create first ledger account',
       params: (context) => {
         return request
-          .put('accounts/' + DEBITACCOUNTNUMBER)
+          .put('accounts')
           .send({
             'name': DEBITACCOUNTNAME,
             'balance': DEBITACCOUNTBALANCE
@@ -85,7 +85,7 @@ test({
       name: 'Create second ledger account',
       params: (context) => {
         return request
-          .put('accounts/' + CREDITACCOUNTNUMBER)
+          .put('accounts')
           .send({
             'name': CREDITACCOUNTNAME,
             'balance': CREDITACCOUNTBALANCE
