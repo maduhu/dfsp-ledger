@@ -1,3 +1,19 @@
+<a name="0.16.0"></a>
+# [0.16.0](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.15.0...v0.16.0) (2017-01-12)
+
+
+### Bug Fixes
+
+* unit test - use returned value instead of generated ([7b36e06](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/7b36e06))
+* unit tests - use params from the context ([47d669c](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/47d669c))
+
+
+### Features
+
+* account rename ([535361b](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/535361b))
+
+
+
 <a name="0.15.0"></a>
 # [0.15.0](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.14.3...v0.15.0) (2017-01-12)
 
