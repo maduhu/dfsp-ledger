@@ -1,4 +1,3 @@
-var joi = require('joi')
 var error = require('../error')
 var util = require('../util')
 module.exports = {

@@ -13,8 +13,7 @@ module.exports = {
         tags: ['api'],
         validate: {
           params: {
-            name: joi.string().min(1).required().description('Name of the new account'),
-            balance: joi.string().required().description('Initial balance')
+            accountNumber: joi.string().required()
           },
           payload: {
             name: joi.string().min(1).required().example('alice'),
