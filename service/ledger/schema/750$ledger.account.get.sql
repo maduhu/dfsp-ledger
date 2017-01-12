@@ -6,6 +6,7 @@ RETURNS TABLE (
   "balance" numeric(19,2),
   "currencyCode" character(3),
   "currencySymbol" varchar(10),
+  "name" varchar(50),
   "isDisabled" boolean
 ) AS
 $body$
@@ -14,6 +15,7 @@ $body$
         a.credit-a.debit AS "balance",
         a."currencyId" AS "currencyCode",
         c."symbol" AS "currencySymbol",
+        a."name" AS "name",
         a."isDisabled" AS "isDisabled"
     FROM
         ledger."account" a
