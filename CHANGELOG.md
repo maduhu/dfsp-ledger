@@ -1,3 +1,14 @@
+<a name="0.16.2"></a>
+## [0.16.2](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.16.1...v0.16.2) (2017-01-13)
+
+
+### Bug Fixes
+
+* unit tests ([72f77f7](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/72f77f7))
+* use name as account number ([32d02cd](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/32d02cd))
+
+
+
 <a name="0.16.1"></a>
 ## [0.16.1](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.16.0...v0.16.1) (2017-01-12)
 
