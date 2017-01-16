@@ -7,6 +7,13 @@ module.exports = {
       rpc: 'ledger.account.get',
       path: '/ledger/accounts/{accountNumber}',
       method: 'get',
+      reply: (reply, response, $meta) => {
+        if (!response.error) {
+          response.name = response.accountNumber
+          delete response.accountNumber
+        }
+        return util.get('defaultReply')(reply, response, $meta)
+      },
       config: {
         description: 'Get ledger account',
         notes: 'Receive information about ledger account.',
@@ -20,8 +27,16 @@ module.exports = {
           'hapi-swagger': {
             responses: {
               '200': {
-                description: 'Transfer was executed successfully.',
-                schema: joi.object()
+                description: 'Account information was obtained successfully.',
+                schema: joi.object().keys({
+                  id: joi.string(),
+                  name: joi.string(),
+                  balance: joi.number(),
+                  currencyCode: joi.string(),
+                  currencySymbol: joi.string(),
+                  is_disabled: joi.bool(),
+                  ledger: joi.string()
+                })
               }
             }
           }
@@ -39,6 +54,7 @@ module.exports = {
       id: baseUrl + '/accounts/' + account.accountNumber,
       name: account.name,
       balance: account.balance,
+      accountNumber: account.accountNumber,
       currencyCode: account.currencyCode,
       currencySymbol: account.currencySymbol,
       is_disabled: account.isDisabled,
