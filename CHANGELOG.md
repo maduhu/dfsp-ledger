@@ -1,3 +1,13 @@
+<a name="0.17.0"></a>
+# [0.17.0](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.16.3...v0.17.0) (2017-01-20)
+
+
+### Features
+
+* manage account holders ([96e0e25](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/96e0e25))
+
+
+
 <a name="0.16.3"></a>
 ## [0.16.3](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.16.2...v0.16.3) (2017-01-16)
 
