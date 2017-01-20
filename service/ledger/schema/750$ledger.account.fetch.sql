@@ -23,5 +23,7 @@ $body$
         ledger."currency" c ON a."currencyId" = c."currencyId"
     WHERE
         a."accountNumber" IN (SELECT UNNEST("@accountNumber")) and a."isDisabled" = FALSE
+    ORDER BY
+        a."creationDate" ASC
 $body$
 LANGUAGE 'sql'

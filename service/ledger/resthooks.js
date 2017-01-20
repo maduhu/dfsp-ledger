@@ -27,12 +27,12 @@ function buildTransferResource (transfer) {
     'id': baseUrl + '/transfers/' + transfer.id,
     'ledger': baseUrl,
     'debits': [{
-      'account': ledgerAccountToUri(transfer.debitAccount).replace('8014', '8088'), // beware - monkey patch 2
+      'account': ledgerAccountToUri(transfer.debitAccount).replace(':8014', ':8088'), // beware - monkey patch 2
       'memo': transfer.debitMemo,
       'amount': transfer.amount
     }],
     'credits': [{
-      'account': ledgerAccountToUri(transfer.creditAccount).replace('8014', '8088'), // beware - monkey patch 2
+      'account': ledgerAccountToUri(transfer.creditAccount).replace(':8014', ':8088'), // beware - monkey patch 2
       'memo': transfer.creditMemo,
       'amount': transfer.amount
     }],
