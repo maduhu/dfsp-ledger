@@ -1,3 +1,14 @@
+<a name="0.17.1"></a>
+## [0.17.1](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.17.0...v0.17.1) (2017-01-30)
+
+
+### Bug Fixes
+
+* ignore dev folder ([1b2974a](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/1b2974a))
+* update dependency to ut-tools ([05cb0b7](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/05cb0b7))
+
+
+
 <a name="0.17.0"></a>
 # [0.17.0](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.16.3...v0.17.0) (2017-01-20)
 
