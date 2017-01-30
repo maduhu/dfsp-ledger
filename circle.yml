@@ -16,7 +16,9 @@ test:
 
 deployment:
   prod:
-    branch: master
+    branch: /(^master$)|(^ci_.*)/
     commands:
       - npm run circleci:build
+      - npm run circleci:cover
+      - npm run circleci:tag
       - npm run circleci:push
