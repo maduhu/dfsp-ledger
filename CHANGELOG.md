@@ -1,3 +1,13 @@
+<a name="0.18.1"></a>
+## [0.18.1](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.18.0...v0.18.1) (2017-02-27)
+
+
+### Bug Fixes
+
+* bump dependency to ut-port-console ([e7f5e37](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/e7f5e37))
+
+
+
 <a name="0.18.0"></a>
 # [0.18.0](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.17.2...v0.18.0) (2017-02-24)
 
