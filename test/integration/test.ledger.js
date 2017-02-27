@@ -34,17 +34,25 @@ test({
         assert.equals(joi.validate(result.body, joi.object().keys({
           currency_code: joi.string().allow([null, '']),
           currency_symbol: joi.string().allow([null, '']),
-          condition_sign_public_key: joi.string().allow([null, '']),
-          notification_sign_public_key: joi.string().allow([null, '']),
+          // condition_sign_public_key: joi.string().allow([null, '']),
+          // notification_sign_public_key: joi.string().allow([null, '']),
+          connectors: joi.array().items(joi.object().keys({
+            id: joi.string(),
+            name: joi.string()
+          })),
           urls: joi.object({
+            health: joi.string(),
             transfer: joi.string(),
             transfer_fulfillment: joi.string(),
             transfer_rejection: joi.string(),
-            transfer_state: joi.string(),
+            // transfer_state: joi.string(),
             accounts: joi.string(),
             account: joi.string(),
-            account_transfers: joi.string(),
-            subscription: joi.string()
+            auth_token: joi.string(),
+            // account_transfers: joi.string(),
+            // subscription: joi.string(),
+            websocket: joi.string(),
+            message: joi.string()
           }),
           precision: joi.number().integer(),
           scale: joi.number().integer()
@@ -145,7 +153,8 @@ test({
           debits: joi.array().items(joi.object().keys({
             account: joi.string().required(),
             memo: joi.object().optional(),
-            amount: joi.string().valid(AMOUNT).required()
+            amount: joi.string().valid(AMOUNT).required(),
+            authorized: joi.boolean()
           })).required(),
           credits: joi.array().items(joi.object().keys({
             account: joi.string().required(),
