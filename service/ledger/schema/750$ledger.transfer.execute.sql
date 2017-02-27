@@ -86,24 +86,6 @@ $body$
             RAISE EXCEPTION 'ledger.transfer.execute.alreadyExists';
         END IF;
 
-        IF ("@condition" = "@cancellationCondition") THEN
-            UPDATE
-              ledger.transfer
-            SET
-                "transferStateId" = (
-                    SELECT
-                    "transferStateId"
-                    FROM
-                    ledger."transferState" ts
-                    WHERE
-                    ts.name = 'rejected'
-                ),
-                fulfillment = "@fulfillment",
-                "rejectedAt"=NOW()
-            WHERE
-              "uuid" = "@transferId";
-        END IF ;
-
         IF ("@condition" = "@executionCondition") THEN
             IF "@debitBalance" < ("@amount" + "@fee") THEN
                 RAISE EXCEPTION 'ledger.transfer.execute.insufficientFunds';
@@ -168,7 +150,23 @@ $body$
                 WHERE
                     t."uuid" = "@transferId";
             END IF;
-        END IF ;
+        ELSEIF ("@condition" = "@cancellationCondition") THEN
+            UPDATE
+              ledger.transfer
+            SET
+                "transferStateId" = (
+                    SELECT
+                    "transferStateId"
+                    FROM
+                    ledger."transferState" ts
+                    WHERE
+                    ts.name = 'rejected'
+                ),
+                fulfillment = "@fulfillment",
+                "rejectedAt"=NOW()
+            WHERE
+              "uuid" = "@transferId";
+        END IF;
 
         RETURN query
         SELECT

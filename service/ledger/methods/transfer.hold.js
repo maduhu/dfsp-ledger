@@ -35,7 +35,7 @@ module.exports = {
                 amount: joi.number().required().example(50)
               })
             ).required(),
-            execution_condition: joi.string().required().description('Crypto-Condition').example('cc:0:3:8ZdpKBDUV-KX_OnFZTsCWB_5mlCFI3DynX5f5H2dN-Y:2'),
+            execution_condition: joi.string().description('Crypto-Condition').example('cc:0:3:8ZdpKBDUV-KX_OnFZTsCWB_5mlCFI3DynX5f5H2dN-Y:2'),
             cancellation_condition: joi.string().allow(null).example(null),
             expires_at: joi.date().required().example('2015-06-16T00:00:01.000Z')
           }
@@ -92,7 +92,7 @@ module.exports = {
       amount: debit.amount,
       executionCondition: msg.execution_condition,
       cancellationCondition: msg.cancellation_condition,
-      state: (debit.authorized) ? 'prepared' : 'proposed',
+      authorized: debit.authorized,
       expiresAt: msg.expires_at
     }
   },

@@ -7,7 +7,7 @@
     "@amount"  numeric(19,2),
     "@executionCondition"  character varying(100),
     "@cancellationCondition"  character varying(100),
-    "@state"  character varying(20),
+    "@authorized" boolean,
     "@expiresAt"  timestamp
 ) RETURNS TABLE(
     id character varying(100),
@@ -19,7 +19,13 @@
     "executionCondition" character varying(100),
     "cancellationCondition"  character varying(100),
     "state"  character varying(20),
-    "expiresAt"  timestamp
+    "expiresAt"  timestamp,
+    "creationDate" timestamp,
+    "proposedAt" timestamp,
+    "preparedAt" timestamp,
+    "executedAt"timestamp,
+    "rejectedAt" timestamp,
+    "fulfillment" character varying(100)
 ) AS
 $BODY$
     DECLARE
@@ -34,7 +40,7 @@ $BODY$
             FROM
                 ledger."transferState" ts
             WHERE
-                ts.name="@state"
+                ts.name = (CASE "@authorized" WHEN true THEN 'prepared' ELSE 'proposed' END)
         );
         "@transferTypeId" int:=(
             SELECT
@@ -115,7 +121,7 @@ $BODY$
             "@creditMemo",
             "@currencyId",
             "@amount",
-            "@executionCondition",
+            coalesce("@executionCondition", ''),
             "@cancellationCondition",
             "@transferStateId",
             "@expiresAt",
@@ -124,27 +130,18 @@ $BODY$
             now()
         );
 
-        RETURN QUERY
-        SELECT
-            t."uuid" AS id,
-            debit."accountNumber" AS "debitAccount",
-            t."debitMemo",
-            credit."accountNumber" AS "creditAccount",
-            t."creditMemo",
-            t.amount,
-            t."executionCondition",
-            t."cancellationCondition",
-            ts.name state,
-            t."expiresAt"
-        FROM
-            ledger.transfer AS t
-        JOIN
-            ledger.account AS debit ON t."debitAccountId" = debit."accountId"
-        JOIN
-            ledger.account AS credit ON t."creditAccountId" = credit."accountId"
-        JOIN
-            ledger."transferState" ts ON ts."transferStateId"=t."transferStateId"
-        WHERE
-            t."transferId" ="@transferId";
+        IF ("@authorized") THEN -- execute unconditionally
+            RETURN query
+            SELECT
+                *
+            FROM
+                ledger."transfer.execute"("@uuid", '', '');
+        ELSE
+            RETURN query
+            SELECT
+                *
+            FROM
+                ledger."transfer.get"("@uuid");
+        END IF;
     END
 $BODY$ LANGUAGE plpgsql
