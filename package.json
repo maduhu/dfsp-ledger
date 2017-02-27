@@ -38,7 +38,7 @@
     "ut-port-httpserver": "8.1.8",
     "ut-port-postgres": "^5.7.5",
     "ut-port-script": "^5.4.7",
-    "ut-run": "^7.2.1",
+    "ut-run": "^7.2.4",
     "ut-port-console": "^6.2.3",
     "ut-port-performance": "^5.4.7",
     "pm2": "2.0.18",
