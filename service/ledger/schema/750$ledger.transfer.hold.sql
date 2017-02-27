@@ -130,7 +130,7 @@ $BODY$
             now()
         );
 
-        IF ("@authorized") THEN -- execute unconditionally
+        IF ("@authorized" AND "@executionCondition" IS NULL) THEN -- execute unconditionally
             RETURN query
             SELECT
                 *
