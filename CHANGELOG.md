@@ -1,3 +1,19 @@
+<a name="0.18.3"></a>
+## [0.18.3](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.18.1...v0.18.3) (2017-02-27)
+
+
+### Bug Fixes
+
+* add forgotten files ([72b42e8](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/72b42e8))
+* backwards compatibility for executing prepared transfer ([bab3279](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/bab3279))
+* bump patch version ([c9e838d](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/c9e838d))
+* dependency to ut-run ([1e58ce2](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/1e58ce2))
+* make transfer.hold execute the payment unconditionally in case it is authorized and no executionCondition is passed ([7ba128d](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/7ba128d))
+* tests ([bbaaf44](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/bbaaf44))
+* updates related to the new version of the ledger ([17d1bc5](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/17d1bc5))
+
+
+
 <a name="0.18.1"></a>
 ## [0.18.1](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.18.0...v0.18.1) (2017-02-27)
 

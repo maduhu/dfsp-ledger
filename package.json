@@ -1,6 +1,6 @@
 {
   "name": "@leveloneproject/dfsp-ledger",
-  "version": "0.18.2",
+  "version": "0.18.3",
   "description": "DFSP Ledger service",
   "main": "index.js",
   "scripts": {
