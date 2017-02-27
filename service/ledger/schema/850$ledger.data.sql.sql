@@ -2,16 +2,16 @@
 INSERT INTO
   ledger."transferState" ("transferStateId", name,"transferStateCode")
 SELECT
-  2, 'prepared','pre'
+  1, 'proposed','pro'
 WHERE
-  NOT EXISTS (SELECT 1 FROM ledger."transferState" WHERE name='prepared');
+  NOT EXISTS (SELECT 1 FROM ledger."transferState" WHERE name='proposed');
 
 INSERT INTO
   ledger."transferState" ("transferStateId", name,"transferStateCode")
 SELECT
-  1, 'proposed','pro'
+  2, 'prepared','pre'
 WHERE
-  NOT EXISTS (SELECT 1 FROM ledger."transferState" WHERE name='proposed');
+  NOT EXISTS (SELECT 1 FROM ledger."transferState" WHERE name='prepared');
 
 INSERT INTO
   ledger."transferState" ("transferStateId", name,"transferStateCode")
@@ -26,6 +26,13 @@ SELECT
   4, 'executed','exe'
 WHERE
   NOT EXISTS (SELECT 1 FROM ledger."transferState" WHERE name='executed');
+
+INSERT INTO
+  ledger."transferState" ("transferStateId", name,"transferStateCode")
+SELECT
+  5, 'rejected','rej'
+WHERE
+  NOT EXISTS (SELECT 1 FROM ledger."transferState" WHERE name='rejected');
 
 -- transfer type
 INSERT INTO

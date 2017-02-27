@@ -29,7 +29,8 @@ function buildTransferResource (transfer) {
     'debits': [{
       'account': ledgerAccountToUri(transfer.debitAccount).replace(':8014', ':8088'), // beware - monkey patch 2
       'memo': transfer.debitMemo,
-      'amount': transfer.amount
+      'amount': transfer.amount,
+      'authorized': transfer.state === 'prepared'
     }],
     'credits': [{
       'account': ledgerAccountToUri(transfer.creditAccount).replace(':8014', ':8088'), // beware - monkey patch 2

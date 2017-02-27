@@ -65,7 +65,7 @@ module.exports = {
       throw error['ledger.transfer.get.notFound']()
     }
     var ledgerAccountToUri = util.get('ledgerAccountToUri')
-    return {
+    var response = {
       'id': baseUrl + '/transfers/' + transfer.id,
       'ledger': baseUrl,
       'debits': [{
@@ -82,11 +82,20 @@ module.exports = {
       'cancellation_condition': transfer.cancellationCondition,
       'expires_at': transfer.expiresAt,
       'state': transfer.state,
-      'timeline': {
-        'proposed_at': transfer.proposedAt,
-        'prepared_at': transfer.preparedAt,
-        'executed_at': transfer.executedAt
-      }
+      'timeline': {}
     }
+    if (transfer.proposedAt) {
+      response.timeline.proposed_at = transfer.proposedAt
+    }
+    if (transfer.preparedAt) {
+      response.timeline.prepared_at = transfer.proposedAt
+    }
+    if (transfer.executedAt) {
+      response.timeline.executed_at = transfer.executedAt
+    }
+    if (transfer.rejectedAt) {
+      response.timeline.rejected_at = transfer.rejectedAt
+    }
+    return response
   }
 }

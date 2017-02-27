@@ -52,7 +52,8 @@ module.exports = {
                     joi.object({
                       account: joi.string(),
                       memo: joi.object().optional(),
-                      amount: joi.string()
+                      amount: joi.string(),
+                      authorized: joi.any().valid([true, false]).example(true)
                     })
                   ),
                   credits: joi.array().items(

@@ -1,14 +1,17 @@
 var create = require('ut-error').define
 var defaultErrorCode = 400
 module.exports = [
+  // ledger
   {
     type: 'ledger',
     message: 'dfsp-ledger error'
   },
+  // ledger.account
   {
     type: 'ledger.transfer',
     message: 'dfsp-ledger transfer error'
   },
+  // ledger.account.hold
   {
     type: 'ledger.transfer.hold',
     message: 'dfsp-ledger transfer-hold error'
@@ -41,6 +44,7 @@ module.exports = [
     type: 'ledger.transfer.hold.invalidBody',
     message: 'Body did not match schema'
   },
+  // ledger.transfer.execute
   {
     type: 'ledger.transfer.execute',
     massage: 'ledger transfer.execute error'
@@ -79,6 +83,24 @@ module.exports = [
     message: 'Can\'t modify transfer after execution.',
     statusCode: 422
   },
+  // ledger.transfer.reject
+  {
+    type: 'ledger.transfer.reject',
+    massage: 'ledger transfer.reject error'
+  },
+  {
+    id: 'NotFoundError',
+    type: 'ledger.transfer.reject.notFound',
+    message: 'Unknown transfer.',
+    statusCode: 404
+  },
+  {
+    id: 'AlreadyExistsError',
+    type: 'ledger.transfer.reject.alreadyExists',
+    message: 'Can\'t modify transfer after rejection.',
+    statusCode: 422
+  },
+  // ledger.transfer.get
   {
     type: 'ledger.transfer.get',
     message: 'ledger transfer.get error'
@@ -94,6 +116,7 @@ module.exports = [
     type: 'ledger.transfer.get.invalidUriParameter',
     message: 'id is not a valid Uuid'
   },
+  // ledger.transfer.getFulfillment
   {
     type: 'ledger.transfer.getFulfillment',
     message: 'ledger transfer.getFulfillment error'
@@ -109,10 +132,12 @@ module.exports = [
     type: 'ledger.transfer.getFulfillment.invalidUriParameter',
     message: 'id is not a valid Uuid'
   },
+  // ledger.account
   {
     type: 'ledger.account',
     message: 'ledger account error'
   },
+  // ledger.account.edit
   {
     type: 'ledger.account.add',
     message: 'ledger account.add error'
@@ -139,6 +164,7 @@ module.exports = [
     type: 'ledger.account.add.invalidBody',
     message: 'The submitted JSON entity does not match the required schema'
   },
+  // ledger.account.get
   {
     type: 'ledger.account.get',
     message: 'dfsp-ledger account.get error'
