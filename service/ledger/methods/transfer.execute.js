@@ -23,7 +23,7 @@ module.exports = {
           params: joi.object({
             transferId: joi.string().required().regex(/^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$/).example('3a2a1d9e-8640-4d2d-b06c-84f2cd613300').description('The UUID for the local transfer')
           }),
-          payload: joi.string().required().example('cf:0:_v8').description('Payload should be a Crypto-Condition Fulfillment in text format')
+          payload: joi.string().required().example('oAKAAA').description('Payload should be a Crypto-Condition Fulfillment in text format')
         },
         plugins: {
           'hapi-swagger': {

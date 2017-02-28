@@ -22,7 +22,7 @@ module.exports = {
             ledger: joi.string().required().example(baseUrl),
             debits: joi.array().items(
               joi.object({
-                account: joi.string().required().example(baseUrl + '/accounts/000000003'),
+                account: joi.string().required().example(baseUrl + '/accounts/bob'),
                 amount: joi.number().required().example(50),
                 memo: joi.object().optional(),
                 authorized: joi.any().valid([true, false]).example(true)
@@ -30,12 +30,12 @@ module.exports = {
             ).required(),
             credits: joi.array().items(
               joi.object({
-                account: joi.string().required().example(baseUrl + '/accounts/000000004'),
+                account: joi.string().required().example(baseUrl + '/accounts/alice'),
                 memo: joi.object().optional(),
                 amount: joi.number().required().example(50)
               })
             ).required(),
-            execution_condition: joi.string().description('Crypto-Condition').example('cc:0:3:8ZdpKBDUV-KX_OnFZTsCWB_5mlCFI3DynX5f5H2dN-Y:2'),
+            execution_condition: joi.string().description('Crypto-Condition').example('ni:///sha-256;47DEQpj8HBSa-_TImW-5JCeuQeRkm5NMpJWZG3hSuFU?fpt=preimage-sha-256&cost=0'),
             cancellation_condition: joi.string().allow(null).example(null),
             expires_at: joi.date().required().example('2015-06-16T00:00:01.000Z')
           }

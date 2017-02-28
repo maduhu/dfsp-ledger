@@ -12,7 +12,7 @@ const CREDITACCOUNTBALANCE = '1000.00'
 const AMOUNT = '50.00'
 const EXECUTEDSTATE = 'executed'
 const PREPAREDSTATE = 'prepared'
-const FULFILLMENT = 'cf:0:_v8'
+const FULFILLMENT = 'oAKAAA'
 
 test({
   type: 'integration',
@@ -140,7 +140,7 @@ test({
               'memo': {note: 'credit memo'},
               'amount': AMOUNT
             }],
-            'execution_condition': 'cc:0:3:8ZdpKBDUV-KX_OnFZTsCWB_5mlCFI3DynX5f5H2dN-Y:2',
+            'execution_condition': 'ni:///sha-256;47DEQpj8HBSa-_TImW-5JCeuQeRkm5NMpJWZG3hSuFU?fpt=preimage-sha-256&cost=0',
             'expires_at': '2015-06-16T00:00:01.000Z'
           })
           .expect('Content-Type', /json/)

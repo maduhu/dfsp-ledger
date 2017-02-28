@@ -42,7 +42,7 @@
     "ut-port-console": "^6.2.3",
     "ut-port-performance": "^5.4.7",
     "pm2": "2.0.18",
-    "five-bells-condition": "3.2.0"
+    "five-bells-condition": "5.0.1"
   },
   "devDependencies": {
     "blue-tape": "1.0.0",
