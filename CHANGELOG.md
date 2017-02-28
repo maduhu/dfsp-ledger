@@ -1,3 +1,13 @@
+<a name="0.18.4"></a>
+## [0.18.4](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.18.3...v0.18.4) (2017-02-28)
+
+
+### Bug Fixes
+
+* update five-bells-condition dependency and fix examples and tests accordingly ([2bf1934](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/2bf1934))
+
+
+
 <a name="0.18.3"></a>
 ## [0.18.3](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.18.1...v0.18.3) (2017-02-27)
 
