@@ -1,3 +1,13 @@
+<a name="0.19.1"></a>
+## [0.19.1](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.19.0...v0.19.1) (2017-03-07)
+
+
+### Bug Fixes
+
+* add bulkPayment transfer type ([3c0ca95](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/3c0ca95))
+
+
+
 <a name="0.19.0"></a>
 # [0.19.0](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.18.1...v0.19.0) (2017-02-27)
 
