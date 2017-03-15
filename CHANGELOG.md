@@ -1,3 +1,13 @@
+<a name="0.18.7"></a>
+## [0.18.7](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.18.6...v0.18.7) (2017-03-15)
+
+
+### Bug Fixes
+
+* throw proper exception if account number exists ([390455b](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/390455b))
+
+
+
 <a name="0.18.6"></a>
 ## [0.18.6](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.18.5...v0.18.6) (2017-03-07)
 
