@@ -143,6 +143,12 @@ module.exports = [
     message: 'ledger account.add error'
   },
   {
+    id: 'LedgerAccountExistsError',
+    type: 'ledger.account.add.exists',
+    message: 'Account name already in use',
+    statusCode: 422
+  },
+  {
     id: 'UnauthorizedError',
     type: 'ledger.account.add.unauthorized',
     message: 'You do not have permissions to access this resource',
