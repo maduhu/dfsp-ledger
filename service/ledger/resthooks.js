@@ -90,7 +90,7 @@ function defaultReply (reply, response, $meta) {
   var errorBody = {}
   var statusCode
   if (!response.debug.isJsError) {
-    var errorObject = (response.error && error[response.error.type] || error['ledger'])()
+    var errorObject = ((response.error && error[response.error.type]) || error['ledger'])()
     errorBody.id = errorObject.id
     errorBody.type = errorObject.type
     errorBody.message = errorObject.message
