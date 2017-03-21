@@ -8,7 +8,8 @@
     "amountWeekly" numeric(19,2),
     "countWeekly" integer,
     "amountMonthly" numeric(19,2),
-    "countMonthly" integer
+    "countMonthly" integer,
+    "isSingleResult" boolean
 ) AS
 $BODY$
     DECLARE
@@ -34,12 +35,13 @@ $BODY$
     BEGIN
       RETURN query
       SELECT
-        COALESCE(SUM(CASE WHEN "executedAt" >= "@dayStart" THEN "amount" END), 0)::numeric(19,2),
-        COALESCE(COUNT(CASE WHEN "executedAt" >= "@dayStart" THEN "amount" END), 0)::integer,
-        COALESCE(SUM(CASE WHEN "executedAt" >= "@weekStart" THEN "amount" END), 0)::numeric(19,2),
-        COALESCE(COUNT(CASE WHEN "executedAt" >= "@weekStart" THEN "amount" END), 0)::integer,
-        COALESCE(SUM(amount), 0)::numeric(19,2),
-        COALESCE(COUNT(amount), 0)::integer
+        COALESCE(SUM(CASE WHEN "executedAt" >= "@dayStart" THEN "amount" END), 0)::numeric(19,2) "amountDaily",
+        COALESCE(COUNT(CASE WHEN "executedAt" >= "@dayStart" THEN "amount" END), 0)::integer "countDaily",
+        COALESCE(SUM(CASE WHEN "executedAt" >= "@weekStart" THEN "amount" END), 0)::numeric(19,2) "amountWeekly",
+        COALESCE(COUNT(CASE WHEN "executedAt" >= "@weekStart" THEN "amount" END), 0)::integer "countWeekly",
+        COALESCE(SUM(amount), 0)::numeric(19,2) "amountMonthly",
+        COALESCE(COUNT(amount), 0)::integer "countMonthly",
+        true "isSingleResult"
       FROM
         ledger.transfer
       WHERE
