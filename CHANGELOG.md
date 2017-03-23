@@ -1,3 +1,18 @@
+<a name="0.20.0"></a>
+# [0.20.0](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.19.2...v0.20.0) (2017-03-23)
+
+
+### Bug Fixes
+
+* linting ([4b58c18](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/4b58c18))
+
+
+### Features
+
+* update minor version ([2dd5663](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/2dd5663))
+
+
+
 <a name="0.19.2"></a>
 ## [0.19.2](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.19.1...v0.19.2) (2017-03-15)
 
