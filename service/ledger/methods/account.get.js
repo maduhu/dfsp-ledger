@@ -1,6 +1,19 @@
 var joi = require('joi')
 var error = require('../error')
 var util = require('../util')
+function buildResponse (account) {
+  var baseUrl = util.get('baseUrl')
+  return {
+    id: baseUrl + '/accounts/' + account.accountNumber,
+    name: account.name,
+    balance: account.balance,
+    accountNumber: account.accountNumber,
+    currencyCode: account.currencyCode,
+    currencySymbol: account.currencySymbol,
+    is_disabled: account.isDisabled,
+    ledger: baseUrl
+  }
+}
 module.exports = {
   rest: function () {
     return {
@@ -44,21 +57,24 @@ module.exports = {
       }
     }
   },
-  'account.get.response.receive': function (msg, $meta) {
-    var account = msg[0]
-    var baseUrl = util.get('baseUrl')
-    if (msg.length === 0) {
-      throw error['ledger.account.get.notFound']({ message: 'Unknown account.' })
+  'account.get': function (msg, $meta) {
+    if (msg.accountNumber === 'noaccount') {
+      return buildResponse({
+        accountNumber: msg.accountNumber,
+        name: msg.accountNumber,
+        balance: '0.00',
+        currencyCode: 'USD',
+        currencySymbol: '$',
+        is_disabled: true
+      })
     }
-    return {
-      id: baseUrl + '/accounts/' + account.accountNumber,
-      name: account.name,
-      balance: account.balance,
-      accountNumber: account.accountNumber,
-      currencyCode: account.currencyCode,
-      currencySymbol: account.currencySymbol,
-      is_disabled: account.isDisabled,
-      ledger: baseUrl
-    }
+    return this.super[$meta.method](msg, $meta)
+      .then(function (result) {
+        var account = result[0]
+        if (result.length === 0) {
+          throw error['ledger.account.get.notFound']({ message: 'Unknown account.' })
+        }
+        return buildResponse(account)
+      })
   }
 }
