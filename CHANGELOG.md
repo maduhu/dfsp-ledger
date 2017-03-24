@@ -1,3 +1,22 @@
+<a name="0.21.0"></a>
+# [0.21.0](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.18.7...v0.21.0) (2017-03-24)
+
+
+### Bug Fixes
+
+* add dependency to ut-port-http ([96eae1d](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/96eae1d))
+* handle noaccout case ([df2075c](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/df2075c))
+* linting ([7084013](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/7084013))
+* return single result ([271e5fa](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/271e5fa))
+* update patch version ([422a56e](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/422a56e))
+
+
+### Features
+
+* add ledger.transfer.fetch db function ([cadd2d1](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/cadd2d1))
+
+
+
 <a name="0.18.7"></a>
 ## [0.18.7](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.18.6...v0.18.7) (2017-03-15)
 

@@ -1,6 +1,6 @@
 {
   "name": "@leveloneproject/dfsp-ledger",
-  "version": "0.20.0",
+  "version": "0.21.0",
   "description": "DFSP Ledger service",
   "main": "index.js",
   "scripts": {
@@ -40,7 +40,7 @@
     "ut-port-script": "^5.5.1",
     "ut-run": "^7.2.4",
     "ut-port-console": "^6.2.3",
-	"ut-port-http": "^6.4.1",
+    "ut-port-http": "^6.4.1",
     "ut-port-performance": "^5.4.7",
     "pm2": "2.4.2",
     "five-bells-condition": "5.0.1"
