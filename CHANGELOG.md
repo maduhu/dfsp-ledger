@@ -1,3 +1,13 @@
+<a name="0.20.1"></a>
+## [0.20.1](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.20.0...v0.20.1) (2017-04-03)
+
+
+### Bug Fixes
+
+* update ut-port-httpserver ([1bc199d](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/1bc199d))
+
+
+
 <a name="0.20.0"></a>
 # [0.20.0](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.19.2...v0.20.0) (2017-03-23)
 
