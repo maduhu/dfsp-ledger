@@ -1,3 +1,14 @@
+<a name="0.21.1"></a>
+## [0.21.1](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.20.1...v0.21.1) (2017-04-04)
+
+
+### Bug Fixes
+
+* put old version of ledger on branch ([2eab1c3](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/2eab1c3))
+* set circle.yml override to instruct circleCI to track the branch when checking out ([a86e962](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/a86e962))
+
+
+
 <a name="0.20.1"></a>
 ## [0.20.1](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.20.0...v0.20.1) (2017-04-03)
 
