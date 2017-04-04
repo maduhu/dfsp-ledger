@@ -1,31 +1,14 @@
 ﻿-- transfer state
 INSERT INTO
-  ledger."transferState" ("transferStateId", name,"transferStateCode")
-SELECT
-  1, 'proposed','pro'
-WHERE
-  NOT EXISTS (SELECT 1 FROM ledger."transferState" WHERE name='proposed');
-
-INSERT INTO
-  ledger."transferState" ("transferStateId", name,"transferStateCode")
-SELECT
-  2, 'prepared','pre'
-WHERE
-  NOT EXISTS (SELECT 1 FROM ledger."transferState" WHERE name='prepared');
-
-INSERT INTO
-  ledger."transferState" ("transferStateId", name,"transferStateCode")
-SELECT
-  3, 'cancelled','can'
-WHERE
-  NOT EXISTS (SELECT 1 FROM ledger."transferState" WHERE name='cancelled');
-
-INSERT INTO
-  ledger."transferState" ("transferStateId", name,"transferStateCode")
-SELECT
-  4, 'executed','exe'
-WHERE
-  NOT EXISTS (SELECT 1 FROM ledger."transferState" WHERE name='executed');
+  ledger."transferState" ("transferStateId", "name","transferStateCode")
+VALUES
+  (1, 'proposed','pro'),
+  (2, 'prepared','pre'),
+  (3, 'cancelled','can'),
+  (4, 'executed','exe')
+ON CONFLICT ("transferStateId") DO UPDATE SET
+  "name" = EXCLUDED."name",
+  "transferStateCode" = EXCLUDED."transferStateCode";
 
 INSERT INTO
   ledger."transferState" ("transferStateId", name,"transferStateCode")
@@ -36,117 +19,56 @@ WHERE
 
 -- transfer type
 INSERT INTO
-  ledger."transferType"( "transferTypeId", name, "transferCode")
-SELECT
-  1, 'person to person','p2p'
-WHERE
-  NOT EXISTS (SELECT 1 FROM ledger."transferType" WHERE "transferCode"='p2p');
-
-INSERT INTO
-  ledger."transferType"( "transferTypeId", name, "transferCode")
-SELECT
-  2, 'invoice','invoice'
-WHERE
-  NOT EXISTS (SELECT 1 FROM ledger."transferType" WHERE "transferCode"='invoice');
-
-INSERT INTO
-  ledger."transferType"( "transferTypeId", name, "transferCode")
-SELECT
- 3, 'fee','fee'
-WHERE
-  NOT EXISTS (SELECT 1 FROM ledger."transferType" WHERE "transferCode"='fee');
-
-INSERT INTO
-  ledger."transferType"( "transferTypeId", name, "transferCode")
-SELECT
-  4, 'bulk payment','bulkPayment'
-WHERE
-  NOT EXISTS (SELECT 1 FROM ledger."transferType" WHERE "transferCode"='bulkPayment');
+  ledger."transferType" ("transferTypeId", "name", "transferCode")
+VALUES
+  (1, 'person to person','p2p'),
+  (2, 'invoice','invoice'),
+  (3, 'fee','fee'),
+  (4, 'bulk payment','bulkPayment'),
+  (5, 'cash in','cashIn'),
+  (6, 'cash out','cashOut')
+ON CONFLICT ("transferTypeId") DO UPDATE SET
+  "name" = EXCLUDED."name",
+  "transferCode" = EXCLUDED."transferCode";
 
 -- currency
 INSERT INTO
-  ledger."currency"("currencyId", "name", "symbol")
-SELECT
-  'USD', 'US Dollar', '$'
-WHERE
-  NOT EXISTS (SELECT 1 FROM ledger.currency WHERE "currencyId"='USD');
-
-INSERT INTO
-  ledger."currency"("currencyId", "name", "symbol")
-SELECT
-  'CNY', ' Chinese Yuan Renminbi', '¥'
-WHERE
-  NOT EXISTS (SELECT 1 FROM ledger.currency WHERE "currencyId"='CNY');
-
-INSERT INTO
-  ledger."currency"("currencyId", "name", "symbol")
-SELECT
-  'TZS', ' Tanzanian shilling', 'TSh'
-WHERE
-  NOT EXISTS (SELECT 1 FROM ledger.currency WHERE "currencyId"='TZS');
+  ledger."currency" ("currencyId", "name", "symbol")
+VALUES
+  ('USD', 'US Dollar', '$'),
+  ('CNY', ' Chinese Yuan Renminbi', '¥'),
+  ('TZS', ' Tanzanian shilling', 'TSh')
+ON CONFLICT ("currencyId") DO UPDATE SET
+  "name" = EXCLUDED."name",
+  "symbol" = EXCLUDED."symbol";
 
 -- accountType
 INSERT INTO
-  ledger."accountType"("accountTypeId", "name", "code")
-SELECT
-  1, 'mWallet','mw'
-WHERE
-  NOT EXISTS (SELECT 1 FROM ledger."accountType" WHERE "name"='mWallet');
-
-INSERT INTO
-  ledger."accountType"("accountTypeId", "name", "code")
-SELECT
-  2, 'settlement','s'
-WHERE
-  NOT EXISTS (SELECT 1 FROM ledger."accountType" WHERE "name"='settlement');
-
-INSERT INTO
-  ledger."accountType"("accountTypeId", "name", "code")
-SELECT
-  3, 'fee','f'
-WHERE
-  NOT EXISTS (SELECT 1 FROM ledger."accountType" WHERE "name"='fee');
-
+  ledger."accountType" ("accountTypeId", "name", "code")
+VALUES
+  (1, 'mWallet','mw'),
+  (2, 'settlement','s'),
+  (3, 'fee','f')
+ON CONFLICT ("accountTypeId") DO UPDATE SET
+  "name" = EXCLUDED."name",
+  "code" = EXCLUDED."code";
 
 -- account
 INSERT INTO
-  ledger.account("name", "accountNumber", "credit", "debit", "accountTypeId", "isDisabled", "parentId", "creationDate", "currencyId")
-SELECT
-  'settlement', '000000001', 10000, 0, 2, FALSE, NULL, '2016-08-24 10:24:45.845802', 'USD'
-WHERE
-  NOT EXISTS (SELECT 1 FROM ledger.account  WHERE "accountNumber"='000000001');
-
-INSERT INTO
-  ledger.account("name", "accountNumber", "credit", "debit", "accountTypeId", "isDisabled", "parentId", "creationDate", "currencyId")
-SELECT
-  'fee', '000000002', 10000, 0, 3, FALSE, NULL, '2016-08-24 10:24:45.845802', 'USD'
-WHERE
-  NOT EXISTS (SELECT 1 FROM ledger.account  WHERE "accountNumber"='000000002');
-
-INSERT INTO
-  ledger.account("name", "accountNumber", "credit", "debit", "accountTypeId", "isDisabled", "parentId", "creationDate", "currencyId")
-SELECT
-  'testAccount1', '000000011', 10000, 1000, 1, FALSE, NULL, '2016-08-24 10:24:45.845802', 'USD'
-WHERE
-  NOT EXISTS (SELECT 1 FROM ledger.account  WHERE "accountNumber"='000000011');
-
-INSERT INTO
-  ledger.account("name", "accountNumber", "credit", "debit", "accountTypeId", "isDisabled", "parentId", "creationDate", "currencyId")
-SELECT
-  'testAccount2', '000000012', 10000, 1000, 1, FALSE, NULL, '2016-08-24 10:24:45.845802', 'USD'
-WHERE
-  NOT EXISTS (SELECT 1 FROM ledger.account  WHERE "accountNumber"='000000012');
-
-INSERT INTO
-  ledger.account("name", "accountNumber", "credit", "debit", "accountTypeId", "isDisabled", "parentId", "creationDate", "currencyId")
-SELECT
-  'testAccount3', '000000013', 10000, 1000, 1, FALSE, NULL, '2016-08-24 10:24:45.845802', 'USD'
-WHERE
-  NOT EXISTS (SELECT 1 FROM ledger.account  WHERE "accountNumber"='000000013');
-
-INSERT INTO
-  ledger.account("name", "accountNumber", "credit", "debit", "accountTypeId", "isDisabled", "parentId", "creationDate", "currencyId")
-SELECT
-  'testAccount4', '000000014', 10000, 1000, 1, FALSE, NULL, '2016-08-24 10:24:45.845802', 'USD'
-WHERE
-  NOT EXISTS (SELECT 1 FROM ledger.account  WHERE "accountNumber"='000000014');
+  ledger."account" ("name", "accountNumber", "credit", "debit", "accountTypeId", "isDisabled", "parentId", "creationDate", "currencyId")
+VALUES
+  ('settlement', '000000001', 10000, 0, 2, FALSE, NULL, '2016-08-24 10:24:45.845802', 'USD'),
+  ('fee', '000000002', 10000, 0, 3, FALSE, NULL, '2016-08-24 10:24:45.845802', 'USD'),
+  ('testAccount1', '000000011', 10000, 1000, 1, FALSE, NULL, '2016-08-24 10:24:45.845802', 'USD'),
+  ('testAccount2', '000000012', 10000, 1000, 1, FALSE, NULL, '2016-08-24 10:24:45.845802', 'USD'),
+  ('testAccount3', '000000013', 10000, 1000, 1, FALSE, NULL, '2016-08-24 10:24:45.845802', 'USD'),
+  ('testAccount4', '000000014', 10000, 1000, 1, FALSE, NULL, '2016-08-24 10:24:45.845802', 'USD')
+ON CONFLICT ("accountNumber") DO UPDATE SET
+  "name" = EXCLUDED."name",
+  "credit" = EXCLUDED."credit",
+  "debit" = EXCLUDED."debit",
+  "accountTypeId" = EXCLUDED."accountTypeId",
+  "isDisabled" = EXCLUDED."isDisabled",
+  "parentId" = EXCLUDED."parentId",
+  "creationDate" = EXCLUDED."creationDate",
+  "currencyId" = EXCLUDED."currencyId";
