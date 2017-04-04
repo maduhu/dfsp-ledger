@@ -1,3 +1,13 @@
+<a name="0.21.2"></a>
+## [0.21.2](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.21.1...v0.21.2) (2017-04-04)
+
+
+### Bug Fixes
+
+* update pm2 ([ef895c4](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/ef895c4))
+
+
+
 <a name="0.21.1"></a>
 ## [0.21.1](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.20.1...v0.21.1) (2017-04-04)
 
