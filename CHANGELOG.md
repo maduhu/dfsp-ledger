@@ -1,3 +1,83 @@
+<a name="0.22.0"></a>
+# [0.22.0](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.21.1...v0.22.0) (2017-04-04)
+
+
+
+<a name="0.21.0"></a>
+# [0.21.0](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.20.0...v0.21.0) (2017-03-24)
+
+
+### Bug Fixes
+
+* add dependency to ut-port-http ([96eae1d](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/96eae1d))
+* handle noaccout case ([df2075c](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/df2075c))
+* linting ([7084013](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/7084013))
+* return single result ([271e5fa](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/271e5fa))
+* update patch version ([422a56e](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/422a56e))
+
+
+### Features
+
+* add ledger.transfer.fetch db function ([cadd2d1](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/cadd2d1))
+
+
+
+<a name="0.18.7"></a>
+## [0.18.7](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.18.6...v0.18.7) (2017-03-15)
+
+
+### Bug Fixes
+
+* throw proper exception if account number exists ([390455b](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/390455b))
+
+
+
+<a name="0.18.6"></a>
+## [0.18.6](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.19.1...v0.18.6) (2017-03-07)
+
+
+### Bug Fixes
+
+* add bulkPayment transfer type ([b823063](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/b823063))
+
+
+
+<a name="0.18.5"></a>
+## [0.18.5](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.18.4...v0.18.5) (2017-02-28)
+
+
+### Bug Fixes
+
+* activate ledger.account.fetch hook in order to transform response from db ([023fe12](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/023fe12))
+
+
+
+<a name="0.18.4"></a>
+## [0.18.4](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.18.3...v0.18.4) (2017-02-28)
+
+
+### Bug Fixes
+
+* update five-bells-condition dependency and fix examples and tests accordingly ([2bf1934](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/2bf1934))
+
+
+
+<a name="0.18.3"></a>
+## [0.18.3](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.19.0...v0.18.3) (2017-02-27)
+
+
+### Bug Fixes
+
+* add forgotten files ([72b42e8](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/72b42e8))
+* backwards compatibility for executing prepared transfer ([bab3279](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/bab3279))
+* bump patch version ([c9e838d](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/c9e838d))
+* dependency to ut-run ([1e58ce2](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/1e58ce2))
+* make transfer.hold execute the payment unconditionally in case it is authorized and no executionCondition is passed ([7ba128d](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/7ba128d))
+* tests ([bbaaf44](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/bbaaf44))
+* updates related to the new version of the ledger ([17d1bc5](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/17d1bc5))
+
+
+
 <a name="0.21.0"></a>
 # [0.21.0](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.18.7...v0.21.0) (2017-03-24)
 
