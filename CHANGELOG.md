@@ -1,3 +1,17 @@
+<a name="1.0.0"></a>
+# [1.0.0](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.22.1...v1.0.0) (2017-04-04)
+
+
+* BREAKING CHANGE: bump major version ([e523047](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/e523047))
+
+
+### BREAKING CHANGES
+
+* bump major version
+* bump major version
+
+
+
 <a name="0.22.1"></a>
 ## [0.22.1](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v0.22.0...v0.22.1) (2017-04-04)
 
