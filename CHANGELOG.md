@@ -1,3 +1,14 @@
+<a name="1.0.4"></a>
+## [1.0.4](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v1.0.3...v1.0.4) (2017-04-05)
+
+
+### Bug Fixes
+
+* add skipIdentityCheck config for rest routes ([3b0d4f4](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/3b0d4f4))
+* remove identity mock ([37be527](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/37be527))
+
+
+
 <a name="1.0.3"></a>
 ## [1.0.3](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v1.0.2...v1.0.3) (2017-04-04)
 
