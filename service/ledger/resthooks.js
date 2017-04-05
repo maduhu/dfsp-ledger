@@ -158,6 +158,9 @@ module.exports = function (methods) {
           path: route.path,
           handler: (request, reply) => rest.call(port, request, reply, route.rpc, route.reply),
           config: Object.assign({
+            app: {
+              skipIdentityCheck: true
+            },
             auth: false
           }, route.config)
         })
