@@ -1,11 +1,9 @@
 module.exports = {
   ports: [
     require('../db'),
-    require('../httpserver'),
-    require('../script')
+    require('../httpserver')
   ],
   modules: {
-    ledger: require('../service/ledger'),
-    identity: require('../service/identity')
+    ledger: require('../service/ledger')
   }
 }
