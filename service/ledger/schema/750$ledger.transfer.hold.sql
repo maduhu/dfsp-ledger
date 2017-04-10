@@ -3,7 +3,7 @@
     "@debitAccount" character varying(20),
     "@debitMemo" json,
     "@creditAccount"  character varying(20),
-    "@creditMemo"  json,
+    "@creditMemo" json,
     "@amount"  numeric(19,2),
     "@executionCondition"  character varying(100),
     "@cancellationCondition"  character varying(100),
@@ -51,6 +51,7 @@ $BODY$
                 tt."transferCode" = COALESCE(CAST("@memo"->>'transferCode' AS varchar), 'p2p')
         );
         "@fee" numeric(19,2):=COALESCE(CAST("@memo"->>'fee' AS numeric(19,2)), 0);
+        "@debitIdentifier" varchar(256):=COALESCE(CAST("@memo"->>'debitIdentifier' AS varchar(256)), null);
         "@transferId" BIGINT:=(SELECT nextval('ledger."transfer_transferId_seq"'));
 
     BEGIN
@@ -97,6 +98,7 @@ $BODY$
                 "transferDate",
                 "transferTypeId",
                 "debitAccountId",
+                "debitIdentifier",
                 "debitMemo",
                 "creditAccountId",
                 "creditMemo",
@@ -116,6 +118,7 @@ $BODY$
             NOW(),
             "@transferTypeId",
             "@debitAccountId",
+            "@debitIdentifier",
             "@debitMemo",
             "@creditAccountId",
             "@creditMemo",

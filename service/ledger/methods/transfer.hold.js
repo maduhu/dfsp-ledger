@@ -106,5 +106,8 @@ module.exports = {
     publish({account: transfer.debitAccount}, response)
     publish({account: transfer.creditAccount}, response)
     return response.resource
+  },
+  'transfer.hold.error.receive': function (err, $meta) {
+    throw err
   }
 }
