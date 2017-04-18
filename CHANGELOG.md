@@ -1,3 +1,20 @@
+<a name="1.1.0"></a>
+# [1.1.0](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v1.0.4...v1.1.0) (2017-04-18)
+
+
+### Bug Fixes
+
+* add commission account type and ledger.accountType.fetch db function ([66faeab](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/66faeab))
+* add debit identifier in memo ([e6a0c85](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/e6a0c85))
+* pass correct params to ledger.account.add ([f81c246](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/f81c246))
+
+
+### Features
+
+* version bump for debit identifier ([f24a679](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/f24a679))
+
+
+
 <a name="1.0.4"></a>
 ## [1.0.4](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v1.0.3...v1.0.4) (2017-04-05)
 
