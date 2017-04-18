@@ -48,7 +48,8 @@ INSERT INTO
 VALUES
   (1, 'mWallet','mw'),
   (2, 'settlement','s'),
-  (3, 'fee','f')
+  (3, 'fee','f'),
+  (4, 'commission','c')
 ON CONFLICT ("accountTypeId") DO UPDATE SET
   "name" = EXCLUDED."name",
   "code" = EXCLUDED."code";

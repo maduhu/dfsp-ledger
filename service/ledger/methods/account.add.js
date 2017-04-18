@@ -40,10 +40,11 @@ module.exports = {
   'account.add.request.send': function (msg, $meta) {
     return {
       debit: 0,
-      credit: msg.balance,
+      credit: typeof msg.balance === 'undefined' ? 1000 : msg.balance,
       name: msg.name,
-      accountTypeId: 1,
-      currencyId: 'USD'
+      accountNumber: msg.accountNumber || msg.name,
+      accountTypeId: msg.accountTypeId || 1,
+      currencyId: msg.currencyCode || 'USD'
     }
   },
   'account.add.response.receive': function (msg, $meta) {

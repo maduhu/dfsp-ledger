@@ -5,6 +5,7 @@
   "transferDate" timestamp without time zone NOT NULL,
   "transferTypeId" integer NOT NULL,
   "debitAccountId" integer NOT NULL,
+  "debitIdentifier" varchar(256),
   "debitMemo" json,
   "creditAccountId" integer NOT NULL,
   "creditMemo" json,
