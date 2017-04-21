@@ -49,7 +49,8 @@ VALUES
   (1, 'mWallet','mw'),
   (2, 'settlement','s'),
   (3, 'fee','f'),
-  (4, 'commission','c')
+  (4, 'commission','c'),
+  (5, 'agentCommission','ac')
 ON CONFLICT ("accountTypeId") DO UPDATE SET
   "name" = EXCLUDED."name",
   "code" = EXCLUDED."code";
@@ -60,6 +61,7 @@ INSERT INTO
 VALUES
   ('settlement', '000000001', 10000, 0, 2, FALSE, NULL, '2016-08-24 10:24:45.845802', 'USD'),
   ('fee', '000000002', 10000, 0, 3, FALSE, NULL, '2016-08-24 10:24:45.845802', 'USD'),
+  ('commission', '000000003', 1000000, 0, 4, FALSE, NULL, '2016-08-24 10:24:45.845802', 'USD'),
   ('testAccount1', '000000011', 10000, 1000, 1, FALSE, NULL, '2016-08-24 10:24:45.845802', 'USD'),
   ('testAccount2', '000000012', 10000, 1000, 1, FALSE, NULL, '2016-08-24 10:24:45.845802', 'USD'),
   ('testAccount3', '000000013', 10000, 1000, 1, FALSE, NULL, '2016-08-24 10:24:45.845802', 'USD'),
