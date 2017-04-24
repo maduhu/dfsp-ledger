@@ -1,3 +1,15 @@
+<a name="1.1.2"></a>
+## [1.1.2](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v1.1.1...v1.1.2) (2017-04-24)
+
+
+### Bug Fixes
+
+* add shrinkwrap ([12ac28a](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/12ac28a))
+* shrinkwrap private nexus links ([92cf284](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/92cf284))
+* tests with new version of ut-run ([c36f3e4](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/c36f3e4))
+
+
+
 <a name="1.1.1"></a>
 ## [1.1.1](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v1.1.0...v1.1.1) (2017-04-21)
 
