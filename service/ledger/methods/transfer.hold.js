@@ -17,7 +17,7 @@ module.exports = {
           params: joi.object({
             id: joi.string().regex(/^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$/).example('3a2a1d9e-8640-4d2d-b06c-84f2cd613300').description('The UUID for the local transfer')
           }),
-          payload: {
+          payload: joi.object().keys({
             id: joi.string().required().example(baseUrl + '/transfers/3a2a1d9e-8640-4d2d-b06c-84f2cd613300'),
             ledger: joi.string().required().example(baseUrl),
             debits: joi.array().items(
@@ -38,7 +38,7 @@ module.exports = {
             execution_condition: joi.string().description('Crypto-Condition').example('ni:///sha-256;47DEQpj8HBSa-_TImW-5JCeuQeRkm5NMpJWZG3hSuFU?fpt=preimage-sha-256&cost=0'),
             cancellation_condition: joi.string().allow(null).example(null),
             expires_at: joi.date().required().example('2015-06-16T00:00:01.000Z')
-          }
+          })
         },
         plugins: {
           'hapi-swagger': {
