@@ -1,3 +1,14 @@
+<a name="1.1.3"></a>
+## [1.1.3](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v1.1.2...v1.1.3) (2017-04-26)
+
+
+### Bug Fixes
+
+* decrypt transfer memo ([b16c389](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/b16c389))
+* tests ([14e224b](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/14e224b))
+
+
+
 <a name="1.1.2"></a>
 ## [1.1.2](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v1.1.1...v1.1.2) (2017-04-24)
 
