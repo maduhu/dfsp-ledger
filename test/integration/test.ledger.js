@@ -22,7 +22,7 @@ test({
   client: config.client,
   clientConfig: config.clientConfig,
   steps: function (test, bus, run) {
-    run(test, bus, [{
+    return run(test, bus, [{
       name: 'Get server meta',
       params: (context) => {
         return request
@@ -137,7 +137,7 @@ test({
             }],
             'credits': [{
               'account': BASE + '/accounts/' + context['Create second ledger account'].body.accountNumber,
-              'memo': {note: 'credit memo'},
+              'memo': {ilp: 'AYIBfwAAAAAAAAooNmxldmVsb25lLmRmc3AxLmFsaWNlLkRXcUYtMUFQWVJnTER6NWoteVFRRjd1eTltRXVJMS1td4IBPFBTSy8xLjAKTm9uY2U6IHlwcnhzMjVPMHo1S2szeFBXLTZ2VVEKRW5jcnlwdGlvbjogbm9uZQpQYXltZW50LUlkOiBlOTM3MDRhYy1iNWQ0LTQ4ZmMtODJhOS0xZTJiNGZiODAzNzcKCkNvbnRlbnQtTGVuZ3RoOiAxMzEKQ29udGVudC1UeXBlOiBhcHBsaWNhdGlvbi9qc29uClNlbmRlci1JZGVudGlmaWVyOiA2NTE0NDQ0NAoKIntcImZlZVwiOjEsXCJ0cmFuc2ZlckNvZGVcIjpcInAycFwiLFwiZGViaXROYW1lXCI6XCJib2IgZHlsYW5cIixcImNyZWRpdE5hbWVcIjpcImFsaWNlIGNvb3BlclwiLFwiZGViaXRJZGVudGlmaWVyXCI6XCI2NTE0NDQ0NFwifSIA'},
               'amount': AMOUNT
             }],
             'execution_condition': 'ni:///sha-256;47DEQpj8HBSa-_TImW-5JCeuQeRkm5NMpJWZG3hSuFU?fpt=preimage-sha-256&cost=0',

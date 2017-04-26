@@ -33,7 +33,7 @@ $BODY$
         "@creditAccountId" int;
         "@debitBalance" numeric(19,2);
         "@currencyId" char(3);
-        "@memo" json:=CAST("@creditMemo"->'ilp_header'->'data'->'data'->>'memo' AS json);
+        "@memo" json:="@creditMemo";
         "@transferStateId" int:=(
             SELECT
                 ts."transferStateId"

@@ -11,8 +11,8 @@ $BODY$
         RETURN query
         SELECT
             CASE WHEN t."debitAccountId" = "@accountId"
-                THEN CAST(t."creditMemo"->'ilp_header'->'data'->'data'->>'memo' AS json)->>'creditName'
-                ELSE CAST(t."creditMemo"->'ilp_header'->'data'->'data'->>'memo' AS json)->>'debitName'
+                THEN t."creditMemo"->>'creditName'
+				ELSE t."creditMemo"->>'debitName'
             END AS "name",
             CONCAT(CASE WHEN t."debitAccountId" = "@accountId" THEN '-' ELSE '' END, CAST(t."amount" AS varchar)) AS "amount",
             t."transferDate" AS "date"

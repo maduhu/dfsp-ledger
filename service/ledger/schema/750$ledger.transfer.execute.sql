@@ -50,8 +50,8 @@ $body$
             t."cancellationCondition",
             t."debitAccountId",
             t."creditAccountId",
-            t."debitMemo"->'ilp_header'->'data'->'data'->>'memo',
-            t."creditMemo"->'ilp_header'->'data'->'data'->>'memo',
+            t."debitMemo",
+            t."creditMemo",
             t."transferStateId",
             t."amount"
         INTO
@@ -79,10 +79,10 @@ $body$
         END IF;
 
         IF ("@condition" = "@executionCondition") THEN
-            IF "@debitMemo" IS NOT NULL AND "@debitMemo" <> '{}' THEN
-                "@memo" := CAST("@debitMemo" AS JSON);
-            ELSEIF "@creditMemo" IS NOT NULL AND "@creditMemo" <> '{}' THEN
-                "@memo" := CAST("@creditMemo" AS JSON);
+            IF "@debitMemo" IS NOT NULL AND "@debitMemo"::text <> '{}'::text THEN
+                "@memo" := "@debitMemo";
+            ELSEIF "@creditMemo" IS NOT NULL AND "@creditMemo"::text <> '{}'::text THEN
+                "@memo" := "@creditMemo";
             ELSE
                 RAISE EXCEPTION 'ledger.transfer.execute.memoNotFound';
             END IF;

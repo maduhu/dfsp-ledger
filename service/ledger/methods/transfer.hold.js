@@ -1,6 +1,7 @@
 var joi = require('joi')
 var error = require('../error')
 var util = require('../util')
+var ILP = require('ilp')
 module.exports = {
   rest: function () {
     var baseUrl = util.get('baseUrl')
@@ -83,12 +84,19 @@ module.exports = {
       throw error['ledger.transfer.hold.unprocessableEntity']({ message: 'Debits and credits are not equal' })
     }
 
+    var memo = {}
+    try {
+      memo = JSON.parse(JSON.parse(ILP.PSK.parsePacketAndDetails({ packet: credit.memo.ilp }).data.toString('utf8')))
+    } catch (e) {
+      throw error['ledger.transfer.hold.unprocessableEntity']({ message: 'invalid memo' })
+    }
+
     return {
       uuid: msg.id,
       debitAccount: uriToLedgerAccount(debit.account),
       debitMemo: debit.memo || {},
       creditAccount: uriToLedgerAccount(credit.account),
-      creditMemo: credit.memo || {},
+      creditMemo: memo,
       amount: debit.amount,
       executionCondition: msg.execution_condition,
       cancellationCondition: msg.cancellation_condition,
