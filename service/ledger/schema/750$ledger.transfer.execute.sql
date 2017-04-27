@@ -40,7 +40,7 @@ $body$
             t."cancellationCondition",
             t."debitAccountId",
             t."creditAccountId",
-            COALESCE(CAST(t."creditMemo"->>'fee' AS numeric(19,2)), 0),
+            COALESCE(CAST(t."creditMemo"->'ilp_decrypted'->>'fee' AS numeric(19,2)), 0),
             t."transferStateId",
             t.amount
         INTO
