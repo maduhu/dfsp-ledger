@@ -1,3 +1,13 @@
+<a name="1.1.6"></a>
+## [1.1.6](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v1.1.5...v1.1.6) (2017-04-27)
+
+
+### Bug Fixes
+
+* names in ministatement ([658a773](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/658a773))
+
+
+
 <a name="1.1.5"></a>
 ## [1.1.5](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v1.1.4...v1.1.5) (2017-04-27)
 
