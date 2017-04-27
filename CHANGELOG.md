@@ -1,3 +1,13 @@
+<a name="1.1.4"></a>
+## [1.1.4](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v1.1.3...v1.1.4) (2017-04-27)
+
+
+### Bug Fixes
+
+* notify ledger with original encrypted packet ([4dd4ec4](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/4dd4ec4))
+
+
+
 <a name="1.1.3"></a>
 ## [1.1.3](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v1.1.2...v1.1.3) (2017-04-26)
 
