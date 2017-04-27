@@ -30,8 +30,8 @@ $body$
         "@amount" numeric(19,2);
         "@transferStateId" INT;
         -- memo
-        "@debitMemo" text;
-        "@creditMemo" text;
+        "@debitMemo" json;
+        "@creditMemo" json;
         "@memo" JSON;
         -- extracted from memo
         "@transferCode" varchar(20);
