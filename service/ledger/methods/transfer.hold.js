@@ -84,9 +84,8 @@ module.exports = {
       throw error['ledger.transfer.hold.unprocessableEntity']({ message: 'Debits and credits are not equal' })
     }
 
-    var memo = {}
     try {
-      memo = JSON.parse(JSON.parse(ILP.PSK.parsePacketAndDetails({ packet: credit.memo.ilp }).data.toString('utf8')))
+      credit.memo.ilp_decrypted = JSON.parse(JSON.parse(ILP.PSK.parsePacketAndDetails({ packet: credit.memo.ilp }).data.toString('utf8')))
     } catch (e) {
       throw error['ledger.transfer.hold.unprocessableEntity']({ message: 'invalid memo' })
     }
@@ -96,7 +95,7 @@ module.exports = {
       debitAccount: uriToLedgerAccount(debit.account),
       debitMemo: debit.memo || {},
       creditAccount: uriToLedgerAccount(credit.account),
-      creditMemo: memo,
+      creditMemo: credit.memo || {},
       amount: debit.amount,
       executionCondition: msg.execution_condition,
       cancellationCondition: msg.cancellation_condition,
@@ -106,6 +105,7 @@ module.exports = {
   },
   'transfer.hold.response.receive': function (msg, $meta) {
     var transfer = msg[0]
+    delete transfer.creditMemo.ilp_decrypted
     var buildTransferResource = util.get('buildTransferResource')
     var publish = util.get('publish')
     var response = {

@@ -1,3 +1,45 @@
+<a name="1.1.6"></a>
+## [1.1.6](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v1.1.5...v1.1.6) (2017-04-27)
+
+
+### Bug Fixes
+
+* names in ministatement ([658a773](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/658a773))
+
+
+
+<a name="1.1.5"></a>
+## [1.1.5](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v1.1.4...v1.1.5) (2017-04-27)
+
+
+### Bug Fixes
+
+* lint and tests ([b852839](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/b852839))
+* notify ledger with original encrypted packet after both hold and execute ([5ce5c61](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/5ce5c61))
+
+
+
+<a name="1.1.4"></a>
+## [1.1.4](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v1.1.3...v1.1.4) (2017-04-27)
+
+
+### Bug Fixes
+
+* notify ledger with original encrypted packet ([4dd4ec4](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/4dd4ec4))
+
+
+
+<a name="1.1.3"></a>
+## [1.1.3](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v1.1.2...v1.1.3) (2017-04-26)
+
+
+### Bug Fixes
+
+* decrypt transfer memo ([b16c389](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/b16c389))
+* tests ([14e224b](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/14e224b))
+
+
+
 <a name="1.1.2"></a>
 ## [1.1.2](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v1.1.1...v1.1.2) (2017-04-24)
 

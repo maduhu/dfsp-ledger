@@ -50,6 +50,7 @@ module.exports = {
       throw error['ledger.transfer.execute.notFound']()
     }
     var transfer = msg[0]
+    delete transfer.creditMemo.ilp_decrypted
     var publish = util.get('publish')
     var buildTransferResource = util.get('buildTransferResource')
     var response = {
