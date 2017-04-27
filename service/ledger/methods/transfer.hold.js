@@ -84,7 +84,6 @@ module.exports = {
       throw error['ledger.transfer.hold.unprocessableEntity']({ message: 'Debits and credits are not equal' })
     }
 
-    var memo = {}
     try {
       credit.memo.ilp_decrypted = JSON.parse(JSON.parse(ILP.PSK.parsePacketAndDetails({ packet: credit.memo.ilp }).data.toString('utf8')))
     } catch (e) {
@@ -106,7 +105,7 @@ module.exports = {
   },
   'transfer.hold.response.receive': function (msg, $meta) {
     var transfer = msg[0]
-    delete transfer.memo.ilp_decrypted
+    delete transfer.creditMemo.ilp_decrypted
     var buildTransferResource = util.get('buildTransferResource')
     var publish = util.get('publish')
     var response = {
