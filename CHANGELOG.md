@@ -1,3 +1,14 @@
+<a name="1.1.5"></a>
+## [1.1.5](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v1.1.4...v1.1.5) (2017-04-27)
+
+
+### Bug Fixes
+
+* lint and tests ([b852839](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/b852839))
+* notify ledger with original encrypted packet after both hold and execute ([5ce5c61](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/5ce5c61))
+
+
+
 <a name="1.1.4"></a>
 ## [1.1.4](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v1.1.3...v1.1.4) (2017-04-27)
 
