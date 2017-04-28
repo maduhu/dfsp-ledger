@@ -1,3 +1,16 @@
+<a name="1.1.7"></a>
+## [1.1.7](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v1.1.6...v1.1.7) (2017-04-28)
+
+
+### Bug Fixes
+
+*  commission transfers ([69a257d](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/69a257d))
+* fix tests and pass real encoded ILP packets ([3db5eb1](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/3db5eb1))
+* memo data type ([7df9eab](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/7df9eab))
+* transfer.hold validation ([4dc2030](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/4dc2030))
+
+
+
 <a name="1.1.6"></a>
 ## [1.1.6](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v1.1.5...v1.1.6) (2017-04-27)
 
