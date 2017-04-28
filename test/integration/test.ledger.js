@@ -6,37 +6,62 @@ var uuid = require('uuid')
 var ILP = require('ilp')
 var Packet = require('ilp-packet')
 
-const UUID = uuid.v4()
+const TRANSFERID1 = uuid.v4()
+const TRANSFERID2 = uuid.v4()
 const BASE = 'http://localhost:8014/ledger'
 const DEBITACCOUNTNAME = 'Alice' + (new Date()).getTime()
 const DEBITACCOUNTBALANCE = '1000.00'
 const CREDITACCOUNTNAME = 'Bob' + (new Date()).getTime()
 const CREDITACCOUNTBALANCE = '1000.00'
+const COMMISSIONACCOUNTNAME = 'commission' + (new Date()).getTime()
+const COMMISSIONACCOUNTBALANCE = '0'
 const AMOUNT = '50.00'
 const EXECUTEDSTATE = 'executed'
 const PREPAREDSTATE = 'prepared'
 const FULFILLMENT = 'oAKAAA'
 
-const creditMemo = JSON.stringify(JSON.stringify({
+const creditMemo1 = JSON.stringify(JSON.stringify({
   'fee': 1,
-  // 'commission': 1,
   'transferCode': 'p2p',
   'debitName': 'alice alice',
   'creditName': 'agent agent',
   'debitIdentifier': 'alice'
 }))
-const creditMemoEncoded = Packet.serializeIlpPayment({
+const creditMemo1Encoded = Packet.serializeIlpPayment({
   account: DEBITACCOUNTNAME,
   amount: AMOUNT,
   data: ILP.PSK.createDetails({
-    publicHeaders: {'Payment-Id': UUID},
+    publicHeaders: { 'Payment-Id': TRANSFERID1 },
     headers: {
-      'Content-Length': creditMemo.length,
+      'Content-Length': creditMemo1.length,
       'Content-Type': 'application/json',
       'Sender-Identifier': 123
     },
     disableEncryption: true,
-    data: Buffer.from(creditMemo)
+    data: Buffer.from(creditMemo1)
+  })
+}).toString('base64')
+
+const creditMemo2 = JSON.stringify(JSON.stringify({
+  'fee': 1,
+  'commission': 1,
+  'transferCode': 'p2p',
+  'debitName': 'alice alice',
+  'creditName': 'agent agent',
+  'debitIdentifier': 'alice'
+}))
+const creditMemo2Encoded = Packet.serializeIlpPayment({
+  account: DEBITACCOUNTNAME,
+  amount: AMOUNT,
+  data: ILP.PSK.createDetails({
+    publicHeaders: { 'Payment-Id': TRANSFERID2 },
+    headers: {
+      'Content-Length': creditMemo2.length,
+      'Content-Type': 'application/json',
+      'Sender-Identifier': 123
+    },
+    disableEncryption: true,
+    data: Buffer.from(creditMemo2)
   })
 }).toString('base64')
 
@@ -129,6 +154,27 @@ test({
         })).error, null, 'return ledger account details')
       }
     }, {
+      name: 'Create commission account',
+      method: 'ledger.account.add',
+      params: (context) => {
+        return {
+          'name': COMMISSIONACCOUNTNAME,
+          'balance': COMMISSIONACCOUNTBALANCE,
+          'parentAccountNumber': context['Create second ledger account'].body.accountNumber,
+          'accountTypeId': 5
+        }
+      },
+      result: (result, assert) => {
+        assert.equals(joi.validate(result.body, joi.object().keys({
+          id: joi.string(),
+          accountNumber: joi.string(),
+          name: joi.string(),
+          balance: joi.string(),
+          currency: joi.string(),
+          is_disabled: joi.any()
+        })).error, null, 'return commission account details')
+      }
+    }, {
       name: 'Get ledger account',
       params: (context) => {
         return request
@@ -151,9 +197,9 @@ test({
       name: 'Transfer hold',
       params: (context) => {
         return request
-          .put('transfers/' + UUID)
+          .put('transfers/' + TRANSFERID1)
           .send({
-            'id': BASE + '/transfers/' + UUID,
+            'id': BASE + '/transfers/' + TRANSFERID1,
             'ledger': BASE,
             'debits': [{
               'account': BASE + '/accounts/' + context['Create first ledger account'].body.accountNumber,
@@ -164,7 +210,7 @@ test({
             'credits': [{
               'account': BASE + '/accounts/' + context['Create second ledger account'].body.accountNumber,
               'memo': {
-                ilp: creditMemoEncoded
+                ilp: creditMemo1Encoded
               },
               'amount': AMOUNT
             }],
@@ -199,7 +245,68 @@ test({
       name: 'Execute Prepared Transfer',
       params: (context) => {
         return request
-          .put('transfers/' + UUID + '/fulfillment')
+          .put('transfers/' + TRANSFERID1 + '/fulfillment')
+          .set('Content-type', 'text/plain')
+          .send(FULFILLMENT)
+          .expect('Content-Type', 'text/plain; charset=utf-8')
+          .expect(200)
+      },
+      result: (result, assert) => {
+        assert.equals(result.text, FULFILLMENT, 'return fulfillment')
+      }
+    }, {
+      name: 'Transfer hold with commission',
+      params: (context) => {
+        return request
+          .put('transfers/' + TRANSFERID2)
+          .send({
+            'id': BASE + '/transfers/' + TRANSFERID2,
+            'ledger': BASE,
+            'debits': [{
+              'account': BASE + '/accounts/' + context['Create first ledger account'].body.accountNumber,
+              'amount': AMOUNT,
+              'memo': {},
+              'authorized': true
+            }],
+            'credits': [{
+              'account': BASE + '/accounts/' + context['Create second ledger account'].body.accountNumber,
+              'memo': {
+                ilp: creditMemo2Encoded
+              },
+              'amount': AMOUNT
+            }],
+            'execution_condition': 'ni:///sha-256;47DEQpj8HBSa-_TImW-5JCeuQeRkm5NMpJWZG3hSuFU?fpt=preimage-sha-256&cost=0',
+            'expires_at': '2015-06-16T00:00:01.000Z'
+          })
+          .expect('Content-Type', /json/)
+          .expect(201)
+      },
+      result: (result, assert) => {
+        assert.equals(joi.validate(result.body, joi.object().keys({
+          id: joi.string().required(),
+          ledger: joi.string().required(),
+          debits: joi.array().items(joi.object().keys({
+            account: joi.string().required(),
+            memo: joi.object().optional(),
+            amount: joi.string().valid(AMOUNT).required(),
+            authorized: joi.boolean()
+          })).required(),
+          credits: joi.array().items(joi.object().keys({
+            account: joi.string().required(),
+            memo: joi.object().optional(),
+            amount: joi.string().valid(AMOUNT).required()
+          })).required(),
+          execution_condition: joi.string().required().allow(null),
+          cancellation_condition: joi.string().required().allow(null),
+          state: joi.string().required().valid(PREPAREDSTATE),
+          expires_at: joi.string().required()
+        })).error, null, 'return transfer hold details')
+      }
+    }, {
+      name: 'Execute Prepared Transfer with commission',
+      params: (context) => {
+        return request
+          .put('transfers/' + TRANSFERID2 + '/fulfillment')
           .set('Content-type', 'text/plain')
           .send(FULFILLMENT)
           .expect('Content-Type', 'text/plain; charset=utf-8')
@@ -212,7 +319,7 @@ test({
       name: 'Get Transfer Fulfillment',
       params: (context) => {
         return request
-          .get('transfers/' + UUID + '/fulfillment')
+          .get('transfers/' + TRANSFERID1 + '/fulfillment')
           .expect('Content-Type', 'text/plain; charset=utf-8')
           .expect(200)
       },
@@ -223,7 +330,7 @@ test({
       name: 'Get Transfer by ID',
       params: (context) => {
         return request
-          .get('transfers/' + UUID)
+          .get('transfers/' + TRANSFERID1)
           .expect('Content-Type', /json/)
           .expect(200)
       },

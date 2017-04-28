@@ -43,6 +43,7 @@ module.exports = {
       credit: typeof msg.balance === 'undefined' ? 1000 : msg.balance,
       name: msg.name,
       accountNumber: msg.accountNumber || msg.name,
+      parentAccountNumber: msg.parentAccountNumber,
       accountTypeId: msg.accountTypeId || 1,
       currencyId: msg.currencyCode || 'USD'
     }
