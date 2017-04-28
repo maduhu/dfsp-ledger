@@ -1,3 +1,13 @@
+<a name="1.1.8"></a>
+## [1.1.8](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v1.1.7...v1.1.8) (2017-04-28)
+
+
+### Bug Fixes
+
+* add tests on commission ([f514540](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/f514540))
+
+
+
 <a name="1.1.7"></a>
 ## [1.1.7](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v1.1.6...v1.1.7) (2017-04-28)
 
