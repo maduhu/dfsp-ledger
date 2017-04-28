@@ -83,6 +83,24 @@ module.exports = [
     message: 'Can\'t modify transfer after execution.',
     statusCode: 422
   },
+  {
+    id: 'NotFoundError',
+    type: 'ledger.transfer.execute.memoNotFound',
+    message: 'Memo object was not found',
+    statusCode: 404
+  },
+  {
+    id: 'NotFoundError',
+    type: 'ledger.transfer.execute.agentCommissionAccountNotFound',
+    message: 'Agent commission account could not be found',
+    statusCode: 404
+  },
+  {
+    id: 'NotFoundError',
+    type: 'ledger.transfer.execute.transferCodeNotFound',
+    message: 'Transfer code not specified or unknown',
+    statusCode: 404
+  },
   // ledger.transfer.reject
   {
     type: 'ledger.transfer.reject',
@@ -169,6 +187,12 @@ module.exports = [
     id: 'InvalidBodyError',
     type: 'ledger.account.add.invalidBody',
     message: 'The submitted JSON entity does not match the required schema'
+  },
+  {
+    id: 'NotFoundError',
+    type: 'ledger.account.add.parentAccountNotFound',
+    message: 'Parent account was not found.',
+    statusCode: 404
   },
   // ledger.account.get
   {

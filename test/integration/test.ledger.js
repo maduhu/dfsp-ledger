@@ -3,6 +3,9 @@ var test = require('ut-run/test')
 var config = require('./../lib/appConfig')
 var joi = require('joi')
 var uuid = require('uuid')
+var ILP = require('ilp')
+var Packet = require('ilp-packet')
+
 const UUID = uuid.v4()
 const BASE = 'http://localhost:8014/ledger'
 const DEBITACCOUNTNAME = 'Alice' + (new Date()).getTime()
@@ -13,6 +16,29 @@ const AMOUNT = '50.00'
 const EXECUTEDSTATE = 'executed'
 const PREPAREDSTATE = 'prepared'
 const FULFILLMENT = 'oAKAAA'
+
+const creditMemo = JSON.stringify(JSON.stringify({
+  'fee': 1,
+  // 'commission': 1,
+  'transferCode': 'p2p',
+  'debitName': 'alice alice',
+  'creditName': 'agent agent',
+  'debitIdentifier': 'alice'
+}))
+const creditMemoEncoded = Packet.serializeIlpPayment({
+  account: DEBITACCOUNTNAME,
+  amount: AMOUNT,
+  data: ILP.PSK.createDetails({
+    publicHeaders: {'Payment-Id': UUID},
+    headers: {
+      'Content-Length': creditMemo.length,
+      'Content-Type': 'application/json',
+      'Sender-Identifier': 123
+    },
+    disableEncryption: true,
+    data: Buffer.from(creditMemo)
+  })
+}).toString('base64')
 
 test({
   type: 'integration',
@@ -132,12 +158,14 @@ test({
             'debits': [{
               'account': BASE + '/accounts/' + context['Create first ledger account'].body.accountNumber,
               'amount': AMOUNT,
-              'memo': {note: 'debit memo'},
+              'memo': {},
               'authorized': true
             }],
             'credits': [{
               'account': BASE + '/accounts/' + context['Create second ledger account'].body.accountNumber,
-              'memo': {ilp: 'AYIBfwAAAAAAAAooNmxldmVsb25lLmRmc3AxLmFsaWNlLkRXcUYtMUFQWVJnTER6NWoteVFRRjd1eTltRXVJMS1td4IBPFBTSy8xLjAKTm9uY2U6IHlwcnhzMjVPMHo1S2szeFBXLTZ2VVEKRW5jcnlwdGlvbjogbm9uZQpQYXltZW50LUlkOiBlOTM3MDRhYy1iNWQ0LTQ4ZmMtODJhOS0xZTJiNGZiODAzNzcKCkNvbnRlbnQtTGVuZ3RoOiAxMzEKQ29udGVudC1UeXBlOiBhcHBsaWNhdGlvbi9qc29uClNlbmRlci1JZGVudGlmaWVyOiA2NTE0NDQ0NAoKIntcImZlZVwiOjEsXCJ0cmFuc2ZlckNvZGVcIjpcInAycFwiLFwiZGViaXROYW1lXCI6XCJib2IgZHlsYW5cIixcImNyZWRpdE5hbWVcIjpcImFsaWNlIGNvb3BlclwiLFwiZGViaXRJZGVudGlmaWVyXCI6XCI2NTE0NDQ0NFwifSIA'},
+              'memo': {
+                ilp: creditMemoEncoded
+              },
               'amount': AMOUNT
             }],
             'execution_condition': 'ni:///sha-256;47DEQpj8HBSa-_TImW-5JCeuQeRkm5NMpJWZG3hSuFU?fpt=preimage-sha-256&cost=0',
