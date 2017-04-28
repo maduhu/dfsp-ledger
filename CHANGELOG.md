@@ -1,3 +1,13 @@
+<a name="1.1.9"></a>
+## [1.1.9](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v1.1.8...v1.1.9) (2017-04-28)
+
+
+### Bug Fixes
+
+* read credit memo before debit memo ([1b8794c](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/1b8794c))
+
+
+
 <a name="1.1.8"></a>
 ## [1.1.8](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v1.1.7...v1.1.8) (2017-04-28)
 
