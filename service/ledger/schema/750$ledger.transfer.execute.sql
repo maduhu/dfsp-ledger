@@ -79,10 +79,10 @@ $body$
         END IF;
 
         IF ("@condition" = "@executionCondition") THEN
-            IF "@debitMemo" IS NOT NULL AND "@debitMemo"::text <> '{}'::text THEN
-                "@memo" := "@debitMemo";
-            ELSEIF "@creditMemo" IS NOT NULL AND "@creditMemo"::text <> '{}'::text THEN
+            IF "@creditMemo" IS NOT NULL AND "@creditMemo"::text <> '{}'::text THEN
                 "@memo" := CAST("@creditMemo"->>'ilp_decrypted' AS json);
+            ELSEIF "@debitMemo" IS NOT NULL AND "@debitMemo"::text <> '{}'::text THEN
+                "@memo" := "@debitMemo";
             ELSE
                 RAISE EXCEPTION 'ledger.transfer.execute.memoNotFound';
             END IF;
