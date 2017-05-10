@@ -1,3 +1,13 @@
+<a name="1.1.11"></a>
+## [1.1.11](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v1.1.10...v1.1.11) (2017-05-10)
+
+
+### Bug Fixes
+
+* change logmode to long ([afda46d](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/afda46d))
+
+
+
 <a name="1.1.10"></a>
 ## [1.1.10](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v1.1.9...v1.1.10) (2017-05-10)
 
