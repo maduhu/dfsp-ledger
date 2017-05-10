@@ -1,3 +1,13 @@
+<a name="1.1.10"></a>
+## [1.1.10](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v1.1.9...v1.1.10) (2017-05-10)
+
+
+### Bug Fixes
+
+* remove colors from stdout by default ([7b47ea7](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/7b47ea7))
+
+
+
 <a name="1.1.9"></a>
 ## [1.1.9](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v1.1.8...v1.1.9) (2017-04-28)
 
