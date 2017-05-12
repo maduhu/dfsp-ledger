@@ -144,50 +144,48 @@ $body$
                         END
                     );
 
-                IF "@agentCommissionAccountId" IS NULL THEN
-                    RAISE EXCEPTION 'ledger.transfer.execute.agentCommissionAccountNotFound';
+                IF "@agentCommissionAccountId" IS NOT NULL THEN
+                    UPDATE
+                        ledger.account
+                    SET
+                        credit = credit + "@commission"
+                    WHERE
+                        "accountId" = "@agentCommissionAccountId";
+
+                    UPDATE
+                        ledger.account
+                    SET
+                        debit = debit + "@commission"
+                    WHERE
+                        "accountId" = "@commissionAccountId";
+
+                    INSERT INTO
+                        ledger.commission(
+                            "transferDate",
+                            "debitAccountId",
+                            "creditAccountId",
+                            "currencyId",
+                            "amount",
+                            "transferId"
+                        )
+                    SELECT
+                        t."transferDate",
+                        "@commissionAccountId",
+                        "@agentCommissionAccountId",
+                        t."currencyId",
+                        "@commission",
+                        t."transferId"
+                    FROM
+                        ledger.transfer t
+                    WHERE
+                        t."uuid" = "@transferId";
                 END IF;
-
-                UPDATE
-                    ledger.account
-                SET
-                    credit = credit + "@commission"
-                WHERE
-                    "accountId" = "@agentCommissionAccountId";
-
-                UPDATE
-                    ledger.account
-                SET
-                    debit = debit + "@commission"
-                WHERE
-                    "accountId" = "@commissionAccountId";
-
-                INSERT INTO
-                    ledger.commission(
-                        "transferDate",
-                        "debitAccountId",
-                        "creditAccountId",
-                        "currencyId",
-                        "amount",
-                        "transferId"
-                    )
-                SELECT
-                    t."transferDate",
-                    "@commissionAccountId",
-                    "@agentCommissionAccountId",
-                    t."currencyId",
-                    "@commission",
-                    t."transferId"
-                FROM
-                    ledger.transfer t
-                WHERE
-                    t."uuid" = "@transferId";
             END IF;
 
 
 
             IF ("@fee" > 0) THEN
-		                UPDATE
+		        UPDATE
                     ledger.account
                 SET
                     debit = debit + "@fee"
