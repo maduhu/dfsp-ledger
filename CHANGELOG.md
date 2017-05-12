@@ -1,3 +1,13 @@
+<a name="1.1.12"></a>
+## [1.1.12](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v1.1.11...v1.1.12) (2017-05-12)
+
+
+### Bug Fixes
+
+* remove logic to add commissions for connector accounts ([dd3cf8f](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/dd3cf8f))
+
+
+
 <a name="1.1.11"></a>
 ## [1.1.11](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v1.1.10...v1.1.11) (2017-05-10)
 
