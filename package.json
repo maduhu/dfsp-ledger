@@ -46,7 +46,8 @@
     "ut-port-performance": "^5.4.7",
     "ut-port-postgres": "^5.7.7",
     "ut-port-script": "^5.5.1",
-    "ut-run": "^8.1.0"
+    "ut-run": "^8.1.0",
+    "ut-log-dfsp": "^5.0.1"
   },
   "devDependencies": {
     "blue-tape": "1.0.0",

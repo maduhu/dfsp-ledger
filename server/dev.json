@@ -10,12 +10,14 @@
   "httpserver": {
     "baseUrl": "http://localhost:8014/ledger"
   },
-  "stdOut": {
-    "useColor": false,
-    "mode": "long"
-  },
+  "stdOut": false,
   "log": {
     "streams": [
+      {
+        "level": "debug",
+        "stream": "ut-log-dfsp",
+        "streamConfig": {}
+      },
       {
         "level": "trace",
         "stream": "../logRotateStream",
