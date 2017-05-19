@@ -1,3 +1,15 @@
+<a name="1.1.13"></a>
+## [1.1.13](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v1.1.12...v1.1.13) (2017-05-19)
+
+
+### Bug Fixes
+
+* circle.yml ([eb6953a](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/eb6953a))
+* elk ([32a7d48](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/32a7d48))
+* update ut-tools ([c80edd0](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/c80edd0))
+
+
+
 <a name="1.1.12"></a>
 ## [1.1.12](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v1.1.11...v1.1.12) (2017-05-12)
 
