@@ -17,7 +17,7 @@ test:
 
 deployment:
   prod:
-    branch: /(^master$)|(^ci_.*)/
+    branch: /^(master|(hotfix|major|minor|patch)\/[^/]+)$/
     commands:
       - npm run circleci:build
       - npm run circleci:cover
