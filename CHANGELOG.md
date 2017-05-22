@@ -1,3 +1,13 @@
+<a name="1.1.14"></a>
+## [1.1.14](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v1.1.13...v1.1.14) (2017-05-22)
+
+
+### Bug Fixes
+
+* log configuration ([4b33b43](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/4b33b43))
+
+
+
 <a name="1.1.13"></a>
 ## [1.1.13](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v1.1.12...v1.1.13) (2017-05-19)
 
