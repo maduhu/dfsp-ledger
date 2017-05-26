@@ -1,3 +1,13 @@
+<a name="1.1.16"></a>
+## [1.1.16](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v1.1.15...v1.1.16) (2017-05-26)
+
+
+### Bug Fixes
+
+* pipeline ([caf1395](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/caf1395))
+
+
+
 <a name="1.1.15"></a>
 ## [1.1.15](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v1.1.14...v1.1.15) (2017-05-26)
 
