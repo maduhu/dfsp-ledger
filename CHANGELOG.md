@@ -1,3 +1,14 @@
+<a name="1.1.15"></a>
+## [1.1.15](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v1.1.14...v1.1.15) (2017-05-26)
+
+
+### Bug Fixes
+
+* remove shrinkwrap ([497dc1d](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/497dc1d))
+* update ut-tolls ([072abab](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/072abab))
+
+
+
 <a name="1.1.14"></a>
 ## [1.1.14](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v1.1.13...v1.1.14) (2017-05-22)
 
