@@ -55,7 +55,7 @@
     "supertest": "2.0.0",
     "tap-xunit": "1.4.0",
     "ut-port-jsonrpc": "^5.5.9",
-    "ut-tools": "^5.17.13",
+    "ut-tools": "^5.17.16",
     "uuid": "^3.0.1"
   },
   "repository": {
