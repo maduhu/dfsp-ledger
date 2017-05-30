@@ -50,7 +50,8 @@ VALUES
   (2, 'settlement','s'),
   (3, 'fee','f'),
   (4, 'commission','c'),
-  (5, 'agentCommission','ac')
+  (5, 'agentCommission','ac'),
+  (6, 'connector', 'con')
 ON CONFLICT ("accountTypeId") DO UPDATE SET
   "name" = EXCLUDED."name",
   "code" = EXCLUDED."code";
