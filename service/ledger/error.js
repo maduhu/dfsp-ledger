@@ -209,6 +209,21 @@ module.exports = [
     id: 'InvalidUriParameterError',
     type: 'ledger.account.get.invalidUriParameter',
     message: 'One of the provided URI parameters was invalid'
+  },
+  {
+    id: 'QuoteUuidMissing',
+    type: 'ledger.quoteUuidMissing',
+    message: 'Quote uuid is missing'
+  },
+  {
+    id: 'QuoteIsDebitMissing',
+    type: 'ledger.quoteIsDebitMissing',
+    message: 'Quote isDebit param is missing'
+  },
+  {
+    id: 'QuoteNotFound',
+    type: 'ledger.quoteNotFound',
+    message: 'Quote with the given params was not found'
   }
 ].reduce((exporting, error) => {
   var typePath = error.type.split('.')
