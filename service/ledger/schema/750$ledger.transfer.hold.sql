@@ -44,18 +44,18 @@ $BODY$
         );
         "@transferTypeId" int;
         "@fee" numeric(19,2);
-        "@commission" numeric(19,2);
         "@debitIdentifier" varchar(256):=COALESCE(CAST("@memo"->>'debitIdentifier' AS varchar(256)), null);
         "@transferId" BIGINT:=(SELECT nextval('ledger."transfer_transferId_seq"'));
+        "@quote" ledger."quote";
 
     BEGIN
         IF (SELECT COUNT(*) FROM ledger.transfer WHERE uuid = "@uuid") > 0 THEN
             RAISE EXCEPTION 'ledger.transfer.hold.alreadyExists';
         END IF;
 
-        SELECT lq."transferTypeId" FROM ledger."quote" lq WHERE lq."uuid" = "@uuid" LIMIT 1 INTO "@transferTypeId";
-        SELECT lq."fee" FROM ledger."quote" lq WHERE lq."uuid" = "@uuid" LIMIT 1 INTO "@fee";
-        SELECT lq."commission" FROM ledger."quote" lq WHERE lq."uuid" = "@uuid" LIMIT 1 INTO "@commission";
+        SELECT * FROM ledger."quote.get"("@uuid", true) INTO "@quote";
+        SELECT q."transferTypeId" FROM "@quote" q LIMIT 1 INTO "@transferTypeId";
+        SELECT q."fee" FROM "@quote" q LIMIT 1 INTO "@fee";
 
         SELECT
             a."accountId",
@@ -136,7 +136,7 @@ $BODY$
             SELECT
                 *
             FROM
-                ledger."transfer.execute"("@uuid", '', '', "@transferTypeId", "@fee", "@commission");
+                ledger."transfer.execute"("@uuid", '', '');
         ELSE
             RETURN query
             SELECT

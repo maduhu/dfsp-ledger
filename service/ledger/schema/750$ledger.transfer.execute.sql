@@ -1,10 +1,7 @@
 ﻿CREATE OR replace FUNCTION ledger."transfer.execute"(
     "@transferId" varchar,
     "@condition" varchar,
-    "@fulfillment" varchar(100),
-    "@transferTypeId" integer,
-    "@fee" numeric(19,2),
-    "@commission" numeric(19,2)
+    "@fulfillment" varchar(100)
 ) RETURNS TABLE (
     "id" varchar(100),
     "debitAccount" varchar(20),
@@ -32,13 +29,19 @@ $body$
         "@creditAccountId" INT;
         "@amount" numeric(19,2);
         "@transferStateId" INT;
-        "@transferCode" varchar(20);
         -- GL accounts
         "@feeAccountId" bigint;
         "@commissionAccountId" bigint;
-        "@agentCommissionAccountId" bigint;
+        -- agent commission account
+        "@debitCommissionAccountId" bigint;
+        "@creditCommissionAccountId" bigint;
         -- to check for funds sufficiency
         "@debitBalance" numeric(19,2);
+        -- quote
+        "@debitCommission" numeric(19,2):=0;
+        "@creditCommission" numeric(19,2):=0;
+        "@debitFee" numeric(19,2):=0;
+        "@creditFee" numeric(19,2):=0;
     BEGIN
 
         SELECT
@@ -70,12 +73,16 @@ $body$
             RAISE EXCEPTION 'ledger.transfer.execute.alreadyExists';
         END IF;
 
-        IF ("@condition" = "@executionCondition") THEN
-            "@transferCode" := CAST((SELECT ltt."transferCode" FROM ledger."transferType" ltt WHERE ltt."transferTypeId" = "@transferTypeId") as varchar(20));
+        IF (SELECT 1 FROM ledger.account a WHERE a."accountId" = "@debitAccountId" AND a."accountTypeId" = (SELECT at."accountTypeId" FROM ledger."accountType" at WHERE at.code = 'mw')) THEN
+            SELECT dq."commission", dq."fee" FROM ledger."quote.get"("@transferId", true) dq INTO "@debitCommission", "@debitFee";
+        END IF;
 
-            IF "@transferCode" IS NULL THEN
-                RAISE EXCEPTION 'ledger.transfer.execute.transferCodeNotFound';
-            END IF;
+        IF (SELECT 1 FROM ledger.account a WHERE a."accountId" = "@creditAccountId" AND a."accountTypeId" = (SELECT at."accountTypeId" FROM ledger."accountType" at WHERE at.code = 'mw')) THEN
+            SELECT cq."commission", cq."fee" FROM ledger."quote.get"("@transferId", false) cq INTO "@creditCommission", "@creditFee";
+        END IF;
+
+
+        IF ("@condition" = "@executionCondition") THEN
 
             SELECT
                 a."accountId"
@@ -104,40 +111,34 @@ $body$
             WHERE
                 a."accountId" = "@debitAccountId";
 
-            IF "@debitBalance" < ("@amount" + "@fee") THEN
+            IF "@debitBalance" < ("@amount" + "@debitFee") THEN
                 RAISE EXCEPTION 'ledger.transfer.execute.insufficientFunds';
             END IF;
 
-            IF ("@commission" > 0) THEN
+            IF ("@creditCommission" > 0) THEN
                 SELECT
                     a."accountId"
                 INTO
-                    "@agentCommissionAccountId"
+                    "@creditCommissionAccountId"
                 FROM
                     ledger."account" a
                 WHERE
-                    -- agent is debit for cash-in operations
                     a."accountTypeId" = (SELECT at."accountTypeId" FROM ledger."accountType" at WHERE at."code" = 'ac')
                     AND
-                    a."parentId" = (
-                        CASE WHEN "@transferCode" IN ('cashIn')
-                        THEN "@debitAccountId"
-                        ELSE "@creditAccountId"
-                        END
-                    );
+                    a."parentId" = "@creditAccountId";
 
-                IF "@agentCommissionAccountId" IS NOT NULL THEN
+                IF "@creditCommissionAccountId" IS NOT NULL THEN
                     UPDATE
                         ledger.account
                     SET
-                        credit = credit + "@commission"
+                        credit = credit + "@creditCommission"
                     WHERE
-                        "accountId" = "@agentCommissionAccountId";
+                        "accountId" = "@creditCommissionAccountId";
 
                     UPDATE
                         ledger.account
                     SET
-                        debit = debit + "@commission"
+                        debit = debit + "@creditCommission"
                     WHERE
                         "accountId" = "@commissionAccountId";
 
@@ -153,9 +154,59 @@ $body$
                     SELECT
                         t."transferDate",
                         "@commissionAccountId",
-                        "@agentCommissionAccountId",
+                        "@creditCommissionAccountId",
                         t."currencyId",
-                        "@commission",
+                        "@creditCommission",
+                        t."transferId"
+                    FROM
+                        ledger.transfer t
+                    WHERE
+                        t."uuid" = "@transferId";
+                END IF;
+            END IF;
+
+            IF ("@debitCommission" > 0) THEN
+                SELECT
+                    a."accountId"
+                INTO
+                    "@debitCommissionAccountId"
+                FROM
+                    ledger."account" a
+                WHERE
+                    a."accountTypeId" = (SELECT at."accountTypeId" FROM ledger."accountType" at WHERE at."code" = 'ac')
+                    AND
+                    a."parentId" = "@debitAccountId";
+
+                IF "@debitCommissionAccountId" IS NOT NULL THEN
+                    UPDATE
+                        ledger.account
+                    SET
+                        credit = credit + "@debitCommission"
+                    WHERE
+                        "accountId" = "@debitCommissionAccountId";
+
+                    UPDATE
+                        ledger.account
+                    SET
+                        debit = debit + "@debitCommission"
+                    WHERE
+                        "accountId" = "@commissionAccountId";
+
+                    INSERT INTO
+                        ledger.commission(
+                            "transferDate",
+                            "debitAccountId",
+                            "creditAccountId",
+                            "currencyId",
+                            "amount",
+                            "transferId"
+                        )
+                    SELECT
+                        t."transferDate",
+                        "@commissionAccountId",
+                        "@debitCommissionAccountId",
+                        t."currencyId",
+                        "@debitCommission",
                         t."transferId"
                     FROM
                         ledger.transfer t
@@ -166,18 +217,18 @@ $body$
 
 
 
-            IF ("@fee" > 0) THEN
+            IF ("@creditFee" > 0) THEN
 		        UPDATE
                     ledger.account
                 SET
-                    debit = debit + "@fee"
+                    debit = debit + "@creditFee"
                 WHERE
                     "accountId" = "@debitAccountId";
 
                 UPDATE
                     ledger.account
                 SET
-                    credit = credit + "@fee"
+                    credit = credit + "@creditFee"
                 WHERE
                     "accountId" = "@feeAccountId";
 
@@ -195,7 +246,44 @@ $body$
                     "@debitAccountId",
                     "@feeAccountId",
                     t."currencyId",
-                    "@fee",
+                    "@creditFee",
+                    t."transferId"
+                FROM
+                    ledger.transfer t
+                WHERE
+                    t."uuid" = "@transferId";
+            END IF;
+
+            IF ("@debitFee" > 0) THEN
+		        UPDATE
+                    ledger.account
+                SET
+                    debit = debit + "@debitFee"
+                WHERE
+                    "accountId" = "@debitAccountId";
+
+                UPDATE
+                    ledger.account
+                SET
+                    credit = credit + "@debitFee"
+                WHERE
+                    "accountId" = "@feeAccountId";
+
+                INSERT INTO
+                    ledger.fee(
+                        "transferDate",
+                        "debitAccountId",
+                        "creditAccountId",
+                        "currencyId",
+                        "amount",
+                        "transferId"
+                    )
+                SELECT
+                    t."transferDate",
+                    "@debitAccountId",
+                    "@feeAccountId",
+                    t."currencyId",
+                    "@debitFee",
                     t."transferId"
                 FROM
                     ledger.transfer t
