@@ -1,7 +1,10 @@
 ﻿CREATE OR replace FUNCTION ledger."transfer.execute"(
     "@transferId" varchar,
     "@condition" varchar,
-    "@fulfillment" varchar(100)
+    "@fulfillment" varchar(100),
+    "@transferTypeId" integer,
+    "@fee" numeric(19,2),
+    "@commission" numeric(19,2)
 ) RETURNS TABLE (
     "id" varchar(100),
     "debitAccount" varchar(20),
@@ -29,14 +32,7 @@ $body$
         "@creditAccountId" INT;
         "@amount" numeric(19,2);
         "@transferStateId" INT;
-        -- memo
-        "@debitMemo" json;
-        "@creditMemo" json;
-        "@memo" JSON;
-        -- extracted from memo
         "@transferCode" varchar(20);
-        "@fee" numeric(19,2);
-        "@commission" numeric(19,2);
         -- GL accounts
         "@feeAccountId" bigint;
         "@commissionAccountId" bigint;
@@ -50,8 +46,6 @@ $body$
             t."cancellationCondition",
             t."debitAccountId",
             t."creditAccountId",
-            t."debitMemo",
-            t."creditMemo",
             t."transferStateId",
             t."amount"
         INTO
@@ -59,8 +53,6 @@ $body$
             "@cancellationCondition",
             "@debitAccountId",
             "@creditAccountId",
-            "@debitMemo",
-            "@creditMemo",
             "@transferStateId",
             "@amount"
         FROM
@@ -70,8 +62,8 @@ $body$
 
         IF ("@transferStateId" != (
               SELECT "transferStateId"
-              FROM   ledger."transferState"
-              WHERE  name = 'prepared'
+              FROM ledger."transferState"
+              WHERE name = 'prepared'
             )
         )
         THEN
@@ -79,17 +71,7 @@ $body$
         END IF;
 
         IF ("@condition" = "@executionCondition") THEN
-            IF "@creditMemo" IS NOT NULL AND "@creditMemo"::text <> '{}'::text THEN
-                "@memo" := CAST("@creditMemo"->>'ilp_decrypted' AS json);
-            ELSEIF "@debitMemo" IS NOT NULL AND "@debitMemo"::text <> '{}'::text THEN
-                "@memo" := "@debitMemo";
-            ELSE
-                RAISE EXCEPTION 'ledger.transfer.execute.memoNotFound';
-            END IF;
-
-            "@transferCode" := CAST("@memo"->>'transferCode' AS varchar(20));
-            "@commission" := COALESCE(CAST("@memo"->>'commission' AS numeric(19,2)), 0);
-            "@fee" := COALESCE(CAST("@memo"->>'fee' AS numeric(19,2)), 0);
+            "@transferCode" := CAST((SELECT ltt."transferCode" FROM ledger."transferType" ltt WHERE ltt."transferTypeId" = "@transferTypeId") as varchar(20));
 
             IF "@transferCode" IS NULL THEN
                 RAISE EXCEPTION 'ledger.transfer.execute.transferCodeNotFound';

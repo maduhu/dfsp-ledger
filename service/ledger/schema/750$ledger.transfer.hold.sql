@@ -2,24 +2,24 @@
     "@uuid" character varying(100),
     "@debitAccount" character varying(20),
     "@debitMemo" json,
-    "@creditAccount"  character varying(20),
+    "@creditAccount" character varying(20),
     "@creditMemo" json,
-    "@amount"  numeric(19,2),
-    "@executionCondition"  character varying(100),
-    "@cancellationCondition"  character varying(100),
+    "@amount" numeric(19,2),
+    "@executionCondition" character varying(100),
+    "@cancellationCondition" character varying(100),
     "@authorized" boolean,
-    "@expiresAt"  timestamp
+    "@expiresAt" timestamp
 ) RETURNS TABLE(
-    id character varying(100),
+    "id" character varying(100),
     "debitAccount" character varying(20),
     "debitMemo" json,
     "creditAccount" character varying(20),
     "creditMemo" json,
-    amount numeric(19,2),
+    "amount" numeric(19,2),
     "executionCondition" character varying(100),
-    "cancellationCondition"  character varying(100),
-    "state"  character varying(20),
-    "expiresAt"  timestamp,
+    "cancellationCondition" character varying(100),
+    "state" character varying(20),
+    "expiresAt" timestamp,
     "creationDate" timestamp,
     "proposedAt" timestamp,
     "preparedAt" timestamp,
@@ -42,15 +42,9 @@ $BODY$
             WHERE
                 ts.name = (CASE "@authorized" WHEN true THEN 'prepared' ELSE 'proposed' END)
         );
-        "@transferTypeId" int:=(
-            SELECT
-                tt."transferTypeId"
-            FROM
-                ledger."transferType" tt
-            WHERE
-                tt."transferCode" = COALESCE(CAST("@memo"->>'transferCode' AS varchar), 'p2p')
-        );
-        "@fee" numeric(19,2):=COALESCE(CAST("@memo"->>'fee' AS numeric(19,2)), 0);
+        "@transferTypeId" int;
+        "@fee" numeric(19,2);
+        "@commission" numeric(19,2);
         "@debitIdentifier" varchar(256):=COALESCE(CAST("@memo"->>'debitIdentifier' AS varchar(256)), null);
         "@transferId" BIGINT:=(SELECT nextval('ledger."transfer_transferId_seq"'));
 
@@ -59,9 +53,13 @@ $BODY$
             RAISE EXCEPTION 'ledger.transfer.hold.alreadyExists';
         END IF;
 
+        SELECT lq."transferTypeId" FROM ledger."quote" lq WHERE lq."uuid" = "@uuid" LIMIT 1 INTO "@transferTypeId";
+        SELECT lq."fee" FROM ledger."quote" lq WHERE lq."uuid" = "@uuid" LIMIT 1 INTO "@fee";
+        SELECT lq."commission" FROM ledger."quote" lq WHERE lq."uuid" = "@uuid" LIMIT 1 INTO "@commission";
+
         SELECT
             a."accountId",
-            a.credit-a.debit,
+            a."credit" - a."debit",
             a."currencyId"
         INTO
             "@debitAccountId",
@@ -70,7 +68,7 @@ $BODY$
         FROM
             ledger.account a
         WHERE
-            a."accountNumber"="@debitAccount";
+            a."accountNumber" = "@debitAccount";
 
         SELECT
             a."accountId"
@@ -79,9 +77,9 @@ $BODY$
         FROM
             ledger.account a
         WHERE
-            a."accountNumber"="@creditAccount" ;
+            a."accountNumber" = "@creditAccount";
 
-        IF "@debitBalance"<("@amount"+"@fee") THEN
+        IF "@debitBalance" < ("@amount" + "@fee") THEN
             RAISE EXCEPTION 'ledger.transfer.hold.insufficientFunds';
         END IF;
         IF "@debitAccountId" IS NULL THEN
@@ -138,7 +136,7 @@ $BODY$
             SELECT
                 *
             FROM
-                ledger."transfer.execute"("@uuid", '', '');
+                ledger."transfer.execute"("@uuid", '', '', "@transferTypeId", "@fee", "@commission");
         ELSE
             RETURN query
             SELECT
