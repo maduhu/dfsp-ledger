@@ -1,7 +1,7 @@
 var joi = require('joi')
 var error = require('../error')
 var util = require('../util')
-var ILP = require('ilp')
+// var ILP = require('ilp')
 module.exports = {
   rest: function () {
     var baseUrl = util.get('baseUrl')
