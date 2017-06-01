@@ -38,7 +38,7 @@ module.exports = {
             ).required(),
             execution_condition: joi.string().description('Crypto-Condition').example('ni:///sha-256;47DEQpj8HBSa-_TImW-5JCeuQeRkm5NMpJWZG3hSuFU?fpt=preimage-sha-256&cost=0'),
             cancellation_condition: joi.string().allow(null).example(null),
-            expires_at: joi.date().required().example('2015-06-16T00:00:01.000Z')
+            expires_at: joi.date().required().example('2018-06-16T00:00:01.000Z')
           })
         },
         plugins: {
@@ -84,11 +84,11 @@ module.exports = {
       throw error['ledger.transfer.hold.unprocessableEntity']({ message: 'Debits and credits are not equal' })
     }
 
-    try {
-      credit.memo.ilp_decrypted = JSON.parse(JSON.parse(ILP.PSK.parsePacketAndDetails({ packet: credit.memo.ilp }).data.toString('utf8')))
-    } catch (e) {
-      throw error['ledger.transfer.hold.unprocessableEntity']({ message: 'invalid memo' })
-    }
+    // try {
+    //   credit.memo.ilp_decrypted = JSON.parse(JSON.parse(ILP.PSK.parsePacketAndDetails({ packet: credit.memo.ilp }).data.toString('utf8')))
+    // } catch (e) {
+    //   throw error['ledger.transfer.hold.unprocessableEntity']({ message: 'invalid memo' })
+    // }
 
     return {
       uuid: msg.id,

@@ -24,6 +24,11 @@ module.exports = [
   },
   {
     id: 'UnprocessableEntityError',
+    type: 'ledger.transfer.hold.unknownTransferType',
+    message: 'Unknown transfer type'
+  },
+  {
+    id: 'UnprocessableEntityError',
     type: 'ledger.transfer.hold.unprocessableEntity',
     message: 'Account `unknown` does not exist',
     statusCode: 422

@@ -12,10 +12,10 @@ module.exports = {
         description: 'Create account',
         tags: ['api'],
         validate: {
-          payload: {
+          payload: joi.object().keys({
             name: joi.string().min(1).required().example('alice'),
             balance: joi.string().required().example('1000')
-          }
+          }).unknown()
         },
         plugins: {
           'hapi-swagger': {

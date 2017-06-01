@@ -3,22 +3,22 @@
     "@condition" varchar,
     "@fulfillment" varchar(100)
 ) RETURNS TABLE (
-    "id" varchar(100),
-    "debitAccount" varchar(20),
+    "id" character varying(100),
+    "debitAccount" character varying(20),
     "debitMemo" json,
-    "creditAccount" varchar(20),
+    "creditAccount" character varying(20),
     "creditMemo" json,
     "amount" numeric(19,2),
-    "executionCondition" varchar(100),
-    "cancellationCondition" varchar(100),
-    "state" varchar(25),
+    "executionCondition" character varying(100),
+    "cancellationCondition" character varying(100),
+    "state" character varying(20),
     "expiresAt" timestamp,
     "creationDate" timestamp,
     "proposedAt" timestamp,
     "preparedAt" timestamp,
     "executedAt"timestamp,
     "rejectedAt" timestamp,
-    "fulfillment" varchar(100)
+    "fulfillment" character varying(100)
 ) AS
 $body$
     #variable_conflict use_column
@@ -37,13 +37,13 @@ $body$
         "@creditCommissionAccountId" bigint;
         -- to check for funds sufficiency
         "@debitBalance" numeric(19,2);
-        -- quote
+        -- quotes
         "@debitCommission" numeric(19,2):=0;
         "@creditCommission" numeric(19,2):=0;
         "@debitFee" numeric(19,2):=0;
         "@creditFee" numeric(19,2):=0;
     BEGIN
-
+        -- transfer prerequesites
         SELECT
             t."executionCondition",
             t."cancellationCondition",
@@ -73,17 +73,61 @@ $body$
             RAISE EXCEPTION 'ledger.transfer.execute.alreadyExists';
         END IF;
 
-        IF (SELECT 1 FROM ledger.account a WHERE a."accountId" = "@debitAccountId" AND a."accountTypeId" = (SELECT at."accountTypeId" FROM ledger."accountType" at WHERE at.code = 'mw')) THEN
-            SELECT dq."commission", dq."fee" FROM ledger."quote.get"("@transferId", true) dq INTO "@debitCommission", "@debitFee";
+        -- quotes
+        IF EXISTS (
+            SELECT
+                1
+            FROM
+                ledger.account a
+            WHERE
+                a."accountId" = "@debitAccountId"
+                AND a."accountTypeId" = (
+                    SELECT
+                        at."accountTypeId"
+                    FROM
+                        ledger."accountType" at
+                    WHERE
+                        at.code = 'mw'
+                )
+        ) THEN
+            SELECT
+                dq."commission",
+                dq."fee"
+            FROM
+                ledger."quote.get"("@transferId", true) dq
+            INTO
+                "@debitCommission",
+                "@debitFee";
         END IF;
 
-        IF (SELECT 1 FROM ledger.account a WHERE a."accountId" = "@creditAccountId" AND a."accountTypeId" = (SELECT at."accountTypeId" FROM ledger."accountType" at WHERE at.code = 'mw')) THEN
-            SELECT cq."commission", cq."fee" FROM ledger."quote.get"("@transferId", false) cq INTO "@creditCommission", "@creditFee";
+        IF EXISTS (
+            SELECT
+                1
+            FROM
+                ledger.account a
+            WHERE
+                a."accountId" = "@creditAccountId"
+                AND a."accountTypeId" = (
+                    SELECT
+                        at."accountTypeId"
+                    FROM
+                        ledger."accountType" at
+                    WHERE
+                        at.code = 'mw'
+                )
+        ) THEN
+            SELECT
+                cq."commission",
+                cq."fee"
+            FROM
+                ledger."quote.get"("@transferId", false) cq
+            INTO
+                "@creditCommission",
+                "@creditFee";
         END IF;
 
 
         IF ("@condition" = "@executionCondition") THEN
-
             SELECT
                 a."accountId"
             INTO
@@ -91,7 +135,14 @@ $body$
             FROM
                 ledger.account a
             WHERE
-                a."accountTypeId" = (SELECT at."accountTypeId" FROM ledger."accountType" at WHERE at.code = 'f');
+                a."accountTypeId" = (
+                    SELECT
+                        at."accountTypeId"
+                    FROM
+                        ledger."accountType" at
+                    WHERE
+                        at.code = 'f'
+                );
 
             SELECT
                 a."accountId"
@@ -100,7 +151,14 @@ $body$
             FROM
                 ledger.account a
             WHERE
-                a."accountTypeId" = (SELECT at."accountTypeId" FROM ledger."accountType" at WHERE at.code = 'c');
+                a."accountTypeId" = (
+                    SELECT
+                        at."accountTypeId"
+                    FROM
+                        ledger."accountType" at
+                    WHERE
+                        at.code = 'c'
+                );
 
             SELECT
                 CAST(a.credit - a.debit AS numeric(19,2))
@@ -123,9 +181,15 @@ $body$
                 FROM
                     ledger."account" a
                 WHERE
-                    a."accountTypeId" = (SELECT at."accountTypeId" FROM ledger."accountType" at WHERE at."code" = 'ac')
-                    AND
-                    a."parentId" = "@creditAccountId";
+                    a."parentId" = "@creditAccountId"
+                    AND a."accountTypeId" = (
+                        SELECT
+                            at."accountTypeId"
+                        FROM
+                            ledger."accountType" at
+                        WHERE
+                            at."code" = 'ac'
+                    );
 
                 IF "@creditCommissionAccountId" IS NOT NULL THEN
                     UPDATE
@@ -218,12 +282,12 @@ $body$
 
 
             IF ("@creditFee" > 0) THEN
-		        UPDATE
+                UPDATE
                     ledger.account
                 SET
                     debit = debit + "@creditFee"
                 WHERE
-                    "accountId" = "@debitAccountId";
+                    "accountId" = "@creditAccountId";
 
                 UPDATE
                     ledger.account
@@ -243,7 +307,7 @@ $body$
                     )
                 SELECT
                     t."transferDate",
-                    "@debitAccountId",
+                    "@creditAccountId",
                     "@feeAccountId",
                     t."currencyId",
                     "@creditFee",
@@ -255,7 +319,7 @@ $body$
             END IF;
 
             IF ("@debitFee" > 0) THEN
-		        UPDATE
+                UPDATE
                     ledger.account
                 SET
                     debit = debit + "@debitFee"

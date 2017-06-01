@@ -41,7 +41,7 @@ $body$
         )
         THEN
             RAISE EXCEPTION 'ledger.transfer.reject.alreadyExists';
-        END IF ;
+        END IF;
 
         UPDATE
             ledger.transfer

@@ -1,6 +1,8 @@
 ﻿CREATE OR REPLACE FUNCTION ledger."transfer.fetch"(
     "@transferType" character varying(100),
-    "@debitIdentifier" character varying(256),
+    "@identifier" character varying(256),
+    "@identifierType" character varying(3),
+    "@isDebit" boolean,
     "@currency" varchar(3)
 ) RETURNS TABLE (
     "amountDaily" numeric(19,2),
@@ -44,6 +46,9 @@ $BODY$
       WHERE
         t."currencyId" = COALESCE("@currency", 'USD')
         AND t."transferTypeId" = "@transferTypeId"
-        AND t."debitIdentifier" = "@debitIdentifier";
+        AND CASE WHEN ("@isDebit" = TRUE)
+                THEN t."debitIdentifier" = "@identifier" AND t."debitIdentifierType" = "@identifierType"
+                ELSE t."creditIdentifier" = "@identifier" AND t."creditIdentifierType" = "@identifierType"
+            END;
     END
 $BODY$ LANGUAGE plpgsql

@@ -29,11 +29,22 @@
 ) AS
 $BODY$
     DECLARE
+        -- debit
         "@debitAccountId" int;
-        "@creditAccountId" int;
         "@debitBalance" numeric(19,2);
+        "@debitIdentifier" varchar(256);
+        "@debitIdentifierType" varchar(3);
+        "@debitFee" numeric(19,2):=0;
+        -- credit
+        "@creditAccountId" int;
+        "@creditBalance" numeric(19,2);
+        "@creditIdentifier" varchar(256);
+        "@creditIdentifierType" varchar(3);
+        "@creditFee" numeric(19,2):=0;
+        -- common
         "@currencyId" char(3);
-        "@memo" json:=CAST("@creditMemo"->>'ilp_decrypted' AS json);
+        "@transferTypeId" int;
+        "@transferId" bigint:=(SELECT nextval('ledger."transfer_transferId_seq"'));
         "@transferStateId" int:=(
             SELECT
                 ts."transferStateId"
@@ -42,21 +53,11 @@ $BODY$
             WHERE
                 ts.name = (CASE "@authorized" WHEN true THEN 'prepared' ELSE 'proposed' END)
         );
-        "@transferTypeId" int;
-        "@fee" numeric(19,2);
-        "@debitIdentifier" varchar(256):=COALESCE(CAST("@memo"->>'debitIdentifier' AS varchar(256)), null);
-        "@transferId" BIGINT:=(SELECT nextval('ledger."transfer_transferId_seq"'));
-        "@quote" ledger."quote";
-
     BEGIN
-        IF (SELECT COUNT(*) FROM ledger.transfer WHERE uuid = "@uuid") > 0 THEN
+        IF EXISTS (SELECT 1 FROM ledger.transfer WHERE uuid = "@uuid") THEN
             RAISE EXCEPTION 'ledger.transfer.hold.alreadyExists';
         END IF;
-
-        SELECT * FROM ledger."quote.get"("@uuid", true) INTO "@quote";
-        SELECT q."transferTypeId" FROM "@quote" q LIMIT 1 INTO "@transferTypeId";
-        SELECT q."fee" FROM "@quote" q LIMIT 1 INTO "@fee";
-
+        -- debit details
         SELECT
             a."accountId",
             a."credit" - a."debit",
@@ -69,17 +70,85 @@ $BODY$
             ledger.account a
         WHERE
             a."accountNumber" = "@debitAccount";
-
+        -- credit details
         SELECT
-            a."accountId"
+            a."accountId",
+            a."credit" - a."debit"
         INTO
-            "@creditAccountId"
+            "@creditAccountId",
+            "@creditBalance"
         FROM
             ledger.account a
         WHERE
             a."accountNumber" = "@creditAccount";
+        -- extract quotes
+        IF EXISTS (
+            SELECT
+                1
+            FROM
+                ledger.account a
+            WHERE
+                a."accountId" = "@debitAccountId"
+                AND a."accountTypeId" = (
+                    SELECT
+                        at."accountTypeId"
+                    FROM
+                        ledger."accountType" at
+                    WHERE
+                        at.code = 'mw'
+                )
+        ) THEN
+            SELECT
+                dq."transferTypeId",
+                dq."identifier",
+                dq."identifierType",
+                dq."fee"
+            FROM
+                ledger."quote.get"("@uuid", true) dq
+            INTO
+                "@transferTypeId",
+                "@debitIdentifier",
+                "@debitIdentifierType",
+                "@debitFee";
+        END IF;
 
-        IF "@debitBalance" < ("@amount" + "@fee") THEN
+        IF EXISTS (
+            SELECT
+                1
+            FROM
+                ledger.account a
+            WHERE
+                a."accountId" = "@creditAccountId"
+                AND a."accountTypeId" = (
+                    SELECT
+                        at."accountTypeId"
+                    FROM
+                        ledger."accountType" at
+                    WHERE
+                        at.code = 'mw'
+                )
+        ) THEN
+            SELECT
+                cq."transferTypeId",
+                cq."identifier",
+                cq."identifierType",
+                cq."fee"
+            FROM
+                ledger."quote.get"("@uuid", false) cq
+            INTO
+                "@transferTypeId",
+                "@creditIdentifier",
+                "@creditIdentifierType",
+                "@creditFee";
+        END IF;
+        -- perform checks
+        IF "@transferTypeId" IS NULL THEN
+            RAISE EXCEPTION 'ledger.transfer.hold.unknownTransferType';
+        END IF;
+        IF "@debitBalance" < ("@amount" + "@debitFee") THEN
+            RAISE EXCEPTION 'ledger.transfer.hold.insufficientFunds';
+        END IF;
+        IF "@creditBalance" + "@amount" < "@creditFee" THEN
             RAISE EXCEPTION 'ledger.transfer.hold.insufficientFunds';
         END IF;
         IF "@debitAccountId" IS NULL THEN
@@ -88,7 +157,7 @@ $BODY$
         IF "@creditAccountId" IS NULL THEN
             RAISE EXCEPTION 'ledger.transfer.hold.creditAccountNotFound';
         END IF;
-
+        -- insert transfer
         INSERT INTO
             ledger.transfer(
                 "transferId",
