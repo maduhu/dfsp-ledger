@@ -1,3 +1,23 @@
+<a name="1.1.18"></a>
+## [1.1.18](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v1.1.17...v1.1.18) (2017-06-12)
+
+
+### Bug Fixes
+
+* update dependencies ([09cc077](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/09cc077))
+
+
+
+<a name="1.1.17"></a>
+## [1.1.17](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v1.1.16...v1.1.17) (2017-06-02)
+
+
+### Bug Fixes
+
+* bump ut-tools version ([0190340](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/0190340))
+
+
+
 <a name="1.1.16"></a>
 ## [1.1.16](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v1.1.15...v1.1.16) (2017-05-26)
 
