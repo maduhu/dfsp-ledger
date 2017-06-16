@@ -6,6 +6,7 @@
     "uuid" VARCHAR(100),
     "identifier" character varying(256),
     "identifierType" varchar(3),
+    "destinationAccount" varchar(100),
     "currencyId" character(3),
     "fee" NUMERIC(19,2),
     "commission" NUMERIC(19,2),
