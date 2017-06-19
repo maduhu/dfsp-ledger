@@ -8,6 +8,7 @@
     "identifierType" varchar(3),
     "destinationAccount" varchar(100),
     "currencyId" character(3),
+    "amount" NUMERIC(19,2),
     "fee" NUMERIC(19,2),
     "commission" NUMERIC(19,2),
     "transferTypeId" INTEGER,

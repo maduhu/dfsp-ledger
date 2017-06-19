@@ -6,6 +6,7 @@ CREATE TABLE ledger."quote"
   "identifierType" varchar(3) NOT NULL,
   "destinationAccount" varchar(100),
   "currencyId" character(3) NOT NULL,
+  "amount" numeric(19,2) NOT NULL,
   "fee" numeric(19,2) NOT NULL,
   "commission" numeric(19,2) NOT NULL,
   "transferTypeId" integer NOT NULL,
