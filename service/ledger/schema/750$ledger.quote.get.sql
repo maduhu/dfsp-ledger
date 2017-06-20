@@ -28,7 +28,8 @@ $BODY$
         DELETE FROM
             ledger."quote" AS lq
         WHERE
-            lq."expiresAt" < NOW();
+            lq."expiresAt" < NOW()
+            AND NOT EXISTS (SELECT 1 FROM ledger."transfer" lt WHERE lt."uuid" = lq."uuid");
 
         IF NOT EXISTS (SELECT 1 FROM ledger."quote" AS q WHERE q."uuid" = "@uuid" and q."isDebit" = "@isDebit") THEN
             RAISE EXCEPTION 'ledger.quoteNotFound';
