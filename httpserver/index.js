@@ -9,11 +9,6 @@ module.exports = {
   dist: path.resolve(__dirname, '../dist'),
   validationPassThrough: true,
   imports: ['ledger.start'],
-  allowXFF: true,
-  disableXsrf: {
-    http: true,
-    ws: true
-  },
   connections: [{
     port: 8014,
     router: {
