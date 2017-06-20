@@ -13,7 +13,8 @@
     "commission" NUMERIC(19,2),
     "transferTypeId" INTEGER,
     "isDebit" BOOLEAN,
-    "expiresAt" TIMESTAMP
+    "expiresAt" TIMESTAMP,
+    "isSingleResult" BOOLEAN
 ) AS
 $BODY$
     BEGIN
@@ -35,7 +36,8 @@ $BODY$
 
         RETURN query
             SELECT
-                *
+                q.*,
+                true as "isSingleResult"
             FROM
                 ledger."quote" AS q
             WHERE
