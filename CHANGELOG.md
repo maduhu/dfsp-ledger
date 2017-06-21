@@ -1,3 +1,18 @@
+<a name="1.1.20"></a>
+## [1.1.20](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v1.1.19...v1.1.20) (2017-06-20)
+
+
+
+<a name="1.1.19"></a>
+## [1.1.19](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v1.1.18...v1.1.19) (2017-06-20)
+
+
+### Bug Fixes
+
+* update ut-bus and ut-port-httpserver ([93c696d](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/93c696d))
+
+
+
 <a name="1.1.18"></a>
 ## [1.1.18](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v1.1.17...v1.1.18) (2017-06-12)
 
