@@ -10,6 +10,7 @@ function buildResponse (account) {
     accountNumber: account.accountNumber,
     currencyCode: account.currencyCode,
     currencySymbol: account.currencySymbol,
+    accountType: account.accountType,
     is_disabled: account.isDisabled,
     ledger: baseUrl
   }
