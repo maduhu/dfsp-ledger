@@ -14,6 +14,7 @@
     "transferTypeId" INTEGER,
     "isDebit" BOOLEAN,
     "expiresAt" TIMESTAMP,
+    "transferType" VARCHAR(25),
     "isSingleResult" BOOLEAN
 ) AS
 $BODY$
@@ -38,9 +39,13 @@ $BODY$
         RETURN query
             SELECT
                 q.*,
+                tt."transferCode" AS "transferType",
                 true as "isSingleResult"
             FROM
                 ledger."quote" AS q
+            JOIN
+                ledger."transferType" AS tt
+                ON q."transferTypeId" = tt."transferTypeId"
             WHERE
                 q."uuid" = "@uuid" and q."isDebit" = "@isDebit";
     END;
