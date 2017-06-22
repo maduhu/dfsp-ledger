@@ -186,6 +186,7 @@ test({
         assert.equals(joi.validate(result.body, joi.object().keys({
           id: joi.string(),
           name: joi.string(),
+          accountType: joi.string(),
           balance: joi.string(),
           currencySymbol: joi.string(),
           currencyCode: joi.string(),
