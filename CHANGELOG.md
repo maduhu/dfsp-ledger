@@ -1,3 +1,15 @@
+<a name="1.1.21"></a>
+## [1.1.21](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v1.1.20...v1.1.21) (2017-06-22)
+
+
+### Bug Fixes
+
+* add accountType in validations and in account.fetch ([be956af](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/be956af))
+* return account type as a part of account.get response ([31fa600](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/31fa600))
+* return account type in account.get ([826b98c](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/826b98c))
+
+
+
 <a name="1.1.20"></a>
 ## [1.1.20](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v1.1.19...v1.1.20) (2017-06-20)
 
