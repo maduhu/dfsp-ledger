@@ -48,6 +48,7 @@ module.exports = {
                   balance: joi.number(),
                   currencyCode: joi.string(),
                   currencySymbol: joi.string(),
+                  accountType: joi.string(),
                   is_disabled: joi.bool(),
                   ledger: joi.string()
                 })
@@ -66,6 +67,7 @@ module.exports = {
         balance: '0.00',
         currencyCode: 'USD',
         currencySymbol: '$',
+        accountType: 'mWallet',
         is_disabled: true
       })
     }
