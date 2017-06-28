@@ -1,5 +1,5 @@
 ﻿CREATE OR REPLACE FUNCTION ledger."transfer.hold"(
-    "@uuid" character varying(100),
+    "@paymentId" character varying(100),
     "@debitAccount" character varying(20),
     "@debitMemo" json,
     "@creditAccount" character varying(20),
@@ -10,7 +10,7 @@
     "@authorized" boolean,
     "@expiresAt" timestamp
 ) RETURNS TABLE(
-    "id" character varying(100),
+    "paymentId" character varying(100),
     "debitAccount" character varying(20),
     "debitMemo" json,
     "creditAccount" character varying(20),
@@ -54,7 +54,7 @@ $BODY$
                 ts.name = (CASE "@authorized" WHEN true THEN 'prepared' ELSE 'proposed' END)
         );
     BEGIN
-        IF EXISTS (SELECT 1 FROM ledger.transfer WHERE uuid = "@uuid") THEN
+        IF EXISTS (SELECT 1 FROM ledger.transfer t WHERE t."paymentId" = "@paymentId") THEN
             RAISE EXCEPTION 'ledger.transfer.hold.alreadyExists';
         END IF;
         -- debit details
@@ -104,7 +104,7 @@ $BODY$
                 dq."identifierType",
                 dq."fee"
             FROM
-                ledger."quote.get"("@uuid", true) dq
+                ledger."quote.get"("@paymentId", true) dq
             INTO
                 "@transferTypeId",
                 "@debitIdentifier",
@@ -134,7 +134,7 @@ $BODY$
                 cq."identifierType",
                 cq."fee"
             FROM
-                ledger."quote.get"("@uuid", false) cq
+                ledger."quote.get"("@paymentId", false) cq
             INTO
                 "@transferTypeId",
                 "@creditIdentifier",
@@ -161,7 +161,7 @@ $BODY$
         INSERT INTO
             ledger.transfer(
                 "transferId",
-                "uuid",
+                "paymentId",
                 "transferDate",
                 "transferTypeId",
                 "debitAccountId",
@@ -181,7 +181,7 @@ $BODY$
             )
         VALUES (
             "@transferId",
-            "@uuid",
+            "@paymentId",
             NOW(),
             "@transferTypeId",
             "@debitAccountId",
@@ -205,13 +205,13 @@ $BODY$
             SELECT
                 *
             FROM
-                ledger."transfer.execute"("@uuid", '', '');
+                ledger."transfer.execute"("@paymentId", '', '');
         ELSE
             RETURN query
             SELECT
                 *
             FROM
-                ledger."transfer.get"("@uuid");
+                ledger."transfer.get"("@paymentId");
         END IF;
     END
 $BODY$ LANGUAGE plpgsql

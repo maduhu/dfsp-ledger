@@ -7,7 +7,7 @@ module.exports = {
     var baseUrl = util.get('baseUrl')
     return {
       rpc: 'ledger.transfer.hold',
-      path: '/ledger/transfers/{id}',
+      path: '/ledger/transfers/{paymentId}',
       method: 'put',
       successStatusCode: 201,
       config: {
@@ -16,7 +16,7 @@ module.exports = {
         tags: ['api'],
         validate: {
           params: joi.object({
-            id: joi.string().regex(/^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$/).example('3a2a1d9e-8640-4d2d-b06c-84f2cd613300').description('The UUID for the local transfer')
+            paymentId: joi.string().regex(/^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$/).example('3a2a1d9e-8640-4d2d-b06c-84f2cd613300').description('The paymentId for the local transfer')
           }),
           payload: joi.object().keys({
             id: joi.string().required().example(baseUrl + '/transfers/3a2a1d9e-8640-4d2d-b06c-84f2cd613300'),
@@ -91,7 +91,7 @@ module.exports = {
     // }
 
     return {
-      uuid: msg.id,
+      paymentId: msg.paymentId,
       debitAccount: uriToLedgerAccount(debit.account),
       debitMemo: debit.memo || {},
       creditAccount: uriToLedgerAccount(credit.account),

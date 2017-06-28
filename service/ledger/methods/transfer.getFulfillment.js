@@ -5,7 +5,7 @@ module.exports = {
   rest: function () {
     return {
       rpc: 'ledger.transfer.getFulfillment',
-      path: '/ledger/transfers/{id}/fulfillment',
+      path: '/ledger/transfers/{paymentId}/fulfillment',
       method: 'get',
       reply: (reply, response, $meta) => {
         if (!response.error) {
@@ -20,7 +20,7 @@ module.exports = {
         tags: ['api'],
         validate: {
           params: joi.object({
-            id: joi.string().required().regex(/^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$/).example('3a2a1d9e-8640-4d2d-b06c-84f2cd613300').description('The UUID for the local transfer')
+            paymentId: joi.string().required().regex(/^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$/).example('3a2a1d9e-8640-4d2d-b06c-84f2cd613300').description('The paymentId for the local transfer')
           })
         },
         plugins: {
@@ -34,10 +34,6 @@ module.exports = {
         }
       }
     }
-  },
-  'transfer.getFulfillment.request.send': function (msg, $meta) {
-    msg.uuid = msg.id
-    return msg
   },
   'transfer.getFulfillment.response.receive': function (msg, $meta) {
     if (msg.length === 0 || msg[0]['transfer.getFulfillment'] === null) {

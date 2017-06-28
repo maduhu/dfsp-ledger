@@ -24,7 +24,7 @@ $BODY$
             FROM
                 ledger.transfer t1
             JOIN
-                ledger.quote q1 ON t1."uuid" = q1."uuid"
+                ledger.quote q1 ON t1."paymentId" = q1."paymentId"
             WHERE
                 t1."debitAccountId" = "@accountId"
                 AND q1."isDebit" = false
@@ -36,7 +36,7 @@ $BODY$
             FROM
                 ledger.transfer t2
             JOIN
-                ledger.quote q2 ON t2."uuid" = q2."uuid"
+                ledger.quote q2 ON t2."paymentId" = q2."paymentId"
             WHERE
                 t2."creditAccountId" = "@accountId"
                 AND q2."isDebit" = true

@@ -1,7 +1,7 @@
 ﻿CREATE OR REPLACE FUNCTION ledger."transfer.get"(
-    "@uuid" character varying(100)
+    "@paymentId" character varying(100)
 ) RETURNS TABLE (
-    "id" character varying(100),
+    "paymentId" character varying(100),
     "debitAccount" character varying(20),
     "debitMemo" json,
     "creditAccount" character varying(20),
@@ -20,7 +20,7 @@
 ) AS
 $BODY$
     SELECT
-        t.uuid AS id,
+        t."paymentId" AS "paymentId",
         debit."accountNumber" "debitAccount" ,
         t."debitMemo",
         credit."accountNumber" "creditAccount" ,
@@ -45,5 +45,5 @@ $BODY$
     JOIN
         ledger."transferState" ts on t."transferStateId"=ts."transferStateId"
     WHERE
-        t.uuid="@uuid";
+        t."paymentId"="@paymentId";
 $BODY$ LANGUAGE SQL

@@ -1,5 +1,5 @@
 ﻿CREATE OR REPLACE FUNCTION ledger."quote.add"(
-  "@uuid" character varying(100),
+  "@paymentId" character varying(100),
   "@identifier" character varying(25),
   "@identifierType" varchar(3),
   "@destinationAccount" varchar(100),
@@ -13,7 +13,7 @@
 )
 RETURNS TABLE(
     "quoteId" bigint,
-    "uuid" character varying(100),
+    "paymentId" character varying(100),
     "identifier" character varying(256),
     "identifierType" varchar(3),
     "destinationAccount" varchar(100),
@@ -31,7 +31,7 @@ $BODY$
 BEGIN
   RETURN QUERY
     INSERT INTO ledger.quote (
-      "uuid",
+      "paymentId",
       "identifier",
       "identifierType",
       "destinationAccount",
@@ -44,7 +44,7 @@ BEGIN
       "expiresAt"
     )
     VALUES (
-      "@uuid",
+      "@paymentId",
       "@identifier",
       "@identifierType",
       "@destinationAccount",

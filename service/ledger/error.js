@@ -42,7 +42,7 @@ module.exports = [
   {
     id: 'InvalidUriParameterError',
     type: 'ledger.transfer.hold.invalidUriParameter',
-    message: 'id is not a valid Uuid'
+    message: 'PaymentId format is not valid'
   },
   {
     id: 'InvalidBodyError',
@@ -69,7 +69,7 @@ module.exports = [
   {
     id: 'InvalidUriParameterError',
     type: 'ledger.transfer.execute.invalidUriParameter',
-    message: 'id is not a valid Uuid'
+    message: 'PaymentId format is not valid'
   },
   {
     id: 'InvalidBodyError',
@@ -137,7 +137,7 @@ module.exports = [
   {
     id: 'InvalidUriParameterError',
     type: 'ledger.transfer.get.invalidUriParameter',
-    message: 'id is not a valid Uuid'
+    message: 'PaymentId format is not valid'
   },
   // ledger.transfer.getFulfillment
   {
@@ -153,7 +153,7 @@ module.exports = [
   {
     id: 'InvalidUriParameterError',
     type: 'ledger.transfer.getFulfillment.invalidUriParameter',
-    message: 'id is not a valid Uuid'
+    message: 'PaymentId format is not valid'
   },
   // ledger.account
   {
@@ -216,9 +216,9 @@ module.exports = [
     message: 'One of the provided URI parameters was invalid'
   },
   {
-    id: 'QuoteUuidMissing',
-    type: 'ledger.quoteUuidMissing',
-    message: 'Quote uuid is missing'
+    id: 'QuotePaymentIdMissing',
+    type: 'ledger.quotePaymentIdMissing',
+    message: 'Quote PaymentId is missing'
   },
   {
     id: 'QuoteIsDebitMissing',

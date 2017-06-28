@@ -1,7 +1,7 @@
 ﻿CREATE TABLE ledger.transfer
 (
   "transferId" bigserial NOT NULL,
-  "uuid" character varying(100) NOT NULL,
+  "paymentId" character varying(100) NOT NULL,
   "transferDate" timestamp without time zone NOT NULL,
   "transferTypeId" integer NOT NULL,
   "debitAccountId" integer NOT NULL,
@@ -26,7 +26,7 @@
   "rejectedAt" timestamp,
   "creationDate" timestamp without time zone NOT NULL,
   CONSTRAINT "pkLedgerTransfer" PRIMARY KEY ("transferId"),
-  CONSTRAINT "ukLedgerTransfer" UNIQUE ("uuid"),
+  CONSTRAINT "ukLedgerTransfer" UNIQUE ("paymentId"),
   CONSTRAINT "fkLedgerTransfer_debitAccount" FOREIGN KEY ("debitAccountId") REFERENCES ledger.account ("accountId") MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION,
   CONSTRAINT "fkLedgerTransfer_creditAccount" FOREIGN KEY ("creditAccountId") REFERENCES ledger.account ("accountId") MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION,
   CONSTRAINT "fkLedgerTransfer_currency" FOREIGN KEY ("currencyId") REFERENCES ledger.currency ("currencyId") MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION,
