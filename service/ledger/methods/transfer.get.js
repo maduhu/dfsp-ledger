@@ -5,7 +5,7 @@ module.exports = {
   rest: function () {
     return {
       rpc: 'ledger.transfer.get',
-      path: '/ledger/transfers/{id}',
+      path: '/ledger/transfers/{paymentId}',
       method: 'get',
       config: {
         description: 'Get Transfer by ID',
@@ -13,7 +13,7 @@ module.exports = {
         tags: ['api'],
         validate: {
           params: joi.object({
-            id: joi.string().regex(/^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$/).example('3a2a1d9e-8640-4d2d-b06c-84f2cd613300').description('The UUID for the local transfer')
+            paymentId: joi.string().regex(/^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$/).example('3a2a1d9e-8640-4d2d-b06c-84f2cd613300').description('The paymentId for the local transfer')
           })
         },
         plugins: {
@@ -53,10 +53,6 @@ module.exports = {
         }
       }
     }
-  },
-  'transfer.get.request.send': function (msg, $meta) {
-    msg.uuid = msg.id
-    return msg
   },
   'transfer.get.response.receive': function (msg, $meta) {
     var transfer = msg[0]

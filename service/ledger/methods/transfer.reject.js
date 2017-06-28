@@ -5,7 +5,7 @@ module.exports = {
   rest: function () {
     return {
       rpc: 'ledger.transfer.reject',
-      path: '/ledger/transfers/{transferId}/rejection',
+      path: '/ledger/transfers/{paymentId}/rejection',
       method: 'put',
       config: {
         description: 'Reject prepared transfer',
@@ -13,7 +13,7 @@ module.exports = {
         tags: ['api'],
         validate: {
           params: joi.object({
-            transferId: joi.string().required().regex(/^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$/).example('3a2a1d9e-8640-4d2d-b06c-84f2cd613300').description('The UUID for the local transfer')
+            paymentId: joi.string().required().regex(/^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$/).example('3a2a1d9e-8640-4d2d-b06c-84f2cd613300').description('The payment Id for the local transfer')
           }),
           payload: joi.string().required().example('BlacklistedSender').description('Rejection reason')
         },

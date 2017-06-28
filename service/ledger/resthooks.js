@@ -24,7 +24,7 @@ function buildTransferResource (transfer) {
   var baseUrl = util.get('baseUrl').replace('8014', '8088') // beware - monkey patch 2
   var ledgerAccountToUri = util.get('ledgerAccountToUri')
   return {
-    'id': baseUrl + '/transfers/' + transfer.id,
+    'id': baseUrl + '/transfers/' + transfer.paymentId,
     'ledger': baseUrl,
     'debits': [{
       'account': ledgerAccountToUri(transfer.debitAccount).replace(':8014', ':8088'), // beware - monkey patch 2
@@ -47,7 +47,7 @@ function validationFailHandler (request, reply, source, error) {
   var response = {}
   if (source === 'params') {
     response.id = 'InvalidUriParameterError'
-    response.message = 'id is not a valid Uuid'
+    response.message = 'PaymentId format is not valid'
   } else {
     response.id = 'InvalidBodyError'
     response.message = 'Body did not match schema'

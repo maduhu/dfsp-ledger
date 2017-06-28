@@ -1,9 +1,9 @@
 ﻿CREATE OR replace FUNCTION ledger."transfer.execute"(
-    "@transferId" varchar,
+    "@paymentId" varchar,
     "@condition" varchar,
     "@fulfillment" varchar(100)
 ) RETURNS TABLE (
-    "id" character varying(100),
+    "paymentId" character varying(100),
     "debitAccount" character varying(20),
     "debitMemo" json,
     "creditAccount" character varying(20),
@@ -61,7 +61,7 @@ $body$
         FROM
             ledger.transfer t
         WHERE
-            t."uuid" = "@transferId";
+            t."paymentId" = "@paymentId";
 
         IF ("@transferStateId" != (
               SELECT "transferStateId"
@@ -94,7 +94,7 @@ $body$
                 dq."commission",
                 dq."fee"
             FROM
-                ledger."quote.get"("@transferId", true) dq
+                ledger."quote.get"("@paymentId", true) dq
             INTO
                 "@debitCommission",
                 "@debitFee";
@@ -120,7 +120,7 @@ $body$
                 cq."commission",
                 cq."fee"
             FROM
-                ledger."quote.get"("@transferId", false) cq
+                ledger."quote.get"("@paymentId", false) cq
             INTO
                 "@creditCommission",
                 "@creditFee";
@@ -225,7 +225,7 @@ $body$
                     FROM
                         ledger.transfer t
                     WHERE
-                        t."uuid" = "@transferId";
+                        t."paymentId" = "@paymentId";
                 END IF;
             END IF;
 
@@ -275,7 +275,7 @@ $body$
                     FROM
                         ledger.transfer t
                     WHERE
-                        t."uuid" = "@transferId";
+                        t."paymentId" = "@paymentId";
                 END IF;
             END IF;
 
@@ -315,7 +315,7 @@ $body$
                 FROM
                     ledger.transfer t
                 WHERE
-                    t."uuid" = "@transferId";
+                    t."paymentId" = "@paymentId";
             END IF;
 
             IF ("@debitFee" > 0) THEN
@@ -352,7 +352,7 @@ $body$
                 FROM
                     ledger.transfer t
                 WHERE
-                    t."uuid" = "@transferId";
+                    t."paymentId" = "@paymentId";
             END IF;
 
             UPDATE
@@ -383,7 +383,7 @@ $body$
                 fulfillment = "@fulfillment",
                 "executedAt"=NOW()
             WHERE
-                "uuid" = "@transferId";
+                "paymentId" = "@paymentId";
 
         ELSEIF ("@condition" = "@cancellationCondition") THEN
             UPDATE
@@ -400,14 +400,14 @@ $body$
                 fulfillment = "@fulfillment",
                 "rejectedAt"=NOW()
             WHERE
-              "uuid" = "@transferId";
+              "paymentId" = "@paymentId";
         END IF;
 
         RETURN query
         SELECT
             *
         FROM
-            ledger."transfer.get"("@transferId");
+            ledger."transfer.get"("@paymentId");
 
     END
 $body$ LANGUAGE plpgsql

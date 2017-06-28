@@ -1,8 +1,8 @@
 ﻿CREATE OR replace FUNCTION ledger."transfer.reject"(
-    "@transferId" CHARACTER varying,
+    "@paymentId" CHARACTER varying,
     "@reason" CHARACTER varying
 ) RETURNS TABLE (
-    "id" character varying(100),
+    "paymentId" character varying(100),
     "debitAccount" character varying(20),
     "debitMemo" json,
     "creditAccount" character varying(20),
@@ -31,7 +31,7 @@ $body$
         FROM
             ledger.transfer t
         WHERE
-            t."uuid" = "@transferId";
+            t."paymentId" = "@paymentId";
 
         IF ("@transferStateId" != (
               SELECT "transferStateId"
@@ -53,13 +53,13 @@ $body$
             "description" = "@reason",
             "rejectedAt"=NOW()
         WHERE
-            "uuid" = "@transferId";
+            "paymentId" = "@paymentId";
 
         RETURN query
         SELECT
             *
         FROM
-            ledger."transfer.get"("@transferId");
+            ledger."transfer.get"("@paymentId");
 
     END
 $body$ LANGUAGE plpgsql

@@ -6,8 +6,8 @@ var uuid = require('uuid')
 var ILP = require('ilp')
 var Packet = require('ilp-packet')
 
-const TRANSFERID1 = uuid.v4()
-const P2PTRANSFERID = uuid.v4()
+const PAYMENTID1 = uuid.v4()
+const P2PPAYMENTID = uuid.v4()
 const BASE = 'http://localhost:8014/ledger'
 const DEBITACCOUNTNAME = 'Alice' + (new Date()).getTime()
 const DEBITACCOUNTBALANCE = '1000.00'
@@ -38,7 +38,7 @@ const creditMemo1Encoded = Packet.serializeIlpPayment({
   account: DEBITACCOUNTNAME,
   amount: AMOUNT,
   data: ILP.PSK.createDetails({
-    publicHeaders: { 'Payment-Id': TRANSFERID1 },
+    publicHeaders: { 'Payment-Id': PAYMENTID1 },
     headers: {
       'Content-Length': creditMemo1.length,
       'Content-Type': 'application/json',
@@ -183,7 +183,7 @@ test({
       method: 'ledger.quote.add',
       params: (context) => {
         return {
-          uuid: P2PTRANSFERID,
+          paymentId: P2PPAYMENTID,
           identifier: 'bob',
           identifierType: 'eur',
           destinationAccount: BASE + '/alice',
@@ -208,7 +208,7 @@ test({
           isDebit: joi.boolean().required().valid(true),
           quoteId: joi.number().required(),
           transferTypeId: joi.number().required().valid(TRANSFERTYPEIDP2P),
-          uuid: joi.string().required().regex(/^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$/)
+          paymentId: joi.string().required().regex(/^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$/)
         })).error, null, 'return debit account details')
       }
     }, {
@@ -216,7 +216,7 @@ test({
       method: 'ledger.quote.add',
       params: (context) => {
         return {
-          uuid: P2PTRANSFERID,
+          paymentId: P2PPAYMENTID,
           identifier: 'alice',
           identifierType: 'eur',
           destinationAccount: BASE + '/alice',
@@ -241,16 +241,16 @@ test({
           isDebit: joi.boolean().required().valid(false),
           quoteId: joi.number().required(),
           transferTypeId: joi.number().required().valid(TRANSFERTYPEIDP2P),
-          uuid: joi.string().required().regex(/^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$/)
+          paymentId: joi.string().required().regex(/^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$/)
         })).error, null, 'return debit account details')
       }
     }, {
       name: 'Transfer hold',
       params: (context) => {
         return request
-          .put('transfers/' + P2PTRANSFERID)
+          .put('transfers/' + P2PPAYMENTID)
           .send({
-            'id': BASE + '/transfers/' + P2PTRANSFERID,
+            'id': BASE + '/transfers/' + P2PPAYMENTID,
             'ledger': BASE,
             'debits': [{
               'account': BASE + '/accounts/' + context['Create first ledger account'].body.accountNumber,
@@ -296,7 +296,7 @@ test({
       name: 'Execute Prepared Transfer',
       params: (context) => {
         return request
-          .put('transfers/' + P2PTRANSFERID + '/fulfillment')
+          .put('transfers/' + P2PPAYMENTID + '/fulfillment')
           .set('Content-type', 'text/plain')
           .send(FULFILLMENT)
           .expect('Content-Type', 'text/plain; charset=utf-8')
@@ -309,7 +309,7 @@ test({
       name: 'Get Transfer Fulfillment',
       params: (context) => {
         return request
-          .get('transfers/' + P2PTRANSFERID + '/fulfillment')
+          .get('transfers/' + P2PPAYMENTID + '/fulfillment')
           .expect('Content-Type', 'text/plain; charset=utf-8')
           .expect(200)
       },
@@ -320,7 +320,7 @@ test({
       name: 'Get Transfer by ID',
       params: (context) => {
         return request
-          .get('transfers/' + P2PTRANSFERID)
+          .get('transfers/' + P2PPAYMENTID)
           .expect('Content-Type', /json/)
           .expect(200)
       },
