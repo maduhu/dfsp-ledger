@@ -208,8 +208,12 @@ test({
           isDebit: joi.boolean().required().valid(true),
           quoteId: joi.number().required(),
           transferTypeId: joi.number().required().valid(TRANSFERTYPEIDP2P),
-          paymentId: joi.string().required().regex(/^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$/)
-        })).error, null, 'return debit account details')
+          paymentId: joi.string().required().regex(/^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$/),
+          receiver: joi.string().required().allow(null),
+          ipr: joi.string().required().allow(null),
+          sourceExpiryDuration: joi.string().required().allow(null),
+          connectorAccount: joi.string().required().allow(null)
+        })).error, null, 'return debit quote details')
       }
     }, {
       name: 'Quote add - credit account',
@@ -241,8 +245,12 @@ test({
           isDebit: joi.boolean().required().valid(false),
           quoteId: joi.number().required(),
           transferTypeId: joi.number().required().valid(TRANSFERTYPEIDP2P),
-          paymentId: joi.string().required().regex(/^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$/)
-        })).error, null, 'return debit account details')
+          paymentId: joi.string().required().regex(/^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$/),
+          receiver: joi.string().required().allow(null),
+          ipr: joi.string().required().allow(null),
+          sourceExpiryDuration: joi.string().required().allow(null),
+          connectorAccount: joi.string().required().allow(null)
+        })).error, null, 'return credit quote details')
       }
     }, {
       name: 'Transfer hold',
