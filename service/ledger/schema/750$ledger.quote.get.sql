@@ -13,7 +13,7 @@
     "fee" numeric(19,2),
     "commission" numeric(19,2),
     "transferTypeId" integer,
-    "ipr" varchar(255),
+    "ipr" varchar(1024),
     "sourceExpiryDuration" integer,
     "connectorAccount" varchar(100),
     "isDebit" boolean,
