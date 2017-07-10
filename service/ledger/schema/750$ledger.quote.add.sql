@@ -11,6 +11,7 @@
   "@transferType" character varying(25),
   "@ipr" varchar(1024),
   "@sourceExpiryDuration" integer,
+  "@connectorAccount" varchar(100),
   "@isDebit" boolean,
   "@expiresAt" timestamp
 )
@@ -67,13 +68,7 @@ BEGIN
       (SELECT t."transferTypeId" FROM ledger."transferType" t WHERE t."transferCode" = "@transferType"),
       "@ipr",
       "@sourceExpiryDuration",
-      (
-        SELECT a."accountNumber"
-        FROM ledger."account" a
-        JOIN ledger."accountType" at
-          ON a."accountTypeId" = at."accountTypeId"
-        WHERE at."code" = 'con'
-      ),
+      "@connectorAccount",
       "@isDebit",
       COALESCE("@expiresAt", (SELECT CURRENT_TIMESTAMP + (5 * interval '1 minute'))) -- make the quote valid for 5 minutes
     )

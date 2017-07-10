@@ -10,5 +10,6 @@ module.exports = require('./resthooks')([
   require('./methods/account.edit'),
   require('./methods/account.get'),
   require('./methods/account.fetch'),
+  require('./methods/quote.add'),
   require('./methods/sql.inspect')
 ])

@@ -1,20 +1,6 @@
 var joi = require('joi')
 var error = require('../error')
 var util = require('../util')
-function buildResponse (account) {
-  var baseUrl = util.get('baseUrl')
-  return {
-    id: baseUrl + '/accounts/' + account.accountNumber,
-    name: account.name,
-    balance: account.balance,
-    accountNumber: account.accountNumber,
-    currencyCode: account.currencyCode,
-    currencySymbol: account.currencySymbol,
-    accountType: account.accountType,
-    is_disabled: account.isDisabled,
-    ledger: baseUrl
-  }
-}
 module.exports = {
   rest: function () {
     return {
@@ -61,7 +47,7 @@ module.exports = {
   },
   'account.get': function (msg, $meta) {
     if (msg.accountNumber === 'noaccount') {
-      return buildResponse({
+      return util.buildAccountResponse({
         accountNumber: msg.accountNumber,
         name: msg.accountNumber,
         balance: '0.00',
@@ -77,7 +63,7 @@ module.exports = {
         if (result.length === 0) {
           throw error['ledger.account.get.notFound']({ message: 'Unknown account.' })
         }
-        return buildResponse(account)
+        return util.buildAccountResponse(account)
       })
   }
 }
