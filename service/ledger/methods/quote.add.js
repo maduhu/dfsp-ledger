@@ -5,7 +5,7 @@ module.exports = {
   'quote.add': function (msg, $meta) {
     return this.bus.importMethod('ledger.account.getConnector')({})
     .then((res) => {
-      msg.connectorAccount = util.buildAccountResponse(res).id
+      msg.connectorAccount = util.get('buildAccountResponse')(res).id
       return this.super[$meta.method](msg, $meta)
     })
   }

@@ -47,7 +47,7 @@ module.exports = {
   },
   'account.get': function (msg, $meta) {
     if (msg.accountNumber === 'noaccount') {
-      return util.buildAccountResponse({
+      return util.get('buildAccountResponse')({
         accountNumber: msg.accountNumber,
         name: msg.accountNumber,
         balance: '0.00',
@@ -63,7 +63,7 @@ module.exports = {
         if (result.length === 0) {
           throw error['ledger.account.get.notFound']({ message: 'Unknown account.' })
         }
-        return util.buildAccountResponse(account)
+        return util.get('buildAccountResponse')(account)
       })
   }
 }

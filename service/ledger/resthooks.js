@@ -43,6 +43,20 @@ function buildTransferResource (transfer) {
     'expires_at': transfer.expiresAt
   }
 }
+function buildAccountResponse (account) {
+  var baseUrl = util.get('baseUrl')
+  return {
+    id: baseUrl + '/accounts/' + account.accountNumber,
+    name: account.name,
+    balance: account.balance,
+    accountNumber: account.accountNumber,
+    currencyCode: account.currencyCode,
+    currencySymbol: account.currencySymbol,
+    accountType: account.accountType,
+    is_disabled: account.isDisabled,
+    ledger: baseUrl
+  }
+}
 function validationFailHandler (request, reply, source, error) {
   var response = {}
   if (source === 'params') {
@@ -137,6 +151,7 @@ module.exports = function (methods) {
       util.set('uriToLedgerAccount', uriToLedgerAccount)
       util.set('ledgerAccountToUri', ledgerAccountToUri)
       util.set('buildTransferResource', buildTransferResource)
+      util.set('buildAccountResponse', buildAccountResponse)
       // Register routes & hooks
       var port = this
       methods.forEach(function (method) {
