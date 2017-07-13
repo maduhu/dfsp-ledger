@@ -26,7 +26,8 @@ VALUES
   (3, 'fee','fee'),
   (4, 'bulk payment','bulkPayment'),
   (5, 'cash in','cashIn'),
-  (6, 'cash out','cashOut')
+  (6, 'cash out','cashOut'),
+  (7, 'unknown','unknown')
 ON CONFLICT ("transferTypeId") DO UPDATE SET
   "name" = EXCLUDED."name",
   "transferCode" = EXCLUDED."transferCode";
