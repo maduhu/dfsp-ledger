@@ -1,5 +1,5 @@
-var joi = require('joi')
-var error = require('../error')
+// var joi = require('joi')
+require('../error')
 var util = require('../util')
 module.exports = {
   'quote.add': function (msg, $meta) {
