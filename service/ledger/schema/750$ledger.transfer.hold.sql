@@ -38,8 +38,6 @@ $BODY$
         -- credit
         "@creditAccountId" int;
         "@creditBalance" numeric(19,2);
-        "@creditIdentifier" varchar(256);
-        "@creditIdentifierType" varchar(3);
         "@creditFee" numeric(19,2):=0;
         -- common
         "@currencyId" char(3);
@@ -130,15 +128,11 @@ $BODY$
         ) THEN
             SELECT
                 cq."transferTypeId",
-                cq."identifier",
-                cq."identifierType",
                 cq."fee"
             FROM
                 ledger."quote.get"("@paymentId", false) cq
             INTO
                 "@transferTypeId",
-                "@creditIdentifier",
-                "@creditIdentifierType",
                 "@creditFee";
         END IF;
         -- perform checks

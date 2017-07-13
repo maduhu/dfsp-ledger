@@ -24,7 +24,7 @@
 $BODY$
     BEGIN
         IF "@paymentId" IS NULL THEN
-        RAISE EXCEPTION 'ledger.quotePaymentIdMissing';
+            RAISE EXCEPTION 'ledger.quotePaymentIdMissing';
         END IF;
         IF "@isDebit" IS NULL THEN
             RAISE EXCEPTION 'ledger.quoteIsDebitMissing';
@@ -37,7 +37,31 @@ $BODY$
             AND NOT EXISTS (SELECT 1 FROM ledger."transfer" lt WHERE lt."paymentId" = lq."paymentId");
 
         IF NOT EXISTS (SELECT 1 FROM ledger."quote" AS q WHERE q."paymentId" = "@paymentId" and q."isDebit" = "@isDebit") THEN
-            RAISE EXCEPTION 'ledger.quoteNotFound';
+            -- RAISE EXCEPTION 'ledger.quoteNotFound';
+            RETURN query
+                SELECT
+                    1::BIGINT AS "quoteId",
+                    ''::VARCHAR(100) AS "paymentId",
+                    ''::VARCHAR(256) AS "identifier",
+                    ''::VARCHAR(3) AS "identifierType",
+                    ''::VARCHAR(100) AS "destinationAccount",
+                    ''::VARCHAR(100) AS "receiver",
+                    ''::character(3) AS "currencyId",
+                    0::NUMERIC(19,2) AS "amount",
+                    0::NUMERIC(19,2) AS "fee",
+                    0::NUMERIC(19,2) AS "commission",
+                    tt."transferTypeId" AS "transferTypeId",
+                    ''::VARCHAR(1024) AS "ipr",
+                    1::INTEGER AS "sourceExpiryDuration",
+                    ''::VARCHAR(100) AS "connectorAccount",
+                    "@isDebit" AS "isDebit",
+                    now()::timestamp AS "expiresAt",
+                    tt."transferCode",
+                    true as "isSingleResult"
+                FROM
+                    ledger."transferType" AS tt
+                WHERE
+                    tt."name" = 'unknown';
         END IF;
 
         RETURN query
