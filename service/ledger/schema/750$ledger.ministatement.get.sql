@@ -18,28 +18,26 @@ $BODY$
         RETURN query
         SELECT m.* FROM (
             SELECT
-                q1.identifier AS "name",
+                COALESCE(q1.identifier, 'unknown') AS "name",
                 CONCAT('-', CAST(t1."amount" AS varchar)) AS "amount",
                 t1."transferDate" AS "date"
             FROM
                 ledger.transfer t1
-            JOIN
-                ledger.quote q1 ON t1."paymentId" = q1."paymentId"
+            LEFT JOIN
+                ledger.quote q1 ON t1."paymentId" = q1."paymentId" AND q1."isDebit" = false
             WHERE
                 t1."debitAccountId" = "@accountId"
-                AND q1."isDebit" = false
             UNION ALL
             SELECT
-                q2.identifier AS "name",
+                COALESCE(q2.identifier, 'unknown') AS "name",
                 CAST(t2."amount" AS varchar) AS "amount",
                 t2."transferDate" AS "date"
             FROM
                 ledger.transfer t2
-            JOIN
-                ledger.quote q2 ON t2."paymentId" = q2."paymentId"
+            LEFT JOIN
+                ledger.quote q2 ON t2."paymentId" = q2."paymentId" AND q2."isDebit" = true
             WHERE
                 t2."creditAccountId" = "@accountId"
-                AND q2."isDebit" = true
             UNION ALL
             SELECT
                 'fee' AS "name",
