@@ -62,7 +62,7 @@ module.exports = {
     }
     var ledgerAccountToUri = util.get('ledgerAccountToUri')
     var response = {
-      'id': baseUrl + '/transfers/' + transfer.id,
+      'id': baseUrl + '/transfers/' + transfer.paymentId,
       'ledger': baseUrl,
       'debits': [{
         'account': ledgerAccountToUri(transfer.debitAccount),
