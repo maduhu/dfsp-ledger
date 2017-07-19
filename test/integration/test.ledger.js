@@ -212,7 +212,8 @@ test({
           receiver: joi.string().required().allow(null),
           ipr: joi.string().required().allow(null),
           sourceExpiryDuration: joi.string().required().allow(null),
-          connectorAccount: joi.string().required().allow(null)
+          connectorAccount: joi.string().required().allow(null),
+          params: joi.object().allow(null)
         })).error, null, 'return debit quote details')
       }
     }, {
@@ -249,7 +250,8 @@ test({
           receiver: joi.string().required().allow(null),
           ipr: joi.string().required().allow(null),
           sourceExpiryDuration: joi.string().required().allow(null),
-          connectorAccount: joi.string().required().allow(null)
+          connectorAccount: joi.string().required().allow(null),
+          params: joi.object().allow(null)
         })).error, null, 'return credit quote details')
       }
     }, {

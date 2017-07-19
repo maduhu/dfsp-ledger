@@ -18,6 +18,7 @@
     "connectorAccount" varchar(100),
     "isDebit" boolean,
     "expiresAt" timestamp,
+    "params" json,
     "transferType" VARCHAR(25),
     "isSingleResult" BOOLEAN
 ) AS
@@ -56,6 +57,7 @@ $BODY$
                     ''::VARCHAR(100) AS "connectorAccount",
                     "@isDebit" AS "isDebit",
                     now()::timestamp AS "expiresAt",
+                    '{}'::json AS "params",
                     tt."transferCode",
                     true as "isSingleResult"
                 FROM

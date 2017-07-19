@@ -13,7 +13,8 @@
   "@sourceExpiryDuration" integer,
   "@connectorAccount" varchar(100),
   "@isDebit" boolean,
-  "@expiresAt" timestamp
+  "@expiresAt" timestamp,
+  "@params" json
 )
 RETURNS TABLE(
     "quoteId" bigint,
@@ -32,6 +33,7 @@ RETURNS TABLE(
     "connectorAccount" varchar(100),
     "isDebit" boolean,
     "expiresAt" timestamp,
+    "params" json,
     "isSingleResult" boolean
 )
 AS
@@ -53,7 +55,8 @@ BEGIN
       "sourceExpiryDuration",
       "connectorAccount",
       "isDebit",
-      "expiresAt"
+      "expiresAt",
+      "params"
     )
     VALUES (
       "@paymentId",
@@ -70,7 +73,8 @@ BEGIN
       "@sourceExpiryDuration",
       "@connectorAccount",
       "@isDebit",
-      COALESCE("@expiresAt", (SELECT CURRENT_TIMESTAMP + (5 * interval '1 minute'))) -- make the quote valid for 5 minutes
+      COALESCE("@expiresAt", (SELECT CURRENT_TIMESTAMP + (5 * interval '1 minute'))), -- make the quote valid for 5 minutes
+      "@params"
     )
     RETURNING *, TRUE;
 END

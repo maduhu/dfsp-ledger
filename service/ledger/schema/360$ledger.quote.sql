@@ -16,6 +16,7 @@ CREATE TABLE ledger."quote"
   "connectorAccount" varchar(100),
   "isDebit" boolean NOT NULL,
   "expiresAt" timestamp NOT NULL,
+  "params" json,
   CONSTRAINT "pkQuoteId" PRIMARY KEY ("quoteId"),
   CONSTRAINT "fkLedgerQuote_transferType" FOREIGN KEY ("transferTypeId")
   REFERENCES ledger."transferType" ("transferTypeId") MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION,
