@@ -11,7 +11,7 @@
   "@transferType" character varying(25),
   "@ipr" varchar,
   "@sourceExpiryDuration" integer,
-  "@connectorAccount" varchar(100),
+  "@connectorAccount" varchar,
   "@isDebit" boolean,
   "@expiresAt" timestamp,
   "@params" json
@@ -30,7 +30,7 @@ RETURNS TABLE(
     "transferTypeId" integer,
     "ipr" varchar,
     "sourceExpiryDuration" integer,
-    "connectorAccount" varchar(100),
+    "connectorAccount" varchar,
     "isDebit" boolean,
     "expiresAt" timestamp,
     "params" json,

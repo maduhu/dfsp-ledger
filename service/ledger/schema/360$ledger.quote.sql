@@ -13,7 +13,7 @@ CREATE TABLE ledger."quote"
   "transferTypeId" integer NOT NULL,
   "ipr" varchar,
   "sourceExpiryDuration" integer,
-  "connectorAccount" varchar(100),
+  "connectorAccount" varchar,
   "isDebit" boolean NOT NULL,
   "expiresAt" timestamp NOT NULL,
   "params" json,
