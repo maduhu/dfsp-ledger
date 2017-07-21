@@ -3,6 +3,9 @@ require('../error')
 var util = require('../util')
 module.exports = {
   'quote.add': function (msg, $meta) {
+    if (!msg.params) {
+      msg.params = {}
+    }
     if (!msg.connectorAccount) {
       return this.bus.importMethod('ledger.account.getConnector')({})
       .then((res) => {
