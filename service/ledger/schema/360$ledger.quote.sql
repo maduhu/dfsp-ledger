@@ -11,7 +11,7 @@ CREATE TABLE ledger."quote"
   "fee" numeric(19,2) NOT NULL,
   "commission" numeric(19,2) NOT NULL,
   "transferTypeId" integer NOT NULL,
-  "ipr" varchar(1024),
+  "ipr" varchar,
   "sourceExpiryDuration" integer,
   "connectorAccount" varchar(100),
   "isDebit" boolean NOT NULL,
