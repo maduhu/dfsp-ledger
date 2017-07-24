@@ -1,3 +1,13 @@
+<a name="1.1.22"></a>
+## [1.1.22](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v1.1.21...v1.1.22) (2017-07-24)
+
+
+### Bug Fixes
+
+* add readme file ([7c4553c](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/commit/7c4553c))
+
+
+
 <a name="1.1.21"></a>
 ## [1.1.21](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v1.1.20...v1.1.21) (2017-06-22)
 
