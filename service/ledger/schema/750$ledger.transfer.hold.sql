@@ -130,7 +130,24 @@ $BODY$
                 cq."transferTypeId",
                 cq."fee"
             FROM
-                ledger."quote.get"("@paymentId", false) cq
+                ledger."quote.add"(
+                    CAST("@creditMemo"->'quote'->>'paymentId' AS character varying(100)),
+                    CAST("@creditMemo"->'quote'->>'identifier' AS character varying(25)),
+                    CAST("@creditMemo"->'quote'->>'identifierType' AS varchar(3)),
+                    CAST("@creditMemo"->'quote'->>'destinationAccount' AS varchar(100)),
+                    null,
+                    CAST("@creditMemo"->'quote'->>'currency' AS character(3)),
+                    CAST("@creditMemo"->'quote'->>'amount' AS numeric(19,2)),
+                    CAST("@creditMemo"->'quote'->>'fee' AS numeric(19,2)),
+                    CAST("@creditMemo"->'quote'->>'commission' AS numeric(19,2)),
+                    CAST("@creditMemo"->'quote'->>'transferType' AS character varying(25)),
+                    null,
+                    null,
+                    null,
+                    CAST("@creditMemo"->'quote'->>'isDebit' AS boolean),
+                    CAST("@creditMemo"->'quote'->>'expiresAt' AS timestamp),
+                    CAST("@creditMemo"->'quote'->>'params' AS json)
+                 ) cq
             INTO
                 "@transferTypeId",
                 "@creditFee";
@@ -210,4 +227,4 @@ $BODY$
                 ledger."transfer.get"("@paymentId");
         END IF;
     END
-$BODY$ LANGUAGE plpgsql
+$BODY$ LANGUAGE plpgsql;
