@@ -18,24 +18,24 @@ $BODY$
         RETURN query
         SELECT m.* FROM (
             SELECT
-                COALESCE(q1.identifier, 'unknown') AS "name",
+                COALESCE(CAST(q1."params"->'peer'->>'identifier' AS varchar), 'unknown') AS "name",
                 CONCAT('-', CAST(t1."amount" AS varchar)) AS "amount",
                 t1."transferDate" AS "date"
             FROM
                 ledger.transfer t1
             LEFT JOIN
-                ledger.quote q1 ON t1."paymentId" = q1."paymentId" AND q1."isDebit" = false
+                ledger.quote q1 ON t1."paymentId" = q1."paymentId" AND q1."isDebit" = true
             WHERE
                 t1."debitAccountId" = "@accountId"
             UNION ALL
             SELECT
-                COALESCE(q2.identifier, 'unknown') AS "name",
+                COALESCE(CAST(q2."params"->'peer'->>'identifier' AS varchar), 'unknown') AS "name",
                 CAST(t2."amount" AS varchar) AS "amount",
                 t2."transferDate" AS "date"
             FROM
                 ledger.transfer t2
             LEFT JOIN
-                ledger.quote q2 ON t2."paymentId" = q2."paymentId" AND q2."isDebit" = true
+                ledger.quote q2 ON t2."paymentId" = q2."paymentId" AND q2."isDebit" = false
             WHERE
                 t2."creditAccountId" = "@accountId"
             UNION ALL

@@ -49,6 +49,44 @@ const creditMemo1Encoded = Packet.serializeIlpPayment({
   })
 }).toString('base64')
 
+const CREDIT_QUOTE = {
+  paymentId: P2PPAYMENTID,
+  identifier: 'alice',
+  identifierType: 'eur',
+  destinationAccount: BASE + '/alice',
+  currency: 'USD',
+  amount: AMOUNT,
+  fee: ZEROFEE,
+  commission: COMMISSIONZERO,
+  transferType: TRANSFERTYPEP2P,
+  params: {
+    peer: {
+      identifier: 'bob',
+      identifierType: 'eur'
+    }
+  },
+  isDebit: false
+}
+
+const DEBIT_QUOTE = {
+  paymentId: P2PPAYMENTID,
+  identifier: 'bob',
+  identifierType: 'eur',
+  destinationAccount: BASE + '/alice',
+  currency: 'USD',
+  amount: AMOUNT,
+  fee: FEE,
+  commission: COMMISSION,
+  transferType: TRANSFERTYPEP2P,
+  isDebit: true,
+  params: {
+    peer: {
+      identifier: 'alice',
+      identifierType: 'eur'
+    }
+  }
+}
+
 test({
   type: 'integration',
   name: 'DFSP transfer test',
@@ -182,18 +220,7 @@ test({
       name: 'Quote add - debit account',
       method: 'ledger.quote.add',
       params: (context) => {
-        return {
-          paymentId: P2PPAYMENTID,
-          identifier: 'bob',
-          identifierType: 'eur',
-          destinationAccount: BASE + '/alice',
-          currency: 'USD',
-          amount: AMOUNT,
-          fee: FEE,
-          commission: COMMISSION,
-          transferType: TRANSFERTYPEP2P,
-          isDebit: true
-        }
+        return DEBIT_QUOTE
       },
       result: (result, assert) => {
         assert.equals(joi.validate(result, joi.object().keys({
@@ -216,45 +243,8 @@ test({
           params: joi.object().allow(null)
         })).error, null, 'return debit quote details')
       }
-    }, {
-      name: 'Quote add - credit account',
-      method: 'ledger.quote.add',
-      params: (context) => {
-        return {
-          paymentId: P2PPAYMENTID,
-          identifier: 'alice',
-          identifierType: 'eur',
-          destinationAccount: BASE + '/alice',
-          currency: 'USD',
-          amount: AMOUNT,
-          fee: ZEROFEE,
-          commission: COMMISSIONZERO,
-          transferType: TRANSFERTYPEP2P,
-          isDebit: false
-        }
-      },
-      result: (result, assert) => {
-        assert.equals(joi.validate(result, joi.object().keys({
-          amount: joi.string().required().valid(AMOUNT),
-          commission: joi.string().required().valid(COMMISSIONZERO),
-          fee: joi.number().required().valid(Number(ZEROFEE)),
-          currencyId: joi.string().required().valid('USD'),
-          destinationAccount: joi.string().required().valid(BASE + '/alice'),
-          expiresAt: joi.string().required(),
-          identifier: joi.string().required().valid('alice'),
-          identifierType: joi.string().required().valid(IDENTIFIERTYPE),
-          isDebit: joi.boolean().required().valid(false),
-          quoteId: joi.number().required(),
-          transferTypeId: joi.number().required().valid(TRANSFERTYPEIDP2P),
-          paymentId: joi.string().required().regex(/^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$/),
-          receiver: joi.string().required().allow(null),
-          ipr: joi.string().required().allow(null),
-          sourceExpiryDuration: joi.string().required().allow(null),
-          connectorAccount: joi.string().required().allow(null),
-          params: joi.object().allow(null)
-        })).error, null, 'return credit quote details')
-      }
-    }, {
+    },
+    {
       name: 'Transfer hold',
       params: (context) => {
         return request
@@ -271,7 +261,8 @@ test({
             'credits': [{
               'account': BASE + '/accounts/' + context['Create second ledger account'].body.accountNumber,
               'memo': {
-                ilp: creditMemo1Encoded
+                ilp: creditMemo1Encoded,
+                quote: CREDIT_QUOTE
               },
               'amount': AMOUNT
             }],
