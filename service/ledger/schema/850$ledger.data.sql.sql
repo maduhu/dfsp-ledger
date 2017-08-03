@@ -61,13 +61,13 @@ ON CONFLICT ("accountTypeId") DO UPDATE SET
 INSERT INTO
   ledger."account" ("name", "accountNumber", "credit", "debit", "accountTypeId", "isDisabled", "parentId", "creationDate", "currencyId")
 VALUES
-  ('settlement', '000000001', 10000, 0, 2, FALSE, NULL, '2016-08-24 10:24:45.845802', 'USD'),
-  ('fee', '000000002', 10000, 0, 3, FALSE, NULL, '2016-08-24 10:24:45.845802', 'USD'),
-  ('commission', '000000003', 1000000, 0, 4, FALSE, NULL, '2016-08-24 10:24:45.845802', 'USD'),
-  ('testAccount1', '000000011', 10000, 1000, 1, FALSE, NULL, '2016-08-24 10:24:45.845802', 'USD'),
-  ('testAccount2', '000000012', 10000, 1000, 1, FALSE, NULL, '2016-08-24 10:24:45.845802', 'USD'),
-  ('testAccount3', '000000013', 10000, 1000, 1, FALSE, NULL, '2016-08-24 10:24:45.845802', 'USD'),
-  ('testAccount4', '000000014', 10000, 1000, 1, FALSE, NULL, '2016-08-24 10:24:45.845802', 'USD')
+  ('settlement', '000000001', 1000000, 0, 2, FALSE, NULL, '2016-08-24 10:24:45.845802', 'TZS'),
+  ('fee', '000000002', 1000000, 0, 3, FALSE, NULL, '2016-08-24 10:24:45.845802', 'TZS'),
+  ('commission', '000000003', 100000000, 0, 4, FALSE, NULL, '2016-08-24 10:24:45.845802', 'TZS'),
+  ('testAccount1', '000000011', 1000000, 1000, 1, FALSE, NULL, '2016-08-24 10:24:45.845802', 'TZS'),
+  ('testAccount2', '000000012', 1000000, 1000, 1, FALSE, NULL, '2016-08-24 10:24:45.845802', 'TZS'),
+  ('testAccount3', '000000013', 1000000, 1000, 1, FALSE, NULL, '2016-08-24 10:24:45.845802', 'TZS'),
+  ('testAccount4', '000000014', 1000000, 1000, 1, FALSE, NULL, '2016-08-24 10:24:45.845802', 'TZS')
 ON CONFLICT ("accountNumber") DO UPDATE SET
   "name" = EXCLUDED."name",
   "credit" = EXCLUDED."credit",

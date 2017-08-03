@@ -44,7 +44,7 @@ $BODY$
       FROM
         ledger.transfer t
       WHERE
-        t."currencyId" = COALESCE("@currency", 'USD')
+        t."currencyId" = COALESCE("@currency", 'TZS')
         AND t."transferTypeId" = "@transferTypeId"
         AND CASE WHEN ("@isDebit" = TRUE)
                 THEN t."debitIdentifier" = "@identifier" AND t."debitIdentifierType" = "@identifierType"

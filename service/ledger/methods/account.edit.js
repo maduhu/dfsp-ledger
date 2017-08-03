@@ -8,7 +8,7 @@ module.exports = {
       credit: msg.balance,
       name: msg.name,
       accountTypeId: 1,
-      currencyId: 'USD',
+      currencyId: 'TZS',
       isDisabled: msg.isDisabled
     }
   },
