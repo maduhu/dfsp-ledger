@@ -27,7 +27,7 @@ module.exports = {
                   accountNumber: joi.string().example('00001011'),
                   name: joi.string().example('alice'),
                   balance: joi.string().example('1000'),
-                  currency: joi.string().example('USD'),
+                  currency: joi.string().example('TZS'),
                   is_disabled: joi.bool().example(false)
                 })
               }
@@ -45,7 +45,7 @@ module.exports = {
       accountNumber: msg.accountNumber || msg.name,
       parentAccountNumber: msg.parentAccountNumber,
       accountTypeId: msg.accountTypeId || 1,
-      currencyId: msg.currencyCode || 'USD'
+      currencyId: msg.currencyCode || 'TZS'
     }
   },
   'account.add.response.receive': function (msg, $meta) {

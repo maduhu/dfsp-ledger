@@ -51,8 +51,8 @@ module.exports = {
         accountNumber: msg.accountNumber,
         name: msg.accountNumber,
         balance: '0.00',
-        currencyCode: 'USD',
-        currencySymbol: '$',
+        currencyCode: 'TZS',
+        currencySymbol: 'TSh',
         accountType: 'mWallet',
         is_disabled: true
       })
