@@ -4,7 +4,7 @@ CREATE TABLE ledger."quote"
   "paymentId" character varying(100) NOT NULL,
   "identifier" character varying(256) NOT NULL,
   "identifierType" varchar(3) NOT NULL,
-  "destinationAccount" varchar(100),
+  "destinationAccount" varchar(255),
   "receiver" varchar(100),
   "currencyId" character(3) NOT NULL,
   "amount" numeric(19,2) NOT NULL,

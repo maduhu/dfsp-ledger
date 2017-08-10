@@ -6,7 +6,7 @@
     "paymentId" VARCHAR(100),
     "identifier" character varying(256),
     "identifierType" varchar(3),
-    "destinationAccount" varchar(100),
+    "destinationAccount" varchar(255),
     "receiver" varchar(100),
     "currencyId" character(3),
     "amount" numeric(19,2),

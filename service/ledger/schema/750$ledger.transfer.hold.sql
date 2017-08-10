@@ -134,7 +134,7 @@ $BODY$
                     CAST("@creditMemo"->'quote'->>'paymentId' AS character varying(100)),
                     CAST("@creditMemo"->'quote'->>'identifier' AS character varying(25)),
                     CAST("@creditMemo"->'quote'->>'identifierType' AS varchar(3)),
-                    CAST("@creditMemo"->'quote'->>'destinationAccount' AS varchar(100)),
+                    CAST("@creditMemo"->'quote'->>'destinationAccount' AS varchar(255)),
                     null,
                     CAST("@creditMemo"->'quote'->>'currency' AS character(3)),
                     CAST("@creditMemo"->'quote'->>'amount' AS numeric(19,2)),
