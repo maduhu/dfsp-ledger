@@ -1,6 +1,6 @@
 {
   "name": "@leveloneproject/dfsp-ledger",
-  "version": "2.0.0-quotes.23",
+  "version": "2.0.0-quotes.24",
   "description": "DFSP Ledger service",
   "main": "index.js",
   "scripts": {
