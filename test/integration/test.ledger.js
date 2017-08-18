@@ -401,10 +401,10 @@ test({
           accountType: joi.string(),
           is_disabled: false,
           ledger: joi.string()
-        }))).error, null, 'return debit quote details')
+        }))).error, null, 'return accounts')
       }
     }, {
-      name: 'Account fetch',
+      name: 'Account edit',
       method: 'ledger.account.edit',
       params: (context) => {
         return {
@@ -418,7 +418,42 @@ test({
           name: joi.string(),
           balance: joi.string(),
           currency: joi.string()
-        })).error, null, 'return debit quote details')
+        })).error, null, 'return edited account')
+      }
+    }, {
+      name: 'Account edit - invalid',
+      method: 'ledger.account.edit',
+      params: (context) => {
+        return {
+          accountNumber: 'invalid',
+          balance: context['Create second ledger account'].body.balance
+        }
+      },
+      error: (result, assert) => {
+        assert.equals(joi.validate(result, joi.object({
+          code: joi.number(),
+          errorPrint: joi.string(),
+          message: joi.string(),
+          print: joi.string(),
+          stack: joi.string(),
+          type: joi.string().valid('notFound')
+        })).error, null, 'edit account - return error')
+      }
+    }, {
+      name: 'Reject transfer - invalid',
+      method: 'ledger.transfer.reject',
+      params: (context) => {
+        return 'invalid'
+      },
+      error: (result, assert) => {
+        assert.equals(joi.validate(result, joi.object({
+          code: joi.number(),
+          errorPrint: joi.string(),
+          message: joi.string(),
+          print: joi.string(),
+          stack: joi.string(),
+          type: joi.string().valid('ledger.transfer.reject.notFound')
+        })).error, null, 'reject transfer - return error')
       }
     }])
   }

@@ -221,6 +221,12 @@ module.exports = [
     message: 'One of the provided URI parameters was invalid'
   },
   {
+    id: 'NotFoundError',
+    type: 'ledger.account.edit.notFound',
+    message: 'Unknown account.',
+    statusCode: 404
+  },
+  {
     id: 'QuotePaymentIdMissing',
     type: 'ledger.quotePaymentIdMissing',
     message: 'Quote PaymentId is missing'

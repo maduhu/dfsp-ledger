@@ -15,7 +15,7 @@ module.exports = {
   'account.edit.response.receive': function (msg) {
     var account = msg[0]
     var baseUrl = util.get('baseUrl')
-    if (account.length === 0) {
+    if (!account || account.length === 0) {
       throw error['ledger.account.edit.notFound']()
     }
     if (account.accountNumber.length === 0) {
