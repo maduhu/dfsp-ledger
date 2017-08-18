@@ -3,7 +3,7 @@
   "transferId" bigserial NOT NULL,
   "paymentId" character varying(100) NOT NULL,
   "transferDate" timestamp without time zone NOT NULL,
-  "transferTypeId" integer NOT NULL,
+  "transferTypeId" integer,
   "debitAccountId" integer NOT NULL,
   "debitIdentifier" varchar(256),
   "debitIdentifierType" varchar(3),
