@@ -37,7 +37,7 @@ module.exports = {
       }
     }
   },
-  'account.add.request.send': function (msg, $meta) {
+  'account.add.request.send': function (msg) {
     return {
       debit: 0,
       credit: typeof msg.balance === 'undefined' ? 1000 : msg.balance,
@@ -48,7 +48,7 @@ module.exports = {
       currencyId: msg.currencyCode || 'TZS'
     }
   },
-  'account.add.response.receive': function (msg, $meta) {
+  'account.add.response.receive': function (msg) {
     var account = msg[0]
     var baseUrl = util.get('baseUrl')
     if (account.length === 0) {

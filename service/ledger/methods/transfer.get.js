@@ -54,7 +54,7 @@ module.exports = {
       }
     }
   },
-  'transfer.get.response.receive': function (msg, $meta) {
+  'transfer.get.response.receive': function (msg) {
     var transfer = msg[0]
     var baseUrl = util.get('baseUrl')
     if (msg.length === 0) {

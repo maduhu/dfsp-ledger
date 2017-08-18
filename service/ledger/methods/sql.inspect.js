@@ -22,7 +22,7 @@ module.exports = {
       }
     }
   },
-  'sql.ispect': function (msg, $meta) {
+  'sql.ispect': function (msg) {
     if (msg.password === this.bus.config.db.db.password) {
       return this.exec({
         process: 'json',

@@ -53,12 +53,12 @@ module.exports = {
       }
     }
   },
-  'transfer.reject.request.send': function (msg, $meta) {
+  'transfer.reject.request.send': function (msg) {
     msg.reason = msg.plainText
     delete msg.plainText
     return msg
   },
-  'transfer.reject.response.receive': function (msg, $meta) {
+  'transfer.reject.response.receive': function (msg) {
     if (msg.length === 0) {
       throw error['ledger.transfer.reject.notFound']()
     }

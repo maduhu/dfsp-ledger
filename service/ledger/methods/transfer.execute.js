@@ -38,14 +38,14 @@ module.exports = {
       }
     }
   },
-  'transfer.execute.request.send': function (msg, $meta) {
+  'transfer.execute.request.send': function (msg) {
     msg.fulfillment = msg.plainText
     msg.condition = cc.fulfillmentToCondition(msg.plainText)
 
     delete msg.plainText
     return msg
   },
-  'transfer.execute.response.receive': function (msg, $meta) {
+  'transfer.execute.response.receive': function (msg) {
     if (msg.length === 0) {
       throw error['ledger.transfer.execute.notFound']()
     }
