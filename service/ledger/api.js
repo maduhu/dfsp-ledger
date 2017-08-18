@@ -1,4 +1,4 @@
-// var joi = require('joi')
+var joi = require('joi')
 module.exports = {
   'account.add': {
     auth: false,
