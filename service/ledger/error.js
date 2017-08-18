@@ -49,6 +49,11 @@ module.exports = [
     type: 'ledger.transfer.hold.invalidBody',
     message: 'Body did not match schema'
   },
+  {
+    id: 'TransferExpired',
+    type: 'ledger.transfer.hold.expired',
+    message: 'Transfer expired'
+  },
   // ledger.transfer.execute
   {
     type: 'ledger.transfer.execute',

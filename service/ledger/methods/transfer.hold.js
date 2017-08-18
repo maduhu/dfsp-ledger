@@ -84,6 +84,10 @@ module.exports = {
       throw error['ledger.transfer.hold.unprocessableEntity']({ message: 'Debits and credits are not equal' })
     }
 
+    if (new Date() > new Date(msg.expires_at)) {
+      throw error['ledger.transfer.hold.expired']({ message: 'Transfer has expired' })
+    }
+
     // try {
     //   credit.memo.ilp_decrypted = JSON.parse(JSON.parse(ILP.PSK.parsePacketAndDetails({ packet: credit.memo.ilp }).data.toString('utf8')))
     // } catch (e) {

@@ -243,8 +243,40 @@ test({
           params: joi.object().allow(null)
         })).error, null, 'return debit quote details')
       }
-    },
-    {
+    }, {
+      name: 'Transfer hold expired',
+      params: (context) => {
+        return request
+          .put('transfers/' + P2PPAYMENTID)
+          .send({
+            'id': BASE + '/transfers/' + P2PPAYMENTID,
+            'ledger': BASE,
+            'debits': [{
+              'account': BASE + '/accounts/' + context['Create first ledger account'].body.accountNumber,
+              'amount': AMOUNT,
+              'memo': {},
+              'authorized': true
+            }],
+            'credits': [{
+              'account': BASE + '/accounts/' + context['Create second ledger account'].body.accountNumber,
+              'memo': {
+                ilp: creditMemo1Encoded
+              },
+              'amount': AMOUNT
+            }],
+            'execution_condition': 'ni:///sha-256;47DEQpj8HBSa-_TImW-5JCeuQeRkm5NMpJWZG3hSuFU?fpt=preimage-sha-256&cost=0',
+            'expires_at': new Date((new Date()).getTime() - 10 * 60000)
+          })
+      },
+      result: (result, assert) => {
+        assert.equals(result.error.status, 400)
+        assert.equals(joi.validate(result.body, joi.object().keys({
+          id: joi.string().valid('TransferExpired').required(),
+          message: joi.string().required(),
+          type: joi.string().required()
+        })).error, null, 'return transfer expired error')
+      }
+    }, {
       name: 'Transfer hold',
       params: (context) => {
         return request
@@ -267,7 +299,7 @@ test({
               'amount': AMOUNT
             }],
             'execution_condition': 'ni:///sha-256;47DEQpj8HBSa-_TImW-5JCeuQeRkm5NMpJWZG3hSuFU?fpt=preimage-sha-256&cost=0',
-            'expires_at': '2015-06-16T00:00:01.000Z'
+            'expires_at': new Date((new Date()).getTime() + 10 * 60000)
           })
           .expect('Content-Type', /json/)
           .expect(201)
