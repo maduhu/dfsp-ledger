@@ -382,6 +382,44 @@ test({
           })
         })).error, null, 'return transfer by id details')
       }
+    }, {
+      name: 'Account fetch',
+      method: 'ledger.account.fetch',
+      params: (context) => {
+        return {
+          accountNumber: [context['Create second ledger account'].body.accountNumber]
+        }
+      },
+      result: (result, assert) => {
+        assert.equals(joi.validate(result, joi.array().items(joi.object({
+          id: joi.string(),
+          name: joi.string(),
+          balance: joi.string(),
+          accountNumber: joi.string(),
+          currencyCode: joi.string(),
+          currencySymbol: joi.string(),
+          accountType: joi.string(),
+          is_disabled: false,
+          ledger: joi.string()
+        }))).error, null, 'return debit quote details')
+      }
+    }, {
+      name: 'Account fetch',
+      method: 'ledger.account.edit',
+      params: (context) => {
+        return {
+          accountNumber: context['Create second ledger account'].body.accountNumber,
+          balance: context['Create second ledger account'].body.balance
+        }
+      },
+      result: (result, assert) => {
+        assert.equals(joi.validate(result, joi.object({
+          id: joi.string(),
+          name: joi.string(),
+          balance: joi.string(),
+          currency: joi.string()
+        })).error, null, 'return debit quote details')
+      }
     }])
   }
 }, module.parent)
