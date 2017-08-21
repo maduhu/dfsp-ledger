@@ -35,7 +35,7 @@ module.exports = {
       }
     }
   },
-  'transfer.getFulfillment.response.receive': function (msg, $meta) {
+  'transfer.getFulfillment.response.receive': function (msg) {
     if (msg.length === 0 || msg[0]['transfer.getFulfillment'] === null) {
       throw error['ledger.transfer.getFulfillment.notFound']()
     }

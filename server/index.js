@@ -5,5 +5,8 @@ module.exports = {
   ],
   modules: {
     ledger: require('../service/ledger')
+  },
+  validations: {
+    identity: require('../service/ledger/api')
   }
 }

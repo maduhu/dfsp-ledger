@@ -49,6 +49,11 @@ module.exports = [
     type: 'ledger.transfer.hold.invalidBody',
     message: 'Body did not match schema'
   },
+  {
+    id: 'TransferExpired',
+    type: 'ledger.transfer.hold.expired',
+    message: 'Transfer expired'
+  },
   // ledger.transfer.execute
   {
     type: 'ledger.transfer.execute',
@@ -214,6 +219,12 @@ module.exports = [
     id: 'InvalidUriParameterError',
     type: 'ledger.account.get.invalidUriParameter',
     message: 'One of the provided URI parameters was invalid'
+  },
+  {
+    id: 'NotFoundError',
+    type: 'ledger.account.edit.notFound',
+    message: 'Unknown account.',
+    statusCode: 404
   },
   {
     id: 'QuotePaymentIdMissing',

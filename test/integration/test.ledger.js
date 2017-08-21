@@ -243,8 +243,40 @@ test({
           params: joi.object().allow(null)
         })).error, null, 'return debit quote details')
       }
-    },
-    {
+    }, {
+      name: 'Transfer hold expired',
+      params: (context) => {
+        return request
+          .put('transfers/' + P2PPAYMENTID)
+          .send({
+            'id': BASE + '/transfers/' + P2PPAYMENTID,
+            'ledger': BASE,
+            'debits': [{
+              'account': BASE + '/accounts/' + context['Create first ledger account'].body.accountNumber,
+              'amount': AMOUNT,
+              'memo': {},
+              'authorized': true
+            }],
+            'credits': [{
+              'account': BASE + '/accounts/' + context['Create second ledger account'].body.accountNumber,
+              'memo': {
+                ilp: creditMemo1Encoded
+              },
+              'amount': AMOUNT
+            }],
+            'execution_condition': 'ni:///sha-256;47DEQpj8HBSa-_TImW-5JCeuQeRkm5NMpJWZG3hSuFU?fpt=preimage-sha-256&cost=0',
+            'expires_at': new Date((new Date()).getTime() - 10 * 60000)
+          })
+      },
+      result: (result, assert) => {
+        assert.equals(result.error.status, 400)
+        assert.equals(joi.validate(result.body, joi.object().keys({
+          id: joi.string().valid('TransferExpired').required(),
+          message: joi.string().required(),
+          type: joi.string().required()
+        })).error, null, 'return transfer expired error')
+      }
+    }, {
       name: 'Transfer hold',
       params: (context) => {
         return request
@@ -267,7 +299,7 @@ test({
               'amount': AMOUNT
             }],
             'execution_condition': 'ni:///sha-256;47DEQpj8HBSa-_TImW-5JCeuQeRkm5NMpJWZG3hSuFU?fpt=preimage-sha-256&cost=0',
-            'expires_at': '2015-06-16T00:00:01.000Z'
+            'expires_at': new Date((new Date()).getTime() + 10 * 60000)
           })
           .expect('Content-Type', /json/)
           .expect(201)
@@ -349,6 +381,79 @@ test({
             executed_at: joi.string().required()
           })
         })).error, null, 'return transfer by id details')
+      }
+    }, {
+      name: 'Account fetch',
+      method: 'ledger.account.fetch',
+      params: (context) => {
+        return {
+          accountNumber: [context['Create second ledger account'].body.accountNumber]
+        }
+      },
+      result: (result, assert) => {
+        assert.equals(joi.validate(result, joi.array().items(joi.object({
+          id: joi.string(),
+          name: joi.string(),
+          balance: joi.string(),
+          accountNumber: joi.string(),
+          currencyCode: joi.string(),
+          currencySymbol: joi.string(),
+          accountType: joi.string(),
+          is_disabled: false,
+          ledger: joi.string()
+        }))).error, null, 'return accounts')
+      }
+    }, {
+      name: 'Account edit',
+      method: 'ledger.account.edit',
+      params: (context) => {
+        return {
+          accountNumber: context['Create second ledger account'].body.accountNumber,
+          balance: context['Create second ledger account'].body.balance
+        }
+      },
+      result: (result, assert) => {
+        assert.equals(joi.validate(result, joi.object({
+          id: joi.string(),
+          name: joi.string(),
+          balance: joi.string(),
+          currency: joi.string()
+        })).error, null, 'return edited account')
+      }
+    }, {
+      name: 'Account edit - invalid',
+      method: 'ledger.account.edit',
+      params: (context) => {
+        return {
+          accountNumber: 'invalid',
+          balance: context['Create second ledger account'].body.balance
+        }
+      },
+      error: (result, assert) => {
+        assert.equals(joi.validate(result, joi.object({
+          code: joi.number(),
+          errorPrint: joi.string(),
+          message: joi.string(),
+          print: joi.string(),
+          stack: joi.string(),
+          type: joi.string().valid('notFound')
+        })).error, null, 'edit account - return error')
+      }
+    }, {
+      name: 'Reject transfer - invalid',
+      method: 'ledger.transfer.reject',
+      params: (context) => {
+        return 'invalid'
+      },
+      error: (result, assert) => {
+        assert.equals(joi.validate(result, joi.object({
+          code: joi.number(),
+          errorPrint: joi.string(),
+          message: joi.string(),
+          print: joi.string(),
+          stack: joi.string(),
+          type: joi.string().valid('ledger.transfer.reject.notFound')
+        })).error, null, 'reject transfer - return error')
       }
     }])
   }

@@ -1,7 +1,6 @@
 var joi = require('joi')
 var error = require('../error')
 var util = require('../util')
-// var ILP = require('ilp')
 module.exports = {
   rest: function () {
     var baseUrl = util.get('baseUrl')
@@ -75,7 +74,7 @@ module.exports = {
       }
     }
   },
-  'transfer.hold.request.send': function (msg, $meta) {
+  'transfer.hold.request.send': function (msg) {
     var debit = msg.debits && msg.debits[0]
     var credit = msg.credits && msg.credits[0]
     var uriToLedgerAccount = util.get('uriToLedgerAccount')
@@ -84,11 +83,9 @@ module.exports = {
       throw error['ledger.transfer.hold.unprocessableEntity']({ message: 'Debits and credits are not equal' })
     }
 
-    // try {
-    //   credit.memo.ilp_decrypted = JSON.parse(JSON.parse(ILP.PSK.parsePacketAndDetails({ packet: credit.memo.ilp }).data.toString('utf8')))
-    // } catch (e) {
-    //   throw error['ledger.transfer.hold.unprocessableEntity']({ message: 'invalid memo' })
-    // }
+    if (new Date() > new Date(msg.expires_at)) {
+      throw error['ledger.transfer.hold.expired']({ message: 'Transfer has expired' })
+    }
 
     return {
       paymentId: msg.paymentId,
@@ -103,7 +100,7 @@ module.exports = {
       expiresAt: msg.expires_at
     }
   },
-  'transfer.hold.response.receive': function (msg, $meta) {
+  'transfer.hold.response.receive': function (msg) {
     var transfer = msg[0]
     delete transfer.creditMemo.ilp_decrypted
     var buildTransferResource = util.get('buildTransferResource')
@@ -115,7 +112,7 @@ module.exports = {
     publish({account: transfer.creditAccount}, response)
     return response.resource
   },
-  'transfer.hold.error.receive': function (err, $meta) {
+  'transfer.hold.error.receive': function (err) {
     throw err
   }
 }

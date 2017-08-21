@@ -1,7 +1,7 @@
 var error = require('../error')
 var util = require('../util')
 module.exports = {
-  'account.edit.request.send': function (msg, $meta) {
+  'account.edit.request.send': function (msg) {
     return {
       accountNumber: msg.accountNumber,
       debit: 0,
@@ -12,10 +12,10 @@ module.exports = {
       isDisabled: msg.isDisabled
     }
   },
-  'account.edit.response.receive': function (msg, $meta) {
+  'account.edit.response.receive': function (msg) {
     var account = msg[0]
     var baseUrl = util.get('baseUrl')
-    if (account.length === 0) {
+    if (!account || account.length === 0) {
       throw error['ledger.account.edit.notFound']()
     }
     if (account.accountNumber.length === 0) {

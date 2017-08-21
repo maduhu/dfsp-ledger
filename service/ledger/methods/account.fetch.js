@@ -1,6 +1,6 @@
 var util = require('../util')
 module.exports = {
-  'account.fetch.response.receive': function (msg, $meta) {
+  'account.fetch.response.receive': function (msg) {
     var baseUrl = util.get('baseUrl')
     return msg.map((account) => {
       return {
