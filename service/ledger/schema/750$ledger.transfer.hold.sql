@@ -131,20 +131,20 @@ $BODY$
                 cq."fee"
             FROM
                 ledger."quote.add"(
-                    CAST("@creditMemo"->'quote'->>'paymentId' AS character varying(100)),
+                    "@paymentId",
                     CAST("@creditMemo"->'quote'->>'identifier' AS character varying(25)),
                     CAST("@creditMemo"->'quote'->>'identifierType' AS varchar(3)),
-                    CAST("@creditMemo"->'quote'->>'destinationAccount' AS varchar(255)),
+                    "@creditAccount",
                     null,
-                    CAST("@creditMemo"->'quote'->>'currency' AS character(3)),
-                    CAST("@creditMemo"->'quote'->>'amount' AS numeric(19,2)),
+                    'TZS',
+                    "@amount",
                     CAST("@creditMemo"->'quote'->>'fee' AS numeric(19,2)),
                     CAST("@creditMemo"->'quote'->>'commission' AS numeric(19,2)),
                     CAST("@creditMemo"->'quote'->>'transferType' AS character varying(25)),
                     null,
                     null,
                     null,
-                    CAST("@creditMemo"->'quote'->>'isDebit' AS boolean),
+                    COALESCE(CAST("@creditMemo"->'quote'->>'isDebit' AS boolean), false),
                     CAST("@creditMemo"->'quote'->>'expiresAt' AS timestamp),
                     CAST("@creditMemo"->'quote'->>'params' AS json)
                  ) cq
@@ -153,9 +153,6 @@ $BODY$
                 "@creditFee";
         END IF;
         -- perform checks
-        IF "@transferTypeId" IS NULL THEN
-            RAISE EXCEPTION 'ledger.transfer.hold.unknownTransferType';
-        END IF;
         IF "@debitBalance" < ("@amount" + "@debitFee") THEN
             RAISE EXCEPTION 'ledger.transfer.hold.insufficientFunds';
         END IF;
