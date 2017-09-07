@@ -5,7 +5,7 @@ CREATE TABLE ledger."quote"
   "identifier" character varying(256),
   "identifierType" varchar(3),
   "destinationAccount" varchar(255),
-  "receiver" varchar(100),
+  "receiver" varchar(256),
   "currencyId" character(3) NOT NULL,
   "amount" numeric(19,2) NOT NULL,
   "fee" numeric(19,2),
