@@ -1,3 +1,8 @@
+<a name="1.1.23"></a>
+## [1.1.23](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v1.1.22...v1.1.23) (2017-10-12)
+
+
+
 <a name="1.1.22"></a>
 ## [1.1.22](https://github.com/softwaregroup-bg/@leveloneproject/dfsp-ledger/compare/v1.1.21...v1.1.22) (2017-07-24)
 
